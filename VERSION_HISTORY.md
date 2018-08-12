@@ -25,7 +25,7 @@ the top of the file.
     -Optimized application of indexer_functions resulting in large indexing speed boost
     -Faster stream parsing
     -Consolidate all importation into Importer method
-    -Simplify get_data_methods in indexed_piece and aggregated pieces including the addition of string 
+    -Simplify get_data_methods in indexed_piece and aggregated pieces including the addition of string
     shortcuts for convenience
     -New indexers: Cadence, Contour, Multistop, Over_Bass
     -New_ngram fully replaces ngram, and is called ngram
