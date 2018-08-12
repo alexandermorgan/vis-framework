@@ -246,11 +246,11 @@ class FilterByOffsetIndexer(indexer.Indexer):
     >>> setts = {'quarterLength': 2}
     >>> ip.get_data('offset', data=notes, settings=setts)
 
-    # Note that other analysis results can be passed to the offset 
-    # indexer too, such as the IntervalIndexer results as in the 
-    # following example. Also, the original column names (or names of 
-    # the series if a list of series was passed) are retained, though 
-    # the highest level of the columnar multi-index gets overwritten
+    # Note that other analysis results can be passed to the offset indexer too, 
+    # such as the IntervalIndexer results as in the following example. Note 
+    # also that the original column names (or names of the series if a list of 
+    # series was passed) are retained, though the highest level of the 
+    # columnar multi-index gets overwritten
 
     >>> from vis.models.indexed_piece import Importer
     >>> ip = Importer('path_to_piece.xml')
@@ -467,7 +467,7 @@ the following time signatures when the "quarterLength" setting is set to \
 
     def run(self):
         """
-        Regularize the observed offsets for the Series input.
+        Regularize the observed offsets for the inputted Series.
 
         :returns: A :class:`DataFrame` with offset-indexed values for 
             all inputted parts. The pandas indices (holding music21 
