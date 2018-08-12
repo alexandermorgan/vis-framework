@@ -240,6 +240,8 @@ class FilterByOffsetIndexer(indexer.Indexer):
 
     **Examples:**
 
+    Prepare an indexed piece:
+
     >>> from vis.models.indexed_piece import Importer
     >>> ip = Importer('path_to_piece.xml')
     >>> notes = ip.get_data('noterest')
