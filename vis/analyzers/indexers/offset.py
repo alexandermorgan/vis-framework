@@ -19,16 +19,16 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
 #
-# You should have received a copy of the GNU Affero General Public 
-# License along with this program.  If not, see 
+# You should have received a copy of the GNU Affero General Public
+# License along with this program.  If not, see
 # <http://www.gnu.org/licenses/>.
 # -------------------------------------------------------------------- #
 """
 .. codeauthor:: Christopher Antila <christopher@antila.ca>
 .. codeauthor:: Alexander Morgan
 
-Indexers that modify the "offset" values (floats stored as the "index" 
-of a :class:`pandas.Series`), potentially adding repetitions of or 
+Indexers that modify the "offset" values (floats stored as the "index"
+of a :class:`pandas.Series`), potentially adding repetitions of or
 removing pre-existing events, without modifying the events
 themselves.
 
@@ -42,33 +42,33 @@ from multi_key_dict import multi_key_dict as mkd
 
 class FilterByOffsetIndexer(indexer.Indexer):
     """
-    Indexer that regularizes the "offset" values of observations from 
+    Indexer that regularizes the "offset" values of observations from
     other indexers.
 
-    The Indexer regularizes observations from offsets spaced any, 
-    possibly irregular, ``quarterLength`` durations apart, so they are 
+    The Indexer regularizes observations from offsets spaced any,
+    possibly irregular, ``quarterLength`` durations apart, so they are
     instead observed at regular intervals. This has two effects:
 
-    * events that do not begin at an observed offset will only be 
-      included in the output if no other event occurs before the next 
+    * events that do not begin at an observed offset will only be
+      included in the output if no other event occurs before the next
       observed offset
-    
-    * events that last for many observed offsets will be repeated for 
+
+    * events that last for many observed offsets will be repeated for
       those offsets
 
-    Since elements' durations are not recorded, the last observation in 
-    a Series will always be included in the results. If it does not 
-    start on an observed offset, it will be included as the next 
-    observed offset---again, whether or not this is true in the actual 
-    music. However, the last observation will only ever be counted once, 
-    even if a part ends before others in a piece with many parts. See 
+    Since elements' durations are not recorded, the last observation in
+    a Series will always be included in the results. If it does not
+    start on an observed offset, it will be included as the next
+    observed offset---again, whether or not this is true in the actual
+    music. However, the last observation will only ever be counted once,
+    even if a part ends before others in a piece with many parts. See
     the doctests for examples.
 
-    **Examples:** 
+    **Examples:**
 
     For all, the ``quarterLength`` is ``1.0``.
 
-    When events in the input already appear at intervals of 
+    When events in the input already appear at intervals of
     ``quarterLength``, input and output are identical.
 
     +--------+-------+-------+-------+
@@ -79,8 +79,8 @@ class FilterByOffsetIndexer(indexer.Indexer):
     | output | ``a`` | ``b`` | ``c`` |
     +--------+-------+-------+-------+
 
-    When events in the input appear at intervals of ``quarterLength``, 
-    but there are additional elements between the observed offsets, 
+    When events in the input appear at intervals of ``quarterLength``,
+    but there are additional elements between the observed offsets,
     those additional elements are removed.
 
     +--------+-------+-------+-------+-------+
@@ -99,8 +99,8 @@ class FilterByOffsetIndexer(indexer.Indexer):
     | output | ``a``                 | ``b`` | ``c`` |
     +--------+-----------------------+-------+-------+
 
-    When events in the input appear at intervals of ``quarterLength``, 
-    but not at every observed offset, the event from the previous offset 
+    When events in the input appear at intervals of ``quarterLength``,
+    but not at every observed offset, the event from the previous offset
     is repeated.
 
     +--------+-------+-------+-------+
@@ -111,8 +111,8 @@ class FilterByOffsetIndexer(indexer.Indexer):
     | output | ``a`` | ``a`` | ``c`` |
     +--------+-------+-------+-------+
 
-    When events in the input appear at offsets other than those observed 
-    by the specified ``quarterLength``, the "most recent" event will 
+    When events in the input appear at offsets other than those observed
+    by the specified ``quarterLength``, the "most recent" event will
     appear.
 
     +--------+-------+-------+-------+-------+-------+
@@ -123,9 +123,9 @@ class FilterByOffsetIndexer(indexer.Indexer):
     | output | ``a``                 | ``A`` | ``c`` |
     +--------+-----------------------+-------+-------+
 
-    When the final event does not appear at an observed offset, it will 
-    be included in the output at the next offset that would be observed, 
-    even if this offset does not appear in the score file to which the 
+    When the final event does not appear at an observed offset, it will
+    be included in the output at the next offset that would be observed,
+    even if this offset does not appear in the score file to which the
     results correspond.
 
     +--------+-------+-------+-------+-------+
@@ -136,13 +136,13 @@ class FilterByOffsetIndexer(indexer.Indexer):
     | output | ``a`` | ``b``         | ``d`` |
     +--------+-------+---------------+-------+
 
-    The behaviour in this last example can create a potentially 
-    misleading result for some analytic situations that consider meter. 
-    It avoids another potentially misleading situation where the final 
-    chord of a piece would appear to be dissonant because of a 
-    suspension. We chose to lose metric and rythmic precision, which 
-    would be more profitably analyzed with indexers built for that 
-    purpose. Consider this illustration, where the numbers correspond to 
+    The behaviour in this last example can create a potentially
+    misleading result for some analytic situations that consider meter.
+    It avoids another potentially misleading situation where the final
+    chord of a piece would appear to be dissonant because of a
+    suspension. We chose to lose metric and rythmic precision, which
+    would be more profitably analyzed with indexers built for that
+    purpose. Consider this illustration, where the numbers correspond to
     scale degrees.
 
     +--------+-------+-------+-------+-------+
@@ -165,34 +165,34 @@ class FilterByOffsetIndexer(indexer.Indexer):
     | out-B  | 5     | 1             | 1     |
     +--------+-------+---------------+-------+
 
-    If we left out the note event appear in the ``in-A`` part at offset 
+    If we left out the note event appear in the ``in-A`` part at offset
     ``411.5``, the piece would appear to end with a dissonant sonority!
 
     *****
 
-    Concerning the "dynamic-offset method", this can be accessed by 
-    passing the string "dynamic" for the quarterLength setting. This 
-    type of analysis is still experimental and comes with no guarantee 
-    that it will work accurately. It has the important known limitation 
-    that it only applies to Renaissance polyphony in which the 
-    contrapuntal rhythm is only ever in duple groupings. For more on 
+    Concerning the "dynamic-offset method", this can be accessed by
+    passing the string "dynamic" for the quarterLength setting. This
+    type of analysis is still experimental and comes with no guarantee
+    that it will work accurately. It has the important known limitation
+    that it only applies to Renaissance polyphony in which the
+    contrapuntal rhythm is only ever in duple groupings. For more on
     contrapuntal rhythm, see:
 
-    DeFord, Ruth. Tactus Mensuration, and Rhythm in Renaissance Music. 
+    DeFord, Ruth. Tactus Mensuration, and Rhythm in Renaissance Music.
         Cambridge: Cambridge University Press, 2015.
 
-    For a more thorough explanation of the experimental dynamic-offset 
+    For a more thorough explanation of the experimental dynamic-offset
     method see (especially chapter 4):
 
-    Morgan, Alexander. "Renaissance Interval-Succession Theory: Treatises 
+    Morgan, Alexander. "Renaissance Interval-Succession Theory: Treatises
         and Analysis." PhD diss., McGill University, 2017.
-    
-    Helper functions have been implemented to facilitate the use of the 
+
+    Helper functions have been implemented to facilitate the use of the
     dynamic-offset method, so you can run analyses in the following way:
 
     from vis.models.indexed_piece import Importer
     ip = Importer('full_path_to_piece_in_symbolic_notation.xml')
-    # assuming you want to apply the offset filter to the noterest 
+    # assuming you want to apply the offset filter to the noterest
     # indexer results:
     nr = ip.get_data('noterest')
     setts = {'quarterLength': 'dynamic'}
@@ -203,39 +203,39 @@ class FilterByOffsetIndexer(indexer.Indexer):
     "The :class:`FilterByOffsetIndexer` uses :class:`pandas.Series` objects."
 
     possible_settings = ['quarterLength', 'dom_data', 'method', 'mp']
-    
+
     """
-    A ``list`` of possible settings for the 
+    A ``list`` of possible settings for the
     :class:`FilterByOffsetIndexer`.
 
-    :keyword 'quarterLength': The quarterLength duration between 
-        observations desired in the output. This value must not have 
-        more than three digits to the right of the decimal (i.e. 0.001 
+    :keyword 'quarterLength': The quarterLength duration between
+        observations desired in the output. This value must not have
+        more than three digits to the right of the decimal (i.e. 0.001
         is the smallest possible value). For dynamic (i.e. variable)
         and context-dependent value, pass the string 'dynamic'.
-    
+
     :type 'quarterLength': float or string
 
-    :keyword 'dom_data': A list of DataFrames and one integer is 
-        required here if the 'quarterLength' setting is set to 
-        'dynamic'. This list should contain the dissonance, duration, 
-        beatstrength, and noterest indexer dataframes and finally the 
-        "highest_time" of the piece or movement in that order. The 
-        correct information is automatically fetched if this indexer is 
+    :keyword 'dom_data': A list of DataFrames and one integer is
+        required here if the 'quarterLength' setting is set to
+        'dynamic'. This list should contain the dissonance, duration,
+        beatstrength, and noterest indexer dataframes and finally the
+        "highest_time" of the piece or movement in that order. The
+        correct information is automatically fetched if this indexer is
         called on an IndexedPiece object via the get_data method() if
         the 'data' argument in that method is not passed.
-    
-    :keyword 'method': The value passed as the ``method`` kwarg to 
-        :meth:`~pandas.DataFrame.reindex`. The default is ``'ffill'``, 
+
+    :keyword 'method': The value passed as the ``method`` kwarg to
+        :meth:`~pandas.DataFrame.reindex`. The default is ``'ffill'``,
         which fills in missing indices with the previous value. This is
-        useful for vertical intervals, but not for horizontal, where you 
+        useful for vertical intervals, but not for horizontal, where you
         should use ``None`` instead.
-    
+
     :type 'method': str or None
-    
-    :keyword 'mp': Multiprocesses when True (default) or processes 
+
+    :keyword 'mp': Multiprocesses when True (default) or processes
         serially when False.
-    
+
     :type 'mp': boolean
 
     **Examples:**
@@ -246,10 +246,10 @@ class FilterByOffsetIndexer(indexer.Indexer):
     >>> setts = {'quarterLength': 2}
     >>> ip.get_data('offset', data=notes, settings=setts)
 
-    # Note that other analysis results can be passed to the offset indexer too, 
-    # such as the IntervalIndexer results as in the following example. Note 
-    # also that the original column names (or names of the series if a list of 
-    # series was passed) are retained, though the highest level of the 
+    # Note that other analysis results can be passed to the offset indexer too,
+    # such as the IntervalIndexer results as in the following example. Note
+    # also that the original column names (or names of the series if a list of
+    # series was passed) are retained, though the highest level of the
     # columnar multi-index gets overwritten
 
     >>> from vis.models.indexed_piece import Importer
@@ -257,16 +257,16 @@ class FilterByOffsetIndexer(indexer.Indexer):
     >>> intervals = ip.get_data('vertical_interval')
     >>> setts = {'quarterLength': 2}
     >>> ip.get_data('offset', data=intervals, settings=setts)
-        
+
     """
-    
+
     default_settings = {'method': 'ffill', 'mp': True, 'dom_data':[]}
 
-    _ZERO_PART_ERROR = (u'FilterByOffsetIndexer requires an index ' + 
+    _ZERO_PART_ERROR = (u'FilterByOffsetIndexer requires an index ' +
         'with at least one part.')
-    _NO_QLENGTH_ERROR = (u'FilterByOffsetIndexer requires a ' + 
+    _NO_QLENGTH_ERROR = (u'FilterByOffsetIndexer requires a ' +
         '"quarterLength" setting.')
-    _QLENGTH_TOO_SMALL_ERROR = (u'FilterByOffsetIndexer requires a ' + 
+    _QLENGTH_TOO_SMALL_ERROR = (u'FilterByOffsetIndexer requires a ' +
         '"quarterLength" greater than 0.001.')
     _IMPROPER_DYNAMIC_INPUT = 'FilterByOffsetIndexer requires its score \
 parameter to be a list of the dissonance, duration, beatstrength, noterest, \
@@ -278,25 +278,25 @@ the following time signatures when the "quarterLength" setting is set to \
 
     def __init__(self, score, settings=None):
         """
-        :param score: A DataFrame or list of Series you wish to 
+        :param score: A DataFrame or list of Series you wish to
             filter by offset values, stored in the Index.
-        
-        :type score: :class:`pandas.DataFrame` or 
-            ``list`` of :class:`pandas.Series` or 
+
+        :type score: :class:`pandas.DataFrame` or
+            ``list`` of :class:`pandas.Series` or
             ``list`` of :class:`pandas.DataFrame`
-        
-        :param dict settings: There is one required setting. 
+
+        :param dict settings: There is one required setting.
             See :const:`possible_settings`.
 
         :raises: :exc:`RuntimeError` if ``score`` is the wrong type.
-        
-        :raises: :exc:`RuntimeError` if ``score`` is not a list of the 
+
+        :raises: :exc:`RuntimeError` if ``score`` is not a list of the
             same types.
-        
-        :raises: :exc:`RuntimeError` if the required setting is not 
+
+        :raises: :exc:`RuntimeError` if the required setting is not
             present in ``settings``.
-        
-        :raises: :exc:`RuntimeError` if the ``'quarterLength'`` setting 
+
+        :raises: :exc:`RuntimeError` if the ``'quarterLength'`` setting
             has a value less than ``0.001``.
 
         """
@@ -308,11 +308,11 @@ the following time signatures when the "quarterLength" setting is set to \
         elif (type(settings['quarterLength']) != str and
               settings[u'quarterLength'] < 0.001):
             raise RuntimeError(FilterByOffsetIndexer._QLENGTH_TOO_SMALL_ERROR)
-        
+
         self._settings = FilterByOffsetIndexer.default_settings.copy()
         self._settings.update(settings)
 
-        # If self._score is a Stream (subclass), change to a list of 
+        # If self._score is a Stream (subclass), change to a list of
         # types you want to process.
         self._types = []
 
@@ -328,29 +328,29 @@ the following time signatures when the "quarterLength" setting is set to \
             raise RuntimeError(FilterByOffsetIndexer._IMPROPER_DYNAMIC_INPUT)
 
         valid_meters = ['2/1', '2/2', '4/2', '4/4']
-        if (self._settings['quarterLength'] == 'dynamic' and 
+        if (self._settings['quarterLength'] == 'dynamic' and
             self._settings['dom_data'][4].iloc[0, 0] not in valid_meters):
             raise RuntimeError(FilterByOffsetIndexer._UNSUPPORTED_TIME_SIGNATURE.format(valid_meters))
 
     def _dynamic_run(self):
         """
-        Replacement run method for when the ``quarterLength`` setting 
-        is set to 'dynamic'. It assigns context-dependent offset 
-        values based on the dissonance types detected in the piece, 
-        and its attack density. This setting should only be used for 
-        the analysis of Renaissance music with duple divisions in the 
-        metric level of the contrapuntal rhythm. For more on 
+        Replacement run method for when the ``quarterLength`` setting
+        is set to 'dynamic'. It assigns context-dependent offset
+        values based on the dissonance types detected in the piece,
+        and its attack density. This setting should only be used for
+        the analysis of Renaissance music with duple divisions in the
+        metric level of the contrapuntal rhythm. For more on
         contrapuntal rhythm, see Ruth DeFord, 2015.
 
-        :returns: A :class:`DataFrame` with offset-indexed values for 
-            all inputted parts. The pandas indices (holding music21 
+        :returns: A :class:`DataFrame` with offset-indexed values for
+            all inputted parts. The pandas indices (holding music21
             offsets) start at the first offset at which there is an
-            event in any of the inputted parts. An offset appears at 
-            durational intervals equal to the contrapuntal rhythm at 
-            that moment in the piece. The value of this contrapuntal 
-            rhythm duration is dynamic and can therefore change 
+            event in any of the inputted parts. An offset appears at
+            durational intervals equal to the contrapuntal rhythm at
+            that moment in the piece. The value of this contrapuntal
+            rhythm duration is dynamic and can therefore change
             throughout the course of a piece.
-        
+
         :rtype: :class:`pandas.DataFrame`
 
         """
@@ -375,7 +375,7 @@ the following time signatures when the "quarterLength" setting is set to \
             spot = ddr.iloc[:indx[x], cols[x]].last_valid_index()
             # Add the weak dissonance duration to the note that immediately precedes it.
             ddr.at[spot, cols[x]] += ddr.iat[indx[x], cols[x]]
-            
+
         # Remove strong dissonances other than suspensions
         strongs = ('Q', 'H')
         indx, cols = numpy.where(dom_data[0].isin(strongs))
@@ -387,7 +387,7 @@ the following time signatures when the "quarterLength" setting is set to \
             nnr.iat[indx[x], cols[x]] = nnr.at[spot, cols[x]]
             nnr.at[spot, cols[x]] = float('nan')
 
-        # Delete the duration entries of weak dissonances 
+        # Delete the duration entries of weak dissonances
         ddr[dds.isin(weaks)] = float('nan')
         nnr[dds.isin(weaks)] = float('nan')
 
@@ -415,7 +415,7 @@ the following time signatures when the "quarterLength" setting is set to \
         diss_cr = bbs[dds.isin(weaks)]
         time_sig = ts.iloc[0, 0]
         diss_cr.replace(diss_levs[time_sig + 'w'], inplace=True)
-        
+
         swsus = ('S', 'Q', 'H')
         sbs = cbs[dds.isin(swsus)]
         sbs.replace(diss_levs[time_sig + 's'], inplace=True)
@@ -469,22 +469,22 @@ the following time signatures when the "quarterLength" setting is set to \
         """
         Regularize the observed offsets for the inputted Series.
 
-        :returns: A :class:`DataFrame` with offset-indexed values for 
-            all inputted parts. The pandas indices (holding music21 
+        :returns: A :class:`DataFrame` with offset-indexed values for
+            all inputted parts. The pandas indices (holding music21
             offsets) start at the first offset at which there is an
-            event in any of the inputted parts. An offset appears every 
-            ``quarterLength`` until the final offset, which is either 
+            event in any of the inputted parts. An offset appears every
+            ``quarterLength`` until the final offset, which is either
             the last observation in the piece (if it is divisible by
-            the ``quarterLength``) or the next-highest value that is 
+            the ``quarterLength``) or the next-highest value that is
             divisible by ``quarterLength``.
-        
+
         :rtype: :class:`pandas.DataFrame`
-        
+
         """
         if self._settings['quarterLength'] == 'dynamic':
             return self._dynamic_run()
-        # NB: we have to convert all the "offset" values to integers so 
-        #     we can use the range() function to iterate through 
+        # NB: we have to convert all the "offset" values to integers so
+        #     we can use the range() function to iterate through
         #     offsets.
         post = []
         start_offset = None
@@ -509,7 +509,7 @@ the following time signatures when the "quarterLength" setting is set to \
                 else:
                     end_offset = int(part.index[-1] * 1000)
                     step = int(self._settings[u'quarterLength'] * 1000)
-                    off_list = list(pandas.Series(range(start_offset, end_offset + step, step)).div(1000.0))  
+                    off_list = list(pandas.Series(range(start_offset, end_offset + step, step)).div(1000.0))
                     # pylint: disable=C0301
                     post.append(part.reindex(index=off_list, method=self._settings['method']))
         post = self.make_return([ser.name[1] for ser in self._score], post)
