@@ -19,8 +19,8 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
 #
-# You should have received a copy of the GNU Affero General Public 
-# License along with this program.  If not, see 
+# You should have received a copy of the GNU Affero General Public
+# License along with this program.  If not, see
 # <http://www.gnu.org/licenses/>.
 # -------------------------------------------------------------------- #
 """
@@ -34,21 +34,21 @@ import pandas
 
 class ApproachIndexer(indexer.Indexer):
     """
-    Using ``OverBassIndexer`` and ``FermataIndexer`` results, finds 
+    Using ``OverBassIndexer`` and ``FermataIndexer`` results, finds
     cadences as lists of events in the approach to a fermata.
 
-    Call this indexer via the ``get_data()`` method of either an 
-    ``indexed_piece`` object or an ``aggregated_pieces`` object (see 
+    Call this indexer via the ``get_data()`` method of either an
+    ``indexed_piece`` object or an ``aggregated_pieces`` object (see
     example below).
 
-    :keyword 'length':  The length of the cadence, or how many events 
+    :keyword 'length':  The length of the cadence, or how many events
                         happen before a fermata.
-    
+
     :type 'length':     int
 
-    :keyword 'voice':   The voice in which you want to look for 
+    :keyword 'voice':   The voice in which you want to look for
                         fermatas. The default value for this is 'all'.
-    
+
     :type 'voice': str or int
 
     **Example:**
@@ -59,27 +59,27 @@ class ApproachIndexer(indexer.Indexer):
     >>> import pandas
     >>> ip = Importer('path_to_piece.xml')
 
-    Prepare ``OverBassIndexer`` and ``FermataIndexer`` results. For more 
-    specific advice on how to do this, please see the documentation of 
-    those two indexers. These two DataFrames should be passed as a list. 
-    For simplicity, including the ``FermataIndexer`` results is 
-    optional, and this example shows how to use the ``ApproachIndexer`` 
-    without explicitly providing the ``FermataIndexer`` results, so the 
+    Prepare ``OverBassIndexer`` and ``FermataIndexer`` results. For more
+    specific advice on how to do this, please see the documentation of
+    those two indexers. These two DataFrames should be passed as a list.
+    For simplicity, including the ``FermataIndexer`` results is
+    optional, and this example shows how to use the ``ApproachIndexer``
+    without explicitly providing the ``FermataIndexer`` results, so the
     'data' argument is a singleton list.
 
-    >>> overbass_input_dfs = [ip.get_data('noterest'), 
+    >>> overbass_input_dfs = [ip.get_data('noterest'),
             ip.get_data('vertical_interval')]
     >>> ob_setts = {
             'type': 'notes'
         }
-    >>> overbass = ip.get_data('over_bass', data=overbass_input_dfs, 
+    >>> overbass = ip.get_data('over_bass', data=overbass_input_dfs,
             settings=ob_setts)
-    
+
     Get the ``ApproachIndexer`` results with specified settings:
-    
+
     >>> approach_setts = {'length': 3}
     >>> ip.get_data('approach', data=[overbass], settings=approach_setts)
-    
+
     """
 
     required_score_type = 'pandas.DataFrame'
@@ -91,22 +91,22 @@ class ApproachIndexer(indexer.Indexer):
 
     def __init__(self, score, settings=None):
         """
-        :param score:   The OverBassIndexer results and FermataIndexer 
+        :param score:   The OverBassIndexer results and FermataIndexer
             results to be used to find cadences.
-        
+
         :type score: :class:`pandas.DataFrame`
-        
+
         :param settings: The setting 'length' is required.
-        
+
         :type settings: dict
 
-        :raises: :exc:`RuntimeError` if the required setting 'length' is 
+        :raises: :exc:`RuntimeError` if the required setting 'length' is
             notgiven.
-        
+
         :raises: :exc:`RuntimeError` if the value of 'length' is below 1
-        
-        :raises: :exc:`RuntimeError` if the given voice is not a voice 
-            found in the piece.
+
+        :raises: :exc:`RuntimeError` if the given voice is not a voice found
+            in the piece.
 
         """
         self._score = pandas.concat(score, axis=1)
@@ -120,8 +120,7 @@ class ApproachIndexer(indexer.Indexer):
         elif 'voice' not in settings:
             self._settings = settings
             self._settings['voice'] = 'all'
-        elif(type(settings['voice']) is int 
-            and settings['voice'] >= len(self.ferm.columns)):
+        elif type(settings['voice']) is int and settings['voice'] >= len(self.ferm.columns):
             raise RuntimeError(self._BAD_VOICE)
         else:
             self._settings = settings
@@ -139,19 +138,16 @@ class ApproachIndexer(indexer.Indexer):
         endings = []
         if self._settings['voice'] is 'all':
             for part in self.ferm.columns:
-                endings.extend(self.ferm[
-                    self.ferm[part].notnull()].index.tolist())
+                endings.extend(self.ferm[self.ferm[part].notnull()].index.tolist())
         else:
-            endings.extend(self.ferm[self.ferm[
-                str(self._settings['voice'])].notnull()].index.tolist())
+            endings.extend(self.ferm[self.ferm[str(self._settings['voice'])].notnull()].index.tolist())
 
         endings = list(set(endings))
         beginnings = []
         indices = self.ferm.index.tolist()
 
         for ind in endings:
-            beginnings.append(indices[
-                indices.index(ind)-self._settings['length']+1])
+            beginnings.append(indices[indices.index(ind)-self._settings['length']+1])
 
         beginnings.sort()
         endings.sort()
@@ -168,5 +164,4 @@ class ApproachIndexer(indexer.Indexer):
         result = pandas.DataFrame(
             {'Approaches': pandas.Series(approaches, index=beginnings)})
 
-        return self.make_return(result.columns.values, 
-            [result[name] for name in result.columns])
+        return self.make_return(result.columns.values, [result[name] for name in result.columns])
