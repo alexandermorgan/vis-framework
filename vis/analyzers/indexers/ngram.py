@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# -------------------------------------------------------------------- #
+#--------------------------------------------------------------------------------------------------
 # Program Name:           vis
 # Program Description:    Helps analyze music with computers.
 #
@@ -31,6 +31,8 @@
 Indexer to find k-part any-object n-grams. This file is a
 re-implimentation of the previous ngram_indexer.py file.
 
+Indexer to find k-part any-object n-grams. This file is a reimplimentation
+of the previous ngram_indexer.py file.
 """
 
 # pylint: disable=pointless-string-statement
@@ -337,14 +339,14 @@ class NGramIndexer(indexer.Indexer):
         if (settings is None or 'vertical' not in settings
             or 'n' not in settings):
             raise RuntimeError(NGramIndexer._MISSING_SETTINGS)
-        elif (settings['n'] < 1):
+        elif settings['n'] < 1:
             raise RuntimeError(NGramIndexer._N_VALUE_TOO_LOW)
         else:
             self._settings = NGramIndexer.default_settings.copy()
             self._settings.update(settings)
 
         self._cut_off = self._settings['n'] if not self._settings['open-ended'] else self._settings['n'] + 1
-        if (all(self._cut_off > len(df) for df in score)):
+        if all(self._cut_off > len(df) for df in score):
             raise RuntimeWarning(NGramIndexer._N_VALUE_TOO_HIGH)
 
         super(NGramIndexer, self).__init__(score, None)
@@ -424,7 +426,7 @@ class NGramIndexer(indexer.Indexer):
                 col_label.append(':')
 
                 for j, name in enumerate(horizs):
-                    if (j > 0): # add a space if it's a non-first observation
+                    if j > 0: # add a space if it's a non-first observation
                         events[('h', 'h' + str(j + .5))] = ' '
                     events[('h', 'h' + str(j + 1))] = self._score[1].loc[:, (self._horizontal_indexer_name, name)].dropna()
                     col_label.append(name)
