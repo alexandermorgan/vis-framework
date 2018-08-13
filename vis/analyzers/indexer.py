@@ -282,7 +282,7 @@ class Indexer(object):
             jobs.append(voices)
             if not on and len(jobs) > 0:
                 post.append(series_indexer(voices, self._indexer_func))
-    
+
         if on and len(jobs) > 0:
             # Determine an appropriate number of cores to use.
             tasks = len(combos)
@@ -290,7 +290,7 @@ class Indexer(object):
                 cores = tasks
             else:
                 cores = 16
-                
+
             pool = mp.Pool(cores)
             post = pool.map(partial(series_indexer, indexer_func=self._indexer_func), jobs)
             pool.close()
@@ -323,7 +323,7 @@ class Indexer(object):
         else:
             if len(labels) != len(indices):
                 raise IndexError(Indexer._MAKE_RETURN_INDEX_ERR)
-            # the levels argument is necessary below even though it just gets written over by the 
+            # the levels argument is necessary below even though it just gets written over by the
             # multi_index because it ensures that even empty series will be included in the dataframe.
             ret = pandas.concat(indices, levels=labels, axis=1)
 
@@ -333,9 +333,8 @@ class Indexer(object):
         my_name = my_mod + my_class
 
         # Apply the multi_index as the column labels.
-        iterables = (my_name, labels)
-        multi_index = pandas.MultiIndex.from_product(iterables, names = ('Indexer', 'Parts'))
+        iterables = ((my_name,), labels)
+        multi_index = pandas.MultiIndex.from_product(iterables, names=('Indexer', 'Parts'))
         ret.columns = multi_index
 
         return ret
-
