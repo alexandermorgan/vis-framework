@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# -------------------------------------------------------------------- #
+#--------------------------------------------------------------------------------------------------
 # Program Name:           vis
 # Program Description:    Helps analyze music with computers.
 #
@@ -25,14 +25,11 @@
 # -------------------------------------------------------------------- #
 """
 .. codeauthor:: Christopher Antila <christopher@antila.ca>
-.. codeauthor:: Alexander Morgan
-.. codeauthor:: Reiner Kramer <reiner@music.org>
 
 Indexers that modify the "offset" values (floats stored as the "index"
 of a :class:`pandas.Series`), potentially adding repetitions of or
 removing pre-existing events, without modifying the events
 themselves.
-
 """
 
 import six
@@ -40,6 +37,7 @@ import pandas
 import numpy
 from vis.analyzers import indexer
 from multi_key_dict import multi_key_dict as mkd
+
 
 class FilterByOffsetIndexer(indexer.Indexer):
     """
@@ -67,7 +65,7 @@ class FilterByOffsetIndexer(indexer.Indexer):
 
     **Examples:**
 
-    For all, the ``quarterLength`` is ``1.0``.
+    **Examples**. For all, the ``quarterLength`` is ``1.0``.
 
     When events in the input already appear at intervals of
     ``quarterLength``, input and output are identical.
@@ -241,7 +239,7 @@ class FilterByOffsetIndexer(indexer.Indexer):
 
     **Examples:**
 
-    Prepare an indexed piece:
+    ***Example:***
 
     >>> from vis.models.indexed_piece import Importer
     >>> ip = Importer('path_to_piece.xml')
