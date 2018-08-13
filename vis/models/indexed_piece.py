@@ -45,7 +45,7 @@ from vis.models.aggregated_pieces import AggregatedPieces
 from vis.analyzers.experimenter import Experimenter
 from vis.analyzers.experimenters import aggregator, barchart, frequency
 from vis.analyzers.indexer import Indexer
-from vis.analyzers.indexers import noterest, approach, meter, interval, dissonance, fermata, offset, repeat, active_voices, offset, over_bass, contour, ngram, windexer
+from vis.analyzers.indexers import noterest, approach, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram, windexer
 from multi_key_dict import multi_key_dict as mkd
 from collections import Counter
 
@@ -116,7 +116,7 @@ def _find_piece_title(the_score):
 
 def _find_part_names(list_of_parts):
     """
-    Return a list of part names in a score. If the score does not have proper 
+    Return a list of part names in a score. If the score does not have proper
     part names, return a list of enumerated parts.
     :param list_of_parts: The parts of the score.
     :type list_of_parts: List of :class:`music21.stream.Part`
@@ -142,7 +142,7 @@ def _find_part_names(list_of_parts):
         post.append(name)
 
     # If there are duplicates, add enumerated suffixes.
-    counts = {k:v for k,v in Counter(post).items() if v > 1}      
+    counts = {k:v for k,v in Counter(post).items() if v > 1}
     for i in reversed(range(len(post))):
         item = post[i]
         if item in counts and counts[item]:
@@ -152,7 +152,7 @@ def _find_part_names(list_of_parts):
     return post
 
 def _get_offsets(event, part):
-    """This method finds the offset of a music21 event. There are other ways to get the offset of a 
+    """This method finds the offset of a music21 event. There are other ways to get the offset of a
     music21 object, but this is the fastest and most reliable.
 
     :param event: music21 object contained in a music21 part stream.
@@ -163,21 +163,21 @@ def _get_offsets(event, part):
             return y[1]
 
 def _eliminate_ties(event):
-    """Gets rid of the notes and rests that have non-start ties. This is used internally for 
+    """Gets rid of the notes and rests that have non-start ties. This is used internally for
     noterest and beatstrength indexing."""
     if hasattr(event, 'tie') and event.tie is not None and event.tie.type != 'start':
         return float('nan')
     return event
 
 def _type_func_noterest(event):
-    """Used internally by _get_m21_nrc_objs() to filter for just the 'Note', 'Rest', and 'Chord' 
+    """Used internally by _get_m21_nrc_objs() to filter for just the 'Note', 'Rest', and 'Chord'
     objects in a piece."""
     if any([typ in event.classes for typ in _noterest_types]):
         return event
     return float('nan')
 
 def _type_func_measure(event):
-    """Used internally by _get_m21_measure_objs() to filter for just the 'Measure' objects in a 
+    """Used internally by _get_m21_measure_objs() to filter for just the 'Measure' objects in a
     piece."""
     if 'Measure' in event.classes:
         return event
@@ -196,8 +196,8 @@ def _type_func_time_signature(event):
     return float('nan')
 
 def _get_pitches(event):
-    """Used internally by _combine_voices() to represent all the note and chord objects of a part as 
-    music21 pitches. Rests get discarded in this stage, but later re-instated with 
+    """Used internally by _combine_voices() to represent all the note and chord objects of a part as
+    music21 pitches. Rests get discarded in this stage, but later re-instated with
     _reinsert_rests()."""
     if isinstance(event, float):
         return event
@@ -209,14 +209,14 @@ def _get_pitches(event):
         return event.pitches
 
 def _reinsert_rests(event):
-    """Used internally by _combine_voices() to put rests back into its intermediate representation 
+    """Used internally by _combine_voices() to put rests back into its intermediate representation
     of a piece which had to temporarily remove the rests."""
     if isinstance(event, float):
         return music21.note.Rest()
     return event
 
 def _combine_voices(ser, part):
-    """Used internally by _get_m21_nrc_objs() to combine the voices of a single part into one 
+    """Used internally by _get_m21_nrc_objs() to combine the voices of a single part into one
     pandas.Series of music21 chord objects."""
     temp = []
     indecies = [0]
@@ -230,14 +230,14 @@ def _combine_voices(ser, part):
     df = pandas.concat(temp, axis=1).applymap(_get_pitches)
     # Condense the voices (df's columns) into chord objects in a series.
     res = df.apply(lambda x: chord.Chord(sorted([pitch for lyst in x.dropna() for pitch in lyst], reverse=True)), axis=1)
-    # Note that if a part has two voices, and one voice has a note or a chord, and the other a rest, 
+    # Note that if a part has two voices, and one voice has a note or a chord, and the other a rest,
     # only the rest will be lost even after calling _reinsert_rests().
     return res.apply(_reinsert_rests)
 
 def _attach_before(df):
-    """Used internally by _get_horizontal_interval() to change the index values of the cached 
-    results of the interval.HorizontalIntervalIndexer so that they start on 0.0 instead of whatever 
-    value they start on. This shift makes the index values correspond to the first of two notes in 
+    """Used internally by _get_horizontal_interval() to change the index values of the cached
+    results of the interval.HorizontalIntervalIndexer so that they start on 0.0 instead of whatever
+    value they start on. This shift makes the index values correspond to the first of two notes in
     a horizontal interval in any given voice rather than that of the second."""
     re_indexed = []
     for x in range(len(df.columns)):
@@ -275,8 +275,8 @@ def _import_file(pathname, metafile=None):
     Import the score to music21 format.
     :param pathname: Location of the file to import on the local disk.
     :type pathname: str
-    :returns: A 1-tuple of :class:`IndexedPiece` if the file imported as a 
-        :class:`music21.stream.Score` object or a multi-element list if it imported as a 
+    :returns: A 1-tuple of :class:`IndexedPiece` if the file imported as a
+        :class:`music21.stream.Score` object or a multi-element list if it imported as a
         :class:`music21.stream.Opus` object.
         respectively.
     :rtype: 1-tuple or list of :class:`IndexedPiece`
@@ -335,12 +335,12 @@ def _import_directory(directory, metafile=None):
 
 def Importer(location, metafile=None):
     """
-    Import the file, website link, or directory of files designated by ``location`` to music21 
+    Import the file, website link, or directory of files designated by ``location`` to music21
     format.
 
     :param location: Location of the file to import on the local disk.
     :type location: str
-    :returns: An :class:`IndexedPiece` or an :class:`AggregatedPieces` object if the file passed 
+    :returns: An :class:`IndexedPiece` or an :class:`AggregatedPieces` object if the file passed
         imports as a :class:`music21.stream.Score` or :class:`music21.stream.Opus` object
         respectively.
     :rtype: A new :class:`IndexedPiece` or :class:`AggregatedPieces` object.
@@ -368,14 +368,14 @@ def Importer(location, metafile=None):
 
 class IndexedPiece(object):
     """
-    Hold indexed data from a musical score, and the score itself. IndexedPiece objects are VIS's 
-    basic representations of a piece of music and also a container for metadata and analyses about 
-    that piece. An IndexedPiece object should be created by passing the pathname of a symbolic 
-    notation file to the Importer() method in this file. The Importer() will return an IndexedPiece 
-    object as long as the piece did not import as an opus. In this case Importer() will return an 
-    AggregatedPieces object. Information about an IndexedPiece object from an indexer or an 
-    experimenter should be requested via the get_data() method. If you want to access the full 
-    music21 score object of a VIS IndexedPiece object, access the _score attribute of the 
+    Hold indexed data from a musical score, and the score itself. IndexedPiece objects are VIS's
+    basic representations of a piece of music and also a container for metadata and analyses about
+    that piece. An IndexedPiece object should be created by passing the pathname of a symbolic
+    notation file to the Importer() method in this file. The Importer() will return an IndexedPiece
+    object as long as the piece did not import as an opus. In this case Importer() will return an
+    AggregatedPieces object. Information about an IndexedPiece object from an indexer or an
+    experimenter should be requested via the get_data() method. If you want to access the full
+    music21 score object of a VIS IndexedPiece object, access the _score attribute of the
     IndexedPiece object. See the examples below:
 
     **Examples**
@@ -391,7 +391,7 @@ class IndexedPiece(object):
     ip._score
     """
 
-    # When get_data() is missing the "settings" and/or data" argument but needed them, or was 
+    # When get_data() is missing the "settings" and/or data" argument but needed them, or was
     # supplied this information, but couldn't use it.
     _SUPERFLUOUS_OR_INSUFFICIENT_ARGUMENTS = 'You made improper use of the settings and/or data \
 arguments. Please refer to the {} documentation to see what is required by the Indexer or \
@@ -453,7 +453,7 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
                         ('approach', 'approach.ApproachIndexer', approach.ApproachIndexer): self._get_approach,
                         ('contour', 'contour.ContourIndexer', contour.ContourIndexer): contour.ContourIndexer,
                         ('dissonance', 'dissonance.DissonanceIndexer', dissonance.DissonanceIndexer): self._get_dissonance,
-                        ('fermata', 'fermata.FermataIndexer', fermata.FermataIndexer): self._get_fermata,
+                        ('expression', 'expression.ExpressionIndexer', expression.ExpressionIndexer): self._get_expression,
                         ('horizontal_interval', 'interval.HorizontalIntervalIndexer', interval.HorizontalIntervalIndexer): self._get_horizontal_interval,
                         ('vertical_interval', 'interval.IntervalIndexer', interval.IntervalIndexer): self._get_vertical_interval,
                         ('duration', 'meter.DurationIndexer', meter.DurationIndexer): self._get_duration,
@@ -571,17 +571,17 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
 
     def _get_m21_objs(self):
         """
-        Return the all the music21 objects found in the piece. This is a list of pandas.Series 
-        where each series contains the events in one part. It is not concatenated into a 
+        Return the all the music21 objects found in the piece. This is a list of pandas.Series
+        where each series contains the events in one part. It is not concatenated into a
         dataframe at this stage because this step should be done after filtering for a certain
         type of event in order to get the proper index.
 
-        This list of voices with their events can easily be turned into a dataframe of music21 
+        This list of voices with their events can easily be turned into a dataframe of music21
         objects that can be filtered to contain, for example, just the note and rest objects.
-        Filtered dataframes of music21 objects like this can then have an indexer_func applied 
+        Filtered dataframes of music21 objects like this can then have an indexer_func applied
         to them all at once using df.applymap(indexer_func).
 
-        :returns: All the objects found in the music21 voice streams. These streams are made 
+        :returns: All the objects found in the music21 voice streams. These streams are made
             into pandas.Series and collected in a list.
         :rtype: list of :class:`pandas.Series`
         """
@@ -589,7 +589,7 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
             # save the results as a list of series in the indexed_piece attributes
             sers =[]
             for i, p in enumerate(self._get_part_streams()):
-                # NB: since we don't use ActiveSites, not restoring them is a minor speed-up. Also, 
+                # NB: since we don't use ActiveSites, not restoring them is a minor speed-up. Also,
                 # skipSelf will soon change its default to True in music21.
                 ser = pandas.Series(p.recurse(restoreActiveSites=False, skipSelf=True),
                                     name=self.metadata('parts')[i])
@@ -602,10 +602,10 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         """
         This method takes a list of pandas.Series of music21 objects in each part in a piece and
         filters them to reveal just the 'Note', 'Rest', and 'Chord' objects. It then aligns these
-        events with their offsets, and returns a pandas dataframe where each column has the events 
+        events with their offsets, and returns a pandas dataframe where each column has the events
         of a single part.
 
-        :returns: The note, rest, and chord music21 objects in each part of a piece, aligned with 
+        :returns: The note, rest, and chord music21 objects in each part of a piece, aligned with
             their offsets.
         :rtype: A pandas.DataFrame of music21 note, rest, and chord objects.
         """
@@ -619,9 +619,9 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         return self._analyses['m21_nrc_objs']
 
     def _get_m21_nrc_objs_no_tied(self):
-        """Used internally by _get_noterest() and _get_multistop(). Returns a pandas dataframe where 
-        each column corresponds to one part in the score. Each part has the note, rest, and chord 
-        objects as the elements in its column as long as they don't have a non-start tie, otherwise 
+        """Used internally by _get_noterest() and _get_multistop(). Returns a pandas dataframe where
+        each column corresponds to one part in the score. Each part has the note, rest, and chord
+        objects as the elements in its column as long as they don't have a non-start tie, otherwise
         they are omitted."""
         if 'm21_nrc_objs_no_tied' not in self._analyses:
            # This if statement is necessary because of a pandas bug, see pandas issue #8222.
@@ -632,23 +632,23 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         return self._analyses['m21_nrc_objs_no_tied']
 
     def _get_noterest(self):
-        """Used internally by get_data() to cache and retrieve results from the 
+        """Used internally by get_data() to cache and retrieve results from the
         noterest.NoteRestIndexer."""
         if 'noterest' not in self._analyses:
             self._analyses['noterest'] = noterest.NoteRestIndexer(self._get_m21_nrc_objs_no_tied()).run()
         return self._analyses['noterest']
 
     def _get_multistop(self):
-        """Used internally by get_data() to cache and retrieve results from the 
+        """Used internally by get_data() to cache and retrieve results from the
         noterest.MultiStopIndexer."""
         if 'multistop' not in self._analyses:
             self._analyses['multistop'] = noterest.MultiStopIndexer(self._get_m21_nrc_objs_no_tied()).run()
         return self._analyses['multistop']
 
     def _get_duration(self, data=None):
-        """Used internally by get_data() to cache and retrieve results from the 
-        meter.DurationIndexer. The `data` argument should be a 2-tuple where the first element is 
-        a dataframe of results with one column per voice (like the noterest indexer) and the second 
+        """Used internally by get_data() to cache and retrieve results from the
+        meter.DurationIndexer. The `data` argument should be a 2-tuple where the first element is
+        a dataframe of results with one column per voice (like the noterest indexer) and the second
         element is a list of the part streams, one per part."""
         if data is not None:
             return meter.DurationIndexer(data[0], data[1]).run()
@@ -657,36 +657,36 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         return self._analyses['duration']
 
     def _get_active_voices(self, data=None, settings=None):
-        """Used internally by get_data() to cache and retrieve results from the 
+        """Used internally by get_data() to cache and retrieve results from the
         active_voices.ActiveVoicesIndexer."""
         if data is not None:
             return active_voices.ActiveVoicesIndexer(data, settings).run()
-        elif 'active_voices' not in self._analyses and (settings is None or settings == 
+        elif 'active_voices' not in self._analyses and (settings is None or settings ==
                 active_voices.ActiveVoicesIndexer.default_settings):
             self._analyses['active_voices'] = active_voices.ActiveVoicesIndexer(self._get_noterest()).run()
             return self._analyses['active_voices']
         return active_voices.ActiveVoicesIndexer(self._get_noterest(), settings).run()
 
     def _get_beat_strength(self):
-        """Used internally by get_data() to cache and retrieve results from the 
+        """Used internally by get_data() to cache and retrieve results from the
         meter.NoteBeatStrengthIndexer."""
         if 'beat_strength' not in self._analyses:
             self._analyses['beat_strength'] = meter.NoteBeatStrengthIndexer(self._get_m21_nrc_objs_no_tied()).run()
         return self._analyses['beat_strength']
 
-    def _get_fermata(self):
-        """Used internally by get_data() to cache and retrieve results from the 
-        fermata.FermataIndexer."""
-        if 'fermata' not in self._analyses:
-            self._analyses['fermata'] = fermata.FermataIndexer(self._get_m21_nrc_objs_no_tied()).run()
-        return self._analyses['fermata']
+    def _get_expression(self):
+        """Used internally by get_data() to cache and retrieve results from the
+        expression.ExpressionIndexer."""
+        if 'expression' not in self._analyses:
+            self._analyses['expression'] = expression.ExpressionIndexer(self._get_m21_nrc_objs_no_tied()).run()
+        return self._analyses['expression']
 
     def _get_vertical_interval(self, settings=None):
-        """Used internally by get_data() to cache and retrieve results from the 
-        interval.IntervalIndexer. Since there are many possible settings for intervals, no matter 
-        what the user asks for intervals are calculated as compound, directed, and diatonic with 
-        quality. The results with these settings are stored and if the user asked for different 
-        settings, they are recalculated from these 'complete' cached results. This reindexing is 
+        """Used internally by get_data() to cache and retrieve results from the
+        interval.IntervalIndexer. Since there are many possible settings for intervals, no matter
+        what the user asks for intervals are calculated as compound, directed, and diatonic with
+        quality. The results with these settings are stored and if the user asked for different
+        settings, they are recalculated from these 'complete' cached results. This reindexing is
         done with the interval.IntervalReindexer."""
         if 'vertical_interval' not in self._analyses:
             self._analyses['vertical_interval'] = interval.IntervalIndexer(self._get_noterest(), settings=_default_interval_setts.copy()).run()
@@ -697,14 +697,14 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         return self._analyses['vertical_interval']
 
     def _get_horizontal_interval(self, settings=None):
-        """Used internally by get_data() to cache and retrieve results from the 
-        interval.IntervalIndexer. Since there are many possible settings for intervals, no matter 
-        what the user asks for intervals are calculated as compound, directed, and diatonic with 
-        quality. The results with these settings are stored and if the user asked for different 
-        settings, they are recalculated from these 'complete' cached results. This reindexing is 
-        done with the interval.IntervalReindexer. Those details are the same as for the 
-        _get_vertical_interval() method, but this method has an added check to see if the user asked 
-        for horiz_attach_later == False. In this case the index of each part's horizontal intervals 
+        """Used internally by get_data() to cache and retrieve results from the
+        interval.IntervalIndexer. Since there are many possible settings for intervals, no matter
+        what the user asks for intervals are calculated as compound, directed, and diatonic with
+        quality. The results with these settings are stored and if the user asked for different
+        settings, they are recalculated from these 'complete' cached results. This reindexing is
+        done with the interval.IntervalReindexer. Those details are the same as for the
+        _get_vertical_interval() method, but this method has an added check to see if the user asked
+        for horiz_attach_later == False. In this case the index of each part's horizontal intervals
         is shifted forward one element and 0.0 is assigned as the first element."""
         # No matter what settings the user specifies, calculate the intervals in the most complete way.
         if 'horizontal_interval' not in self._analyses:
@@ -721,9 +721,9 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         return self._analyses['horizontal_interval']
 
     def _get_dissonance(self):
-        """Used internally by get_data() to cache and retrieve results from the 
-        dissonance.DissonanceIndexer. This method automatically supplies the input dataframes from 
-        the indexed_piece that is the self argument. If you want to call this with indexer results 
+        """Used internally by get_data() to cache and retrieve results from the
+        dissonance.DissonanceIndexer. This method automatically supplies the input dataframes from
+        the indexed_piece that is the self argument. If you want to call this with indexer results
         other than those associated with self, you can call the indexer directly."""
         if 'dissonance' not in self._analyses:
             h_setts = {'quality': False, 'simple or compound': 'compound', 'horiz_attach_later': False}
@@ -734,18 +734,18 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         return self._analyses['dissonance']
 
     def _get_approach(self, data=[], settings=None):
-        """Used internally by get_data() as a convenience method to simplify getting results from 
-        the ApproachIndexer. Since the results of the FermataIndexer are required for this and do not 
-        take any settings, they are automatically provided for the user, so only the results of the 
+        """Used internally by get_data() as a convenience method to simplify getting results from
+        the ApproachIndexer. Since the results of the ExpressionIndexer are required for this and do not
+        take any settings, they are automatically provided for the user, so only the results of the
         OverBassIndexer must necessarily be provided in the 'data' argument."""
         if len(data) == 1: # If data has more than two dfs, or the wrong dfs, this will be caught later
-            temp = [self._get_fermata()]
+            temp = [self._get_expression()]
             temp.extend(data)
             data = temp
         return approach.ApproachIndexer(data, settings).run()
 
     def _get_m21_measure_objs(self):
-        """Makes a dataframe of the music21 measure objects in the indexed_piece. Note that midi 
+        """Makes a dataframe of the music21 measure objects in the indexed_piece. Note that midi
         files do not have measures."""
         if 'm21_measure_objs' not in self._analyses:
             # filter for just the measure objects in each part of this indexed piece
@@ -760,21 +760,21 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         return self._analyses['measure']
 
     def _get_ngram(self, data, settings=None):
-        """Convenience method for fethcing ngram indexer results. These results never get cached 
+        """Convenience method for fethcing ngram indexer results. These results never get cached
         though, because there are too many unpredictable variables in ngram queries."""
         return ngram.NGramIndexer(data, settings).run()
 
     def _get_offset(self, data, settings=None):
-        if (settings is not None and settings['quarterLength'] == 'dynamic' and 
+        if (settings is not None and settings['quarterLength'] == 'dynamic' and
             ('dom_data' not in settings or type(settings['dom_data']) != list)):
             settings['dom_data'] = [self._get_dissonance(), self._get_duration(),
                                      self._get_beat_strength(), self._get_noterest(),
-                                     self._get_time_signature(), 
+                                     self._get_time_signature(),
                                      self._get_part_streams()[0].highestTime]
         return offset.FilterByOffsetIndexer(data, settings).run()
 
     def _get_time_signature(self):
-        """Experimental method used only by the offset indexer when its 'dynamic' setting is 
+        """Experimental method used only by the offset indexer when its 'dynamic' setting is
         active. This returns a dataframe of the time signature strings in a piece."""
         if 'time_signature' not in self._analyses:
             lyst = [ser.apply(_type_func_time_signature).dropna() for ser in self._get_m21_objs()]
@@ -790,11 +790,11 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         :type analyzer_cls: str or VIS Indexer or Experimenter class.
         :param settings: Settings to be used with the analyzer. Only use if necessary.
         :type settings: dict
-        :param data: Input data for the analyzer to run. If this is provided for an indexer that 
-            normally caches its results (such as the NoteRestIndexer, the DurationIndexer, etc.), 
-            the results will not be cached since it is uncertain if the input passed in the ``data`` 
+        :param data: Input data for the analyzer to run. If this is provided for an indexer that
+            normally caches its results (such as the NoteRestIndexer, the DurationIndexer, etc.),
+            the results will not be cached since it is uncertain if the input passed in the ``data``
             argument was calculated on this indexed_piece.
-        :type data: Depends on the requirement of the analyzer designated by the ``analyzer_cls`` 
+        :type data: Depends on the requirement of the analyzer designated by the ``analyzer_cls``
             argument. Usually a :class:`pandas.DataFrame` or a list of :class:`pandas.Series`.
         :returns: Results of the analyzer.
         :rtype: Usually :class:`pandas.DataFrame` or list of :class:`pandas.Series`.
@@ -826,12 +826,12 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         return results
 
     def measure_index(self, dataframe):
-        """Multi-indexes the index of the passed dataframe by adding the measures to the offsets. 
-        The passed dataframe should be of an indexer's results, not an experimenters. Also adds 
-        index labels. Note that this method currently does not work with midi files, because VIS 
-        cannot detect measures in midi files since they are not encoded in midi. Also note that this 
-        method should ideally only be used at the end of a set of analysis steps, because there is 
-        no guarantee that the resultant multi-indexed dataframe will not cause problems if passed to 
+        """Multi-indexes the index of the passed dataframe by adding the measures to the offsets.
+        The passed dataframe should be of an indexer's results, not an experimenters. Also adds
+        index labels. Note that this method currently does not work with midi files, because VIS
+        cannot detect measures in midi files since they are not encoded in midi. Also note that this
+        method should ideally only be used at the end of a set of analysis steps, because there is
+        no guarantee that the resultant multi-indexed dataframe will not cause problems if passed to
         a subsequent indexer.
 
         **Example**
