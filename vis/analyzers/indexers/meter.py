@@ -27,6 +27,7 @@
 
 .. codeauthor:: Christopher Antila <christopher@antila.ca>
 .. codeauthor:: Alexander Morgan
+.. codeauthor:: Reiner Kramer <reiner@music.org>
 
 Indexers for metric concerns.
 
@@ -96,7 +97,6 @@ class NoteBeatStrengthIndexer(indexer.Indexer):
     >>> from vis.models.indexed_piece import Importer
     >>> ip = Importer('pathnameToScore.xml')
     >>> ip.get_data('beat_strength')
-    
     """
 
     required_score_type = 'pandas.DataFrame'
