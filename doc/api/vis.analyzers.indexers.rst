@@ -46,6 +46,7 @@ indexers Package
 
 .. automodule:: vis.analyzers.indexers.fermata
     :members:
+    :exclude-members: indexer_dnq_dir_sim dnq_dir_sim_analysis indexer_dwq_dir_sim dwq_dir_sim_analysis
     :undoc-members:
     :show-inheritance:
 
@@ -54,21 +55,6 @@ indexers Package
 
 .. automodule:: vis.analyzers.indexers.interval
     :members:
-    :exclude-members: 
-    	vis.analyzers.indexers.interval.chr_dir_com_analysis
-    	vis.analyzers.indexers.interval.chr_dir_sim_analysis
-    	vis.analyzers.indexers.interval.chr_und_com_analysis
-    	vis.analyzers.indexers.interval.chr_und_sim_analysis
-    	vis.analyzers.indexers.interval.dnq_dir_com_analysis
-    	vis.analyzers.indexers.interval.dnq_dir_sim_analysis
-    	vis.analyzers.indexers.interval.dnq_und_com_analysis
-    	vis.analyzers.indexers.interval.dnq_und_sim_analysis
-    	vis.analyzers.indexers.interval.dwq_dir_com_analysis
-    	vis.analyzers.indexers.interval.dwq_dir_sim_analysis
-    	vis.analyzers.indexers.interval.dwq_und_com_analysis
-    	vis.analyzers.indexers.interval.dwq_und_sim_analysis
-    	vis.analyzers.indexers.interval.icl_dir_sim_analysis
-    	vis.analyzers.indexers.interval.icl_und_sim_analysis
     :undoc-members:
     :show-inheritance:
 
