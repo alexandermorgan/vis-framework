@@ -25,6 +25,7 @@
 # -------------------------------------------------------------------- #
 """
 .. codeauthor:: Marina Borsodi-Benson <marinaborsodibenson@gmail.com>
+.. codeauthor:: Reiner Kramer <reiner@music.org>
 
 """
 
