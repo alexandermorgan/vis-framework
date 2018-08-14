@@ -35,39 +35,48 @@ Index music21 "expressions" such as fermatas.
 import six
 from music21 import expressions
 from vis.analyzers import indexer
+import pdb
+
+symbols = {
+    'fermata': ';',
+    'whole step mordent': 'M',
+    }
 
 def indexer_func(event):
     """
-    Used internally by :class:`FermataIndexer`. Inspects
-
+    Used internally by :class:`ExpressionIndexer`. Inspects
     :class:`~music21.note.Note` and :class:`~music21.note.Rest` and
-        returns ``u'Fermata'`` if a fermata is associated, else NaN.
+    returns kern symbols for *all* expressions present, else NaN.
+    This means that more than one character can be returned if a note
+    or a rest has more than one music21 expression associated with it.
 
-    :param event: An iterable (nominally a :class:`~pandas.Series`) with
-        an object to convert. Only the first object in the iterable is
-        processed.
+    :param event: Note or rest, chords are not yet supported.
 
-    :type event: iterable of :class:`music21.note.Note` or
-        :class:`music21.note.Rest`
+    :type event: :class:`music21.note.Note` or :class:`music21.note.Rest`
 
-    :returns: If the first object in the list is a contains a
-        :class:`~music21.expressions.Fermata`, string ``u'Fermata'``
-        is returned. Else, NaN.
+    :returns: A string consisting of all the kern representations of
+        the music21 expressions present. These can later be filtered
+        to a single type of expression if desired. If no expressions
+        are present for the note or rest, NaN is returned.
 
-    :rtype: str
+    :rtype: str or float
     """
-
+    # pdb.set_trace()
     if isinstance(event, float): # event is NaN
         return event
-    for expr in event.expressions:
-        if isinstance(expr, self._expr_type):
-            return self._expr_str
+    else:
+        res = []
+        for expr in event.expressions:
+            if expr.name in symbols:
+                res.append(symbols[expr.name])
+        if res:
+            return ''.join(res)
+        return float('nan')
 
 
 class ExpressionIndexer(indexer.Indexer):
     """
     Index :class:`~music21.expressions`.
-
     Finds :class:`~music21.expressions`s.
 
     **Example:**
@@ -77,12 +86,8 @@ class ExpressionIndexer(indexer.Indexer):
     >>> ip.get_data('expression')
 
     """
-    default_settings = {'expression': 'fermata'}
-    supported_expressions = ('fermata',)
+    default_settings = {'expression': 'all'}
     required_score_type = 'pandas.DataFrame'
-    expr_types = {'fermata': (expressions.Fermata, ".)")}
-
-    _UNSUPPORTED_EXPRESSION = "This is not a music21 expression."
 
     def __init__(self, score, settings=None):
         """
@@ -91,24 +96,20 @@ class ExpressionIndexer(indexer.Indexer):
 
         :type score: pandas Dataframe
 
-        :param settings: This indexer does not have any settings, so
-            this is just a place holder.
+        :param settings: Settings are not currently implemented, but
+            could potentially allow for the filtering of unwanted
+            expressions. For example, if you're just looking for
+            fermatas, a setting could filter out all the other
+            expressions that would otherwise be included in the
+            results.
 
-        :type settings: None
+        :type settings: Dictionary
 
         :raises: :exc:`RuntimeError` if ``score`` is not a pandas
             Dataframe.
 
         """
-        if settings is None:
-            self._settings = default_settings
-        elif ('expression' in settings and
-              settings[expression] not in supported_expressions):
-            raise RuntimeError(ExpressionIndexer._UNSUPPORTED_EXPRESSION)
-        else:
-            self._settings = default_settings.copy().update(settings)
+        self._settings = ExpressionIndexer.default_settings.copy()
         super(ExpressionIndexer, self).__init__(score, self._settings)
-        self._types = ('Note', 'Rest', 'Chord')
-        self._expr_type = expr_types[self._settings['expression'][0]]
-        self._expr_str = expr_types[self._settings['expression'][1]]
+        self._types = ('Note', 'Rest')
         self._indexer_func = indexer_func
