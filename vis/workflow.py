@@ -32,8 +32,7 @@
     maintained or supported.
 
 The ``workflow`` module holds the :class:`WorkflowManager`, which automates several common music
-analysis patterns for counterpoint. The :class:`TemplateWorkflow` class is a template for writing
-new ``WorkflowManager`` classes.
+analysis patterns for counterpoint.
 """
 
 from os import path

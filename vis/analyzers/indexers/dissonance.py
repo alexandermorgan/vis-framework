@@ -4,8 +4,8 @@
 # Program Name:           vis
 # Program Description:    Helps analyze music with computers.
 #
-# Filename:               analyzers/indexers/template.py
-# Purpose:                Template indexer
+# Filename:               analyzers/indexers/dissonance.py
+# Purpose:                Index dissonance types
 #
 # Copyright (C) 2013-2016 Christopher Antila, Alexander Morgan
 #
@@ -32,7 +32,6 @@ import numpy
 from numpy import nan  # pylint: disable=no-name-in-module
 from vis.analyzers import indexer
 from multi_key_dict import multi_key_dict as mkd
-import pdb
 
 
 _d3q_label = 'Q'

@@ -40,11 +40,11 @@ indexers Package
     :members:
     :undoc-members:
     :show-inheritance:
-    
+
 :mod:`fermata` Module
 ----------------------
 
-.. automodule:: vis.analyzers.indexers.fermata
+.. automodule:: vis.analyzers.indexers.expression
     :members:
     :undoc-members:
     :show-inheritance:
@@ -109,14 +109,6 @@ indexers Package
 --------------------
 
 .. automodule:: vis.analyzers.indexers.repeat
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`template` Module
-----------------------
-
-.. automodule:: vis.analyzers.indexers.template
     :members:
     :undoc-members:
     :show-inheritance:

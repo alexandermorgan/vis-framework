@@ -40,11 +40,3 @@ experimenters Package
     :members:
     :undoc-members:
     :show-inheritance:
-
-:mod:`template` Module
-----------------------
-
-.. automodule:: vis.analyzers.experimenters.template
-    :members:
-    :undoc-members:
-    :show-inheritance:

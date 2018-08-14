@@ -64,9 +64,7 @@ Analyses may flow from indexer to indexer, from indexer to experimenter, and fro
 However, an analysis may not move from an experimenter to an indexer; once moment-specific information is lost, it cannot be recovered.
 (The exception to the rule: indexers may use data from experimenters---as long as they also use data from another indexer or a :class:`Score`).
 
-When designing your own analyzers, we encourage you to avoid the temptation to include many analysis steps in the same analyzer, and instead to follow the design pattern set out with our own analyzers and our :class:`~vis.analyzers.indexers.TemplateIndexer` and :class:`~vis.analyzers.experimenters.TemplateExperimenter`.
-Following this design pattern helps ensure your program is easy to test, and therefore more trustworthy.
-In addition, you may be able to contribute valuable new analyzer modules that will help other scholars get started with VIS more easily.
+When designing your own analyzers, we encourage you to avoid the temptation to include many analysis steps in the same analyzer. Please keep things modular and as simple as possible.
 
 If required, you may use an analyzer to run external programs, possibly written in a different programming language.
 For example, the :class:`~vis.analyzers.experimenters.barchart.RBarChart` experimenter runs a program in the R language, using the *ggplot2* library to produce a bar chart.

@@ -93,11 +93,8 @@ class Indexer(object):
     """
     # just the standard instance variables
     required_score_type = None
-    "Described in the :class:`~vis.analyzers.indexers.template.TemplateIndexer`."
     possible_settings = {}
-    "Described in the :class:`~vis.analyzers.indexers.template.TemplateIndexer`."
     default_settings = {}
-    "Described in the :class:`~vis.analyzers.indexers.template.TemplateIndexer`."
     # self._score  # this will hold the input data
     # self._indexer_func  # this function will do the indexing
     # self._types  # if the input is a Score, this is a list of types we'll use for the index
@@ -197,10 +194,7 @@ class Indexer(object):
         **About Return Values:**
 
         Every indexer must return a :class:`DataFrame` with a special kind of :class:`MultiIndex`
-        that helps organize data across multiple indexers. Programmers making a new indexer should
-        follow the instructions in the :class:`TemplateIndexer`
-        :meth:`~vis.analyzers.indexers.template.TemplateIndexer.run` method to ensure this happens
-        properly.
+        that helps organize data across multiple indexers.
 
         Indexers return a :class:`DataFrame` where the columns are indexed on two levels: the first
         level is a string with the name of the indexer, and the second level is a string with the
