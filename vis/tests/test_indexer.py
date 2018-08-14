@@ -333,36 +333,6 @@ class TestIndexerSinglePart(IndexerTestBase):
         self.assertSequenceEqual(list(expect_mixed), list(result_mixed))
 
 
-
-    # TODO: March 2014: the following tests fail; I'm not sure we need them, or why they're here,
-    #       but in the past I made a note that it was "pending implementation of MultiIndex"
-    # def test_mp_indexer_7(self):
-    #     # that a list with two types is not filtered when it's given as a Series, even if there's
-    #     # a value for the "types" parameter
-    #     # --> test lengths
-    #     # --> two events at each offset
-    #     result = indexer.series_indexer(0, [self.shared_mixed_series], verbatim_rests)[1]
-    #     self.assertEqual(len(self.shared_mixed_series), len(result))
-
-    # def test_mp_indexer_9(self):
-    #     # that a list with two types is not filtered when it's given as a Series,
-    #     # even if there's a value for the "types" parameter
-    #     # --> test values
-    #     # --> two events at each offset
-    #     result = indexer.series_indexer(0, [self.shared_mixed_series], verbatim_rests)[1]
-    #     for i in self.shared_mixed_series.index:
-    #         self.assertEqual(result[i], pandas.Series(['Rest', str(i)], index=[i, i]))
-
-
-class TestIndexerMultiEvent(IndexerTestBase):
-    # Testing that, if there are many events at an offset, only the "first" one is outputted.
-    def setUp(self):
-        super(TestIndexerMultiEvent, self).setUp()
-        self.test_series = [self.in_series,
-                            copy.deepcopy(self.in_series),
-                            copy.deepcopy(self.in_series)]
-
-
 class TestMakeReturn(unittest.TestCase):
     def test_make_return_1(self):
         # 1: the usual case
@@ -422,7 +392,5 @@ class TestMakeReturn(unittest.TestCase):
 # Definitions                                                                                      #
 #--------------------------------------------------------------------------------------------------#
 INDEXER_1_PART_SUITE = unittest.TestLoader().loadTestsFromTestCase(TestIndexerSinglePart)
-INDEXER_MULTI_EVENT_SUITE = unittest.TestLoader().loadTestsFromTestCase(TestIndexerMultiEvent)
-# UNIQUE_OFFSETS_SUITE = unittest.TestLoader().loadTestsFromTestCase(TestMpiUniqueOffsets)
 INDEXER_INIT_SUITE = unittest.TestLoader().loadTestsFromTestCase(TestIndexerInit)
 MAKE_RETURN_SUITE = unittest.TestLoader().loadTestsFromTestCase(TestMakeReturn)

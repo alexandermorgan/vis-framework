@@ -43,7 +43,7 @@ from vis.models.aggregated_pieces import AggregatedPieces
 from vis.analyzers.experimenter import Experimenter
 from vis.analyzers.experimenters import aggregator, barchart, frequency
 from vis.analyzers.indexer import Indexer
-from vis.analyzers.indexers import noterest, approach, articulation, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram, windexer
+from vis.analyzers.indexers import noterest, approach, articulation, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram
 from multi_key_dict import multi_key_dict as mkd
 from collections import Counter
 
@@ -464,7 +464,6 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
                         ('offset', 'offset.FilterByOffsetIndexer', offset.FilterByOffsetIndexer): self._get_offset,
                         ('over_bass', 'over_bass.OverBassIndexer', over_bass.OverBassIndexer): over_bass.OverBassIndexer,
                         ('repeat', 'repeat.FilterByRepeatIndexer', repeat.FilterByRepeatIndexer): repeat.FilterByRepeatIndexer,
-                        ('windexer', 'windexer.Windexer', windexer.Windexer): windexer.Windexer,
                         # Experimenters (in alphabetical order of their long-format strings):
                         ('aggregator', 'aggregator.ColumnAggregator', aggregator.ColumnAggregator): aggregator.ColumnAggregator,
                         ('bar_chart', 'barchart.RBarChart', barchart.RBarChart): barchart.RBarChart,

@@ -226,12 +226,8 @@ received {}. Please choose from one of the following: {}.'
 
         if temp:
             data = temp
-        # import pdb
-        # pdb.set_trace()
 
         return dendrogram.HierarchicalClusterer(data, settings).run()
-
-
 
     def get_data(self, ind_analyzer=None, combined_experimenter=None, settings=None, data=None):
         """

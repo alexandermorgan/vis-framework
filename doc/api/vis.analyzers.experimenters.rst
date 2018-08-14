@@ -24,19 +24,3 @@ experimenters Package
     :members:
     :undoc-members:
     :show-inheritance:
-
-:mod:`barchart` Module
------------------------
-
-.. automodule:: vis.analyzers.experimenters.barchart
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`lilypond` Module
------------------------
-
-.. automodule:: vis.analyzers.experimenters.lilypond
-    :members:
-    :undoc-members:
-    :show-inheritance:

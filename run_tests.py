@@ -53,13 +53,11 @@ from vis.tests import test_over_bass
 from vis.tests import test_approach
 from vis.tests import test_contour
 from vis.tests import test_active_voices
-from vis.tests import test_windexer
 
 
 THE_TESTS = (  # Indexer and Subclasses
              test_indexer.INDEXER_INIT_SUITE,
              test_indexer.INDEXER_1_PART_SUITE,
-             test_indexer.INDEXER_MULTI_EVENT_SUITE,  # no tests run
              test_fermata_indexer.FERMATA_INDEXER_SUITE,
              test_note_rest_indexer.NOTE_REST_INDEXER_SUITE,
              test_note_rest_indexer.MULTI_STOP_INDEXER_SUITE,
@@ -79,11 +77,9 @@ THE_TESTS = (  # Indexer and Subclasses
              test_approach.APPROACH_INDEXER_SUITE,
              test_contour.CONTOUR_INDEXER_SUITE,
              test_active_voices.ACTIVE_VOICES_INDEXER_SUITE,
-             test_windexer.WINDEXER_SUITE,
              # Experimenter and Subclasses
              test_frequency_experimenter.FREQUENCY_SUITE,
              test_aggregator.COLUMN_AGGREGATOR_SUITE,
-             test_barchart.R_BAR_CHART_SUITE,
              # test_dendrogram.DENDROGRAM_SUITE, # This test suite is commented out so that we can remove our SciPy dependency.
              # Importer, IndexedPiece, and AggregatedPieces
              test_aggregated_pieces.IMPORTER_SUITE,

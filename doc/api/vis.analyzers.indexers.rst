@@ -17,6 +17,14 @@ indexers Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`articulation` Module
+----------------------
+
+.. automodule:: vis.analyzers.indexers.articulation
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`cadence` Module
 ----------------------
 
@@ -41,7 +49,7 @@ indexers Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`fermata` Module
+:mod:`expression` Module
 ----------------------
 
 .. automodule:: vis.analyzers.indexers.expression
@@ -53,14 +61,6 @@ indexers Package
 ----------------------
 
 .. automodule:: vis.analyzers.indexers.interval
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`lilypond` Module
-----------------------
-
-.. automodule:: vis.analyzers.indexers.lilypond
     :members:
     :undoc-members:
     :show-inheritance:
@@ -109,14 +109,6 @@ indexers Package
 --------------------
 
 .. automodule:: vis.analyzers.indexers.repeat
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`windexer` Module
-----------------------
-
-.. automodule:: vis.analyzers.indexers.windexer
     :members:
     :undoc-members:
     :show-inheritance:
