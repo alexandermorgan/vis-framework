@@ -32,7 +32,6 @@ import pandas
 from vis.models.indexed_piece import Importer, IndexedPiece
 from vis.analyzers.indexers import noterest, interval, ngram
 from vis.analyzers.experimenters import frequency
-from vis import workflow
 
 # get the path to the 'vis' directory
 import vis
@@ -97,7 +96,7 @@ class AllVoiceIntervalNGrams(TestCase):
             post_ind.append(each[0])
             post_vals.append(each[1])
         return pandas.Series(post_vals, index=post_ind)
-        
+
     def test_ngrams_1(self):
         """Integration test for ngrams."""
         expected = AllVoiceIntervalNGrams.series_maker(AllVoiceIntervalNGrams.two_grams)

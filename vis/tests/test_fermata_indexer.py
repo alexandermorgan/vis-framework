@@ -38,7 +38,7 @@ VIS_PATH = vis.__path__[0]
 class AllVoiceFermatas(TestCase):
 
     def test_fermata_indexer_1(self):
-        """all-voice fermatas; no WorkflowManager"""
+        """all-voice fermatas"""
         # Create expected.
         parts = [pandas.Series(['Fermata']*4, index=[10,19,31,46]),
                  pandas.Series(), pandas.Series(),
@@ -55,7 +55,7 @@ class AllVoiceFermatas(TestCase):
         self.assertTrue(actual['fermata.FermataIndexer'].equals(expected))
 
     def test_fermata_indexer_2(self):
-        """rest fermatas; no WorkflowManager"""
+        """rest fermatas"""
         # Create expected.
         temp = [pandas.Series(['Fermata'], index=[6]), pandas.Series(['Fermata'], index=[6])]
         expected = pandas.concat(temp, axis=1).reindex(pandas.Index([0,1,2,3,4,6]))

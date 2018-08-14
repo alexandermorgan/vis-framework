@@ -6,22 +6,17 @@ Design Principles
 Three Simple Components
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In essence, the VIS Framework is built on three simple components: *analyzers* make music analysis decisions; *models* run analyzers on a score; the *WorkflowManager* determines the order analyzers are run.
+In essence, the VIS Framework is built on three simple components: *analyzers* make music analysis decisions; *models* run analyzers on a score.
 In other words, the three components are about analysis decisions, making the decisions happen, and ordering the decision-happening.
 
 Consider this example.
 A common task for VIS is to count the number of vertical intervals in a piece of music.
-You ask the *WorkflowManager* to run this query.
-The *WorkflowManager* knows the steps involved: (1) name the notes in a score, (2) find the vertical intervals between simultaneous notes, and (3) count the number of occurrences of every interval.
-For each step, the *WorkflowManager* asks a *model* for results.
-The model represents a piece, and it knows, for example, how to find simultaneous events, and how to meaningfully organize the results of an analyzer.
-Finally, an *analyzer* makes a single type of music analysis decision, for a single moment.
+An *analyzer* makes a single type of music analysis decision, for a single moment.
 For example, the analyzer called *IntervalIndexer* takes two note names and determines the interval between them.
 
 For a relatively simple music analysis task like counting the number of vertical intervals, these three components may seem anything *but* simple.
 For more complicated music analysis tasks, the Framework's architecture begins to pay off.
 Whether finding contrapuntal modules, analyzing harmonic function, or anything else, these components will be enough to get the job done.
-To design a new query (say, if you want to label chordal dissonances) you only need to add one analyzer for every analysis decision, then tell the WorkflowManager the order the analyzers should run.
 Complicated analysis tasks will always be complicated, but VIS provides a solid, predictable Framework for any task, allowing you to focus on what's special about your query, rather than on making sure you remember how to load pieces properly.
 
 Three Levels of Interaction
@@ -32,11 +27,10 @@ Because of its flexibility, you may choose to interact with the VIS Framework on
 If you simply want to use VIS for one of its built-in queries, like finding vertical intervals or contrapuntal modules, you can use VIS **as a program**.
 You may do this through a graphical interface like the `Counterpoint Web App <https://counterpoint.elvisproject.ca>`_ or through the Python shell directly, as described in :ref:`use_as_a_program`.
 
-If the built-in :class:`WorkflowManager` does not provide the workflow you need, but you can still accomplish your query with the built-in analyzers, you can use VIS **as a library**.
+You can use VIS **as a library**.
 For example, you may wish to analyze melodic patterns with *n*-grams, as described in :ref:`tutorial-melodic_ngrams`.
 
-Finally, if your query cannot be implemented using the built-in analyzers, you can use VIS **as a framework**, adding analyzer modules and modifying the :class:`WorkflowManager` as necessary.
-For example, you may wish to DO WHATEVER WILL BE DESCRIBED IN THIS CROSS-REF.
+Finally, if your query cannot be implemented using the built-in analyzers, you can use VIS **as a framework**, adding analyzer modules as necessary.
 
 A More Detailed Look
 =========================
@@ -80,11 +74,3 @@ On the other hand, you will almost never modify the models, but call their metho
 Models know how to run analyzers on the piece or pieces they represent, how to import music21 :class:`Score` objects safely and efficiently, and how to find and access metadata.
 The models also perform some level of automated error-handling and data-coordination.
 In the future, the models may also help coordinate multiprocessing or results-caching, and they should be able to do this without a change in the API.
-
-.. _known_issues_and_limitations:
-
-Known Issues and Limitations
-============================
-* Limitation: By default, the vis framework does not use multiprocessing at all. If you install the optional packages for pandas, many of the pandas-based indexers and experimenters will use multi-threading in C. However, there are many opportunities to use multiprocessing where we have yet to do so. While we initially planned for the indexers and experimenters to use multiprocessing, we later decided that the high overhead of multiprocessing in Python means we should leave the multiprocessing implementation up to application developers---the realm of the :class:`~vis.workflow.WorkflowManager`.
-
-* Limitation: For users and developers concerned with counterpoint. The framework currently offers no way to sensitively process voice crossing in contrapuntal modules ("interval n-grams"). "Higher" and "lower" voices are consistently presented in score order. We have planned for several ways to deal with this situation, but the developer assigned to the task is a busy doctoral student and a novice programmer, so the solutions have not been fully implemented yet.

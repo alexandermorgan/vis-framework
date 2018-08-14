@@ -59,11 +59,6 @@ The `pip documentation <http://www.pip-installer.org/en/latest/installing.html>`
 
 During development, you should usually start ``python`` (or ``ipython``, etc.) from within the main "vis" directory to ensure proper importing.
 
-The :class:`~vis.workflow.WorkflowManager` is not required for the framework's operation.
-We recommend you use the :class:`WorkflowManager` directly or as an example to write new applications.
-The vis framework gives you tools to answer a wide variety of musical questions.
-The :class:`WorkflowManager` uses the framework to answer specific questions.
-Please refer to :ref:`use_the_workflowmanager` for more information.
 
 Optional: Test the Framework Before Use
 ---------------------------------------

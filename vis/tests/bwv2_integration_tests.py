@@ -32,7 +32,6 @@ import pandas
 from vis.models.indexed_piece import Importer, IndexedPiece
 from vis.analyzers.indexers import noterest, interval, ngram
 from vis.analyzers.experimenters import frequency
-from vis import workflow
 
 # get the path to the 'vis' directory
 import vis

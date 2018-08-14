@@ -6,11 +6,3 @@ vis
 
    vis.analyzers
    vis.models
-
-:mod:`workflow` Module
--------------------------------
-
-.. automodule:: vis.workflow
-    :members:
-    :undoc-members:
-    :show-inheritance:
