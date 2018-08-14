@@ -43,7 +43,7 @@ from vis.models.aggregated_pieces import AggregatedPieces
 from vis.analyzers.experimenter import Experimenter
 from vis.analyzers.experimenters import aggregator, barchart, frequency
 from vis.analyzers.indexer import Indexer
-from vis.analyzers.indexers import noterest, approach, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram, windexer
+from vis.analyzers.indexers import noterest, approach, articulation, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram, windexer
 from multi_key_dict import multi_key_dict as mkd
 from collections import Counter
 
@@ -449,6 +449,7 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         self._mkd = mkd({ # Indexers (in alphabetical order of their long-format strings):
                         ('active_voices', 'active_voices.ActiveVoicesIndexer', active_voices.ActiveVoicesIndexer): self._get_active_voices,
                         ('approach', 'approach.ApproachIndexer', approach.ApproachIndexer): self._get_approach,
+                        ('articulation', 'articulation.ArticulationIndexer', articulation.ArticulationIndexer): self._get_articulation,
                         ('contour', 'contour.ContourIndexer', contour.ContourIndexer): contour.ContourIndexer,
                         ('dissonance', 'dissonance.DissonanceIndexer', dissonance.DissonanceIndexer): self._get_dissonance,
                         ('expression', 'expression.ExpressionIndexer', expression.ExpressionIndexer): self._get_expression,
@@ -671,6 +672,13 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         if 'beat_strength' not in self._analyses:
             self._analyses['beat_strength'] = meter.NoteBeatStrengthIndexer(self._get_m21_nrc_objs_no_tied()).run()
         return self._analyses['beat_strength']
+
+    def _get_articulation(self):
+        """Used internally by get_data() to cache and retrieve results from the
+        expression.ExpressionIndexer."""
+        if 'articulation' not in self._analyses:
+            self._analyses['articulation'] = articulation.ArticulationIndexer(self._get_m21_nrc_objs_no_tied()).run()
+        return self._analyses['articulation']
 
     def _get_expression(self):
         """Used internally by get_data() to cache and retrieve results from the

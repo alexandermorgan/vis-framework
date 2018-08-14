@@ -35,7 +35,6 @@ Index music21 "expressions" such as fermatas.
 
 from music21 import expressions
 from vis.analyzers import indexer
-import pdb
 
 symbols = {
     # Expression            Kern representation
@@ -63,7 +62,6 @@ def indexer_func(event):
 
     :rtype: str or float
     """
-    # pdb.set_trace()
     if isinstance(event, float): # event is NaN
         return event
     else:
