@@ -5,7 +5,8 @@
 # Program Description:    Helps analyze music with computers.
 #
 # Filename:               analyzers/indexers/expression.py
-# Purpose:                Index music21 "expressions" such as fermatas.
+# Purpose:                Index music21 "expressions" such as fermatas and
+#                         mordents.
 #
 # Copyright (C) 2013, 2014, 2016, 2018 Christopher Antila, Ryan Bannon,
 # Alexander Morgan
@@ -38,8 +39,10 @@ from vis.analyzers import indexer
 import pdb
 
 symbols = {
-    'fermata': ';',
-    'whole step mordent': 'M',
+    # Expression            Kern representation
+    'fermata':              ';',
+    'whole step mordent':   'M',
+    'half step mordent':    'm',
     }
 
 def indexer_func(event):
