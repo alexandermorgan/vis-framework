@@ -39,12 +39,13 @@ symbols = {
     # Articulation          Kern representation
     'accent':               '?',
     'bowing':               '?',
-    'down bow':             '?',
+    'down bow':             'u',
     'harmonic':             '?',
-    'pizzicato':            '?',
-    'staccato':             '?',
-    'tenuto':               '?',
-    'up bow':               '?',
+    'pizzicato':            '"',
+    'staccatissimo':        '`',
+    'staccato':             "'",
+    'tenuto':               '~',
+    'up bow':               'v',
     }
 
 def indexer_func(event):
@@ -73,6 +74,8 @@ def indexer_func(event):
         for arti in event.articulation:
             if arti.name in symbols:
                 res.append(symbols[arti.name])
+            else:
+                res.append('I') # generic Humdrum articulation character
         if res:
             return ''.join(res)
         return float('nan')

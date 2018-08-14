@@ -39,8 +39,12 @@ from vis.analyzers import indexer
 symbols = {
     # Expression            Kern representation
     'fermata':              ';',
-    'whole step mordent':   'M',
     'half step mordent':    'm',
+    'whole step mordent':   'M',
+    'half step trill':      't',
+    'whole step trill':     'T',
+    'turn':                 'S',
+    'inverted turn':        '$', # also known as Wagnerian turn
     }
 
 def indexer_func(event):
@@ -69,6 +73,8 @@ def indexer_func(event):
         for expr in event.expressions:
             if expr.name in symbols:
                 res.append(symbols[expr.name])
+            else:
+                res.append('O') # generic Humdrum ornament character
         if res:
             return ''.join(res)
         return float('nan')
