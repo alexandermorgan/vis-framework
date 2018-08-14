@@ -29,7 +29,6 @@ The model representing data from multiple :class:`~vis.models.indexed_piece.Inde
 """
 
 import sys
-import six
 import os
 import pandas
 from vis.analyzers import experimenter
@@ -141,13 +140,13 @@ received {}. Please choose from one of the following: {}.'
                     post.append(int(poss_date[14:18]))
                 except ValueError:
                     pass
-            elif isinstance(poss_date, six.string_types):
+            elif isinstance(poss_date, str):
                 try:
                     post.append(int(poss_date[:4]))
                 except ValueError:
                     pass
         if [] != post:
-            return six.u(str(min(post))), six.u(str(max(post)))
+            return str(min(post)), str(max(post))
         else:
             return None
 
@@ -214,8 +213,8 @@ received {}. Please choose from one of the following: {}.'
             return None
 
     def _get_dendrogram(self, data, settings=None):
-        """Convenience method for plotting dendrograms. You can pass it a list of lists of pandas 
-        dataframes. If there is more than one internal list, make sure to supply the ``weights`` 
+        """Convenience method for plotting dendrograms. You can pass it a list of lists of pandas
+        dataframes. If there is more than one internal list, make sure to supply the ``weights``
         setting. See the dendrogram experimenter documentation for more details."""
         temp = []
         if isinstance(data[0][0], pandas.DataFrame):
@@ -224,7 +223,7 @@ received {}. Please choose from one of the following: {}.'
                 agg = self.get_data('aggregator', data=freq)
                 sers = [df.iloc[:, 0] for df in agg]
                 temp.append(sers)
-        
+
         if temp:
             data = temp
         # import pdb
@@ -236,23 +235,23 @@ received {}. Please choose from one of the following: {}.'
 
     def get_data(self, ind_analyzer=None, combined_experimenter=None, settings=None, data=None):
         """
-        Get the results of an :class:`Indexer` or an :class:`Experimenter` run on all the 
-        :class:`IndexedPiece` objects either individually, or all together. If settings are 
+        Get the results of an :class:`Indexer` or an :class:`Experimenter` run on all the
+        :class:`IndexedPiece` objects either individually, or all together. If settings are
         provided, the same settings dict will be used throughout.
 
-        In VIS, analyzers are broken down into two categories: Indexers which associate observations 
-        with a specific moment in a piece, and Experimenters which still work with musical 
-        observations, but do not associate them with a specific moment in a specific IndexedPiece. 
-        For example, the noterest.NoteRestIndexer associates each note and rest with a time point in 
-        a given IndexedPiece, but if we then use the frequency.FrequencyExperimenter to count the 
-        number of times each type of note or rest happens, these counts will not and cannot be 
+        In VIS, analyzers are broken down into two categories: Indexers which associate observations
+        with a specific moment in a piece, and Experimenters which still work with musical
+        observations, but do not associate them with a specific moment in a specific IndexedPiece.
+        For example, the noterest.NoteRestIndexer associates each note and rest with a time point in
+        a given IndexedPiece, but if we then use the frequency.FrequencyExperimenter to count the
+        number of times each type of note or rest happens, these counts will not and cannot be
         associated with a specific time point.
 
-        All VIS Indexers and most Experimenters  run on each piece individually, and so if  these 
-        results are desired, the analyzer in question should be assigned to the ``ind_analyzer`` 
-        argument. The barchart.RBarChart and aggregator.ColumnAggregator experimenters often 
-        combine the data of several pieces together. The frequency.FrequencyExperimenter can also 
-        be used this way. If this is the desired behavior, supply the appropriate Experimenter as 
+        All VIS Indexers and most Experimenters  run on each piece individually, and so if  these
+        results are desired, the analyzer in question should be assigned to the ``ind_analyzer``
+        argument. The barchart.RBarChart and aggregator.ColumnAggregator experimenters often
+        combine the data of several pieces together. The frequency.FrequencyExperimenter can also
+        be used this way. If this is the desired behavior, supply the appropriate Experimenter as
         the combined_experimenter argument.
 
         **Examples**
@@ -266,14 +265,14 @@ received {}. Please choose from one of the following: {}.'
         :type ind_analyzer: str or VIS Indexer or Experimenter class.
         :param settings: Settings to be used with the analyzer. Only use if necessary.
         :type settings: dict
-        :param data: Input data for the analyzer to run. If this is provided for an indexer that 
-            normally caches its results (such as the NoteRestIndexer, the DurationIndexer, etc.), 
-            the results will not be cached since it is uncertain if the input passed in the ``data`` 
+        :param data: Input data for the analyzer to run. If this is provided for an indexer that
+            normally caches its results (such as the NoteRestIndexer, the DurationIndexer, etc.),
+            the results will not be cached since it is uncertain if the input passed in the ``data``
             argument was calculated on this indexed_piece.
-        :type data: Depends on the requirement of the analyzer designated by the ``analyzer_cls`` 
+        :type data: Depends on the requirement of the analyzer designated by the ``analyzer_cls``
             argument. Usually a list of :class:`pandas.DataFrame`.
         :returns: Results of the analyzer.
-        :rtype: Depending on the ``analyzer_cls``, either a :class:`pandas.DataFrame` or more often 
+        :rtype: Depending on the ``analyzer_cls``, either a :class:`pandas.DataFrame` or more often
             a list of :class:`pandas.DataFrame`.
         :return: Either one :class:`pandas.DataFrame` with all experimental results or a list of
             :class:`DataFrame` objects, each with the experimental results for one piece.
@@ -282,7 +281,7 @@ received {}. Please choose from one of the following: {}.'
         if not self._pieces: # if there are no pieces in this aggregated_pieces object
             raise RuntimeWarning(AggregatedPieces._NO_PIECES)
 
-        if (combined_experimenter is not None and (combined_experimenter not in self._mkd.keys(str) 
+        if (combined_experimenter is not None and (combined_experimenter not in self._mkd.keys(str)
             and combined_experimenter not in self._mkd.keys(type))): # make sure combined_experimenter is an appropriate experimenter
             raise TypeError(AggregatedPieces._NOT_EXPERIMENTER.format(combined_experimenter,
                                                                       sorted([k[0] for k in self._mkd.keys()])))
@@ -290,13 +289,13 @@ received {}. Please choose from one of the following: {}.'
         args_dict = {} # Only pass the settings argument if it is not ``None``.
         if settings is not None:
             args_dict['settings'] = settings
-        
+
         if ind_analyzer is not None: # for indexers or experimenters run individually on each indexed_piece in self._pieces
             if data is None:
                 results = [p.get_data(ind_analyzer, **args_dict) for p in self._pieces]
             else:
                 results = [p.get_data(ind_analyzer, data[i], **args_dict) for i, p in enumerate(self._pieces)]
-        
+
         if combined_experimenter is not None: # for experimenters that combine all the results in the data argument
             if ind_analyzer is not None:
                 data = results

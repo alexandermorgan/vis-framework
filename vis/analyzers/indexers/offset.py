@@ -32,7 +32,6 @@ removing pre-existing events, without modifying the events
 themselves.
 """
 
-import six
 import pandas
 import numpy
 from vis.analyzers import indexer

@@ -25,10 +25,10 @@
 """
 .. codeauthor:: Christopher Antila <christopher@antila.ca>
 .. deprecated:: 3.0.0
-    The WorkflowManager is deprecated as of VIS 3.0.0 and will be entirely removed in VIS 4.0. It 
-    was an important part of VIS in earlier versions but the iterative caching strategy implemented 
-    in VIS 3.0 obviates the need for the WorkflowManager and so it is being phased out for 
-    simplicity. Most of its functionality still works with VIS 3.0, however, it is no longer being 
+    The WorkflowManager is deprecated as of VIS 3.0.0 and will be entirely removed in VIS 4.0. It
+    was an important part of VIS in earlier versions but the iterative caching strategy implemented
+    in VIS 3.0 obviates the need for the WorkflowManager and so it is being phased out for
+    simplicity. Most of its functionality still works with VIS 3.0, however, it is no longer being
     maintained or supported.
 
 The ``workflow`` module holds the :class:`WorkflowManager`, which automates several common music
@@ -38,8 +38,6 @@ new ``WorkflowManager`` classes.
 
 from os import path
 from ast import literal_eval
-import six
-from six.moves import range, xrange  # pylint: disable=import-error,redefined-builtin
 import pandas
 import vis
 from vis.models import indexed_piece
@@ -69,10 +67,10 @@ def split_part_combo(key):
 
 class WorkflowManager(object):
     """
-    Warning: The WorkflowManager is deprecated as of VIS 3.0 and will be entirely removed in 
-    VIS 4.0. Most of its functionality still works with VIS 3.0 but this is not guaranteed and it 
+    Warning: The WorkflowManager is deprecated as of VIS 3.0 and will be entirely removed in
+    VIS 4.0. Most of its functionality still works with VIS 3.0 but this is not guaranteed and it
     is no longer being supported in development.
-    
+
     :parameter pathnames: A list of pathnames.
     :type pathnames: list or tuple of string or :class:`~vis.models.indexed_piece.IndexedPiece`
 
@@ -138,13 +136,13 @@ class WorkflowManager(object):
         # ensure ``pathnames`` is a list or tuple of string...
         # this may have security repercussions, as noted in GH#332
         if not (isinstance(pathnames, (list, tuple)) and
-                all(map(lambda x: isinstance(x, (six.string_types, indexed_piece.IndexedPiece)), pathnames))):
+                all(map(lambda x: isinstance(x, (str, indexed_piece.IndexedPiece)), pathnames))):
             raise TypeError(WorkflowManager._BAD_INIT_ARG)
 
         # create the list of IndexedPiece objects
         self._data = []
         for each_val in pathnames:
-            if isinstance(each_val, six.string_types):
+            if isinstance(each_val, str):
                 self._data.append(indexed_piece.IndexedPiece(each_val))
             elif isinstance(each_val, indexed_piece.IndexedPiece):
                 self._data.append(each_val)
@@ -227,7 +225,7 @@ class WorkflowManager(object):
         elif 'hdf5' == instruction or 'stata' == instruction or 'pickle' == instruction:
             raise NotImplementedError('The ' + instruction + ' instruction does\'t work yet!')
         else:
-            raise RuntimeError('Unrecognized load() instruction: "' + six.u(instruction) + '"')
+            raise RuntimeError('Unrecognized load() instruction: "' + instruction + '"')
         self._loaded = True
 
     def _get_unique_combos(self, index):

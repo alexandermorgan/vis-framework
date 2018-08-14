@@ -29,7 +29,6 @@
 
 
 import unittest
-import six
 import numpy
 import pandas
 from vis.analyzers.experimenters.frequency import FrequencyExperimenter
@@ -69,10 +68,7 @@ class TestFrequency(unittest.TestCase):
         for each_df in actual:
             each_df = each_df['frequency.FrequencyExperimenter']
             self.assertEqual(1, len(each_df.columns))
-            if six.PY2:
-                self.assertItemsEqual(list(self.freq_a.index), list(each_df['a'].index))
-            else:
-                self.assertCountEqual(list(self.freq_a.index), list(each_df['a'].index))
+            self.assertCountEqual(list(self.freq_a.index), list(each_df['a'].index))
             for each in self.freq_a.index:
                 self.assertEqual(self.freq_a[each], each_df['a'][each])
 
@@ -89,31 +85,19 @@ class TestFrequency(unittest.TestCase):
         self.assertEqual(2, len(left_df.columns))
         self.assertEqual(2, len(right_df.columns))
         # left, column 'a'
-        if six.PY2:
-            self.assertItemsEqual(list(self.freq_a.index), list(left_df['a'].index))
-        else:
-            self.assertCountEqual(list(self.freq_a.index), list(left_df['a'].index))
+        self.assertCountEqual(list(self.freq_a.index), list(left_df['a'].index))
         for each in self.freq_a.index:
             self.assertEqual(self.freq_a[each], left_df['a'][each])
         # left, column 'b'
-        if six.PY2:
-            self.assertItemsEqual(list(self.freq_b.index), list(left_df['b'].index))
-        else:
-            self.assertCountEqual(list(self.freq_a.index), list(left_df['b'].index))
+        self.assertCountEqual(list(self.freq_a.index), list(left_df['b'].index))
         for each in self.freq_a.index:
             self.assertEqual(self.freq_b[each], left_df['b'][each])
         # rightt, column 'c'
-        if six.PY2:
-            self.assertItemsEqual(list(self.freq_c.index), list(right_df['c'].index))
-        else:
-            self.assertCountEqual(list(self.freq_a.index), list(right_df['c'].index))
+        self.assertCountEqual(list(self.freq_a.index), list(right_df['c'].index))
         for each in self.freq_a.index:
             self.assertEqual(self.freq_c[each], right_df['c'][each])
         # right, column 'd'  (the only column with NaN)
-        if six.PY2:
-            self.assertItemsEqual(list(self.freq_d.index), list(right_df['d'].index))
-        else:
-            self.assertCountEqual(list(self.freq_a.index), list(right_df['d'].index))
+        self.assertCountEqual(list(self.freq_a.index), list(right_df['d'].index))
         for each in self.freq_a.index:
             if numpy.isnan(self.freq_d[each]):  # pylint: disable=no-member
                 self.assertTrue(numpy.isnan(right_df['d'][each]))  # pylint: disable=no-member

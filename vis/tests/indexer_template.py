@@ -63,10 +63,7 @@
 
 
 import unittest
-if six.PY3:
-    from unittest import mock
-else:
-    import mock
+from unittest import mock
 import pandas
 from vis.analyzers.indexers import template
 

@@ -31,7 +31,6 @@
 
 import os
 import unittest
-import six
 import pandas
 from music21 import interval, note
 from vis.analyzers.indexers.interval import IntervalIndexer, HorizontalIntervalIndexer, real_indexer_func, indexer_funcs

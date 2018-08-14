@@ -28,13 +28,8 @@ Tests for :py:class:`~vis.models.indexed_piece.IndexedPiece`.
 
 import os
 from unittest import TestCase, TestLoader
-import six
-if six.PY3:
-    from unittest import mock
-    from unittest.mock import call, patch, MagicMock, Mock
-else:
-    import mock
-    from mock import call, patch, MagicMock, Mock
+from unittest import mock
+from unittest.mock import call, patch, MagicMock, Mock
 import pandas
 import music21
 from music21 import converter
@@ -135,7 +130,7 @@ class TestIndexedPieceA(TestCase):
 
 class TestPartsAndTitles(TestCase):
    # NB: These tests take a while because they involve actual imports, then run the
-   # _find_part_names() and _find_piece_title() methods. The different files are actually 
+   # _find_part_names() and _find_piece_title() methods. The different files are actually
    # different filetypes.
    # NOTE: not testing "Sanctus.krn" because it's an Opus, and we can't deal with them yet.
     def test_bwv77(self):

@@ -31,7 +31,6 @@ This model represents an indexed and analyzed piece of music.
 
 # Imports
 import os
-import six
 import requests
 import warnings
 import json
@@ -39,7 +38,6 @@ import music21
 import music21.chord as chord
 import pandas
 import numpy
-from six.moves import range, xrange  # pylint: disable=import-error,redefined-builtin
 from music21 import converter, stream, analysis
 from vis.models.aggregated_pieces import AggregatedPieces
 from vis.analyzers.experimenter import Experimenter
@@ -104,11 +102,11 @@ def _find_piece_title(the_score):
     # we used the filename or if music21 did a less-than-great job at the
     # Metadata object.
     # TODO: test this "if" stuff
-    if not isinstance(post, six.string_types):  # uh-oh
+    if not isinstance(post, str):  # uh-oh
         try:
             post = str(post)
         except UnicodeEncodeError:
-            post = unicode(post) if six.PY2 else _UNKNOWN_PIECE_TITLE
+            _UNKNOWN_PIECE_TITLE
     post = os.path.splitext(post)[0]
 
     return post
@@ -133,7 +131,7 @@ def _find_part_names(list_of_parts):
         if instr is not None and instr.partName != '' and instr.partName is not None:
             name = instr.partName
         elif each_part.id is not None:
-            if isinstance(each_part.id, six.string_types):
+            if isinstance(each_part.id, str):
                 # part ID is a string, so that's what we were hoping for
                 name = each_part.id
         # Make sure none of the part names are just 'None'.
@@ -490,7 +488,7 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
             return '<IndexedPiece ({})>'.format(self.metadata('pathname'))
 
     def __unicode__(self):
-        return six.u(str(self))
+        return str(self)
 
     def metadata(self, field, value=None):
         """
@@ -554,7 +552,7 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         >>> piece.metadata('parts')
         ['Flute 1'{'Flute 2'{'Oboe 1'{'Oboe 2'{'Clarinet 1'{'Clarinet 2', ... ]
         """
-        if not isinstance(field, six.string_types):
+        if not isinstance(field, str):
             raise TypeError(IndexedPiece._META_INVALID_TYPE)
         elif field not in self._metadata:
             raise AttributeError(IndexedPiece._INVALID_FIELD.format(field))

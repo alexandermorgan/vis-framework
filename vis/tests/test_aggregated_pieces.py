@@ -28,11 +28,7 @@ Tests for :py:class:`~vis.models.aggregated_pieces.AggregatedPieces`.
 
 import os
 from unittest import TestCase, TestLoader
-import six
-if six.PY3:
-    from unittest.mock import MagicMock, Mock
-else:
-    from mock import MagicMock, Mock
+from unittest.mock import MagicMock, Mock
 import pandas
 from vis.analyzers.indexer import Indexer
 from vis.analyzers.experimenter import Experimenter
@@ -171,7 +167,7 @@ class TestAggregatedPieces(TestCase):
             self.assertEqual(AggregatedPieces._NO_PIECES, r_warn.args[0])
 
     def test_get_data_3(self):
-        """integration test with a nested called to get_data, an ind_analyzer and a 
+        """integration test with a nested called to get_data, an ind_analyzer and a
         combined_experimenter"""
         expected = pandas.Series([4.0,2.0,2.0,2.0,2.0,2.0,2.0,4.0],
                                  index=['C3','C4','D4','E4','F4','G2','G4','Rest'])
@@ -224,7 +220,7 @@ class TestImporter(TestCase):
         agg = Importer(path)
         self.assertTrue(isinstance(agg, AggregatedPieces))
 
-    # Commented out because we can't be sure which metafile corresponds to whic piece if there is 
+    # Commented out because we can't be sure which metafile corresponds to whic piece if there is
     # more than one metafile.
     # def test_Importer5(self):
     #     """When there are as many metafiles as there are pieces."""

@@ -27,11 +27,7 @@ Tests for the WorkflowManager
 """
 
 from unittest import TestCase, TestLoader
-import six
-if six.PY3:
-    from unittest import mock
-else:
-    import mock
+from unittest import mock
 from mock import MagicMock
 import pandas
 from vis.workflow import WorkflowManager

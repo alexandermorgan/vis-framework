@@ -49,7 +49,6 @@ The :class:`TemplateIndexer` does nothing, and should only be used by programmer
     #. Finally, run ``pylint`` with the VIS style rules.
 """
 
-import six
 from vis.analyzers import indexer
 
 
@@ -180,4 +179,4 @@ class TemplateIndexer(indexer.Indexer):
         # as written for nearly all cases, but refer to the documentation for make_return() for
         # more information. The string-slicing simply removes the ``'['`` and ``']'`` characters
         # that appear because each combination is a list.
-        return self.make_return([six.u(x)[1:-1] for x in combinations], results)
+        return self.make_return([x[1:-1] for x in combinations], results)

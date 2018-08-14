@@ -33,7 +33,6 @@ Index music21 "expressions" such as fermatas.
 
 """
 
-import six
 from music21 import expressions
 from vis.analyzers import indexer
 import pdb

@@ -30,7 +30,6 @@
 
 import os
 import unittest
-import six
 import pandas
 from music21 import converter, stream, clef, bar, note
 from vis.analyzers.indexers import meter
@@ -149,7 +148,7 @@ class TestDurationIndexer(unittest.TestCase):
         self.assertTrue(actual.equals(expected))
 
     def test_duration_indexer_5(self):
-        # Alto part of bwv603.mxl which is a part with ties. Also test that data argument is passed 
+        # Alto part of bwv603.mxl which is a part with ties. Also test that data argument is passed
         # correctly. Since the data argument is passed, these results should not be cached.
         expected = TestDurationIndexer.make_series(TestDurationIndexer.bwv603_alto)
         ip = Importer(os.path.join(VIS_PATH, 'tests', 'corpus/bwv603.xml'))

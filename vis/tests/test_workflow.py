@@ -32,11 +32,7 @@ Tests for the WorkflowManager
 
 import os
 from unittest import TestCase, TestLoader
-import six
-if six.PY3:
-    from unittest import mock
-else:
-    import mock
+from unittest import mock
 from mock import MagicMock
 from numpy import NaN
 import pandas
@@ -924,14 +920,9 @@ class AuxiliaryExperimentMethods(TestCase):
 
         # in py3, map() returns a map() instance, which doesn't end up working, somehow
         self.assertIsInstance(workm._get_unique_combos(0), list)
-        if six.PY2:
-            self.assertItemsEqual(expected_0, workm._get_unique_combos(0))  # pylint: disable=protected-access
-            self.assertItemsEqual(expected_1, workm._get_unique_combos(1))  # pylint: disable=protected-access
-            self.assertItemsEqual(expected_2, workm._get_unique_combos(2))  # pylint: disable=protected-access
-        else:
-            self.assertCountEqual(expected_0, workm._get_unique_combos(0))  # pylint: disable=protected-access
-            self.assertCountEqual(expected_1, workm._get_unique_combos(1))  # pylint: disable=protected-access
-            self.assertCountEqual(expected_2, workm._get_unique_combos(2))  # pylint: disable=protected-access
+        self.assertCountEqual(expected_0, workm._get_unique_combos(0))  # pylint: disable=protected-access
+        self.assertCountEqual(expected_1, workm._get_unique_combos(1))  # pylint: disable=protected-access
+        self.assertCountEqual(expected_2, workm._get_unique_combos(2))  # pylint: disable=protected-access
 
     def test_unique_combos_2(self):
         """_get_unique_combos() with all some duplicates"""
@@ -943,14 +934,9 @@ class AuxiliaryExperimentMethods(TestCase):
         expected_1 = [[0, 1], [0, 2], [0, 3]]
         expected_2 = [[0, 1], [1, 2], [2, 3, 4]]
 
-        if six.PY2:
-            self.assertItemsEqual(expected_0, workm._get_unique_combos(0))  # pylint: disable=protected-access
-            self.assertItemsEqual(expected_1, workm._get_unique_combos(1))  # pylint: disable=protected-access
-            self.assertItemsEqual(expected_2, workm._get_unique_combos(2))  # pylint: disable=protected-access
-        else:
-            self.assertCountEqual(expected_0, workm._get_unique_combos(0))  # pylint: disable=protected-access
-            self.assertCountEqual(expected_1, workm._get_unique_combos(1))  # pylint: disable=protected-access
-            self.assertCountEqual(expected_2, workm._get_unique_combos(2))  # pylint: disable=protected-access
+        self.assertCountEqual(expected_0, workm._get_unique_combos(0))  # pylint: disable=protected-access
+        self.assertCountEqual(expected_1, workm._get_unique_combos(1))  # pylint: disable=protected-access
+        self.assertCountEqual(expected_2, workm._get_unique_combos(2))  # pylint: disable=protected-access
 
 #-------------------------------------------------------------------------------------------------#
 # Definitions                                                                                     #

@@ -8,8 +8,6 @@ from vis.analyzers.experimenters import frequency
 from vis import workflow
 from numpy import nan, isnan
 import numpy
-import six
-from six.moves import range, xrange  # pylint: disable=import-error,redefined-builtin
 import time
 import pdb
 from music21 import converter, stream, expressions, note
@@ -38,7 +36,7 @@ def main():
 
     t0 = time.time()
     actual = noterest.NoteRestIndexer(test_parts).run()
-    
+
     # filter_setts = {'quarterLength': 2.0, 'method':None}
     # filtered_results = offset.FilterByOffsetIndexer(actual, filter_setts).run()
     # pdb.set_trace()
@@ -60,4 +58,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

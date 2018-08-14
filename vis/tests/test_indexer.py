@@ -31,11 +31,7 @@
 
 import unittest
 import copy
-import six
-if six.PY3:
-    from unittest import mock
-else:
-    import mock
+from unittest import mock
 from numpy import NaN
 import pandas
 from music21 import base, stream, duration, note, converter, clef
@@ -44,7 +40,7 @@ from vis.tests.corpus import int_indexer_short
 
 
 def fake_indexer_func(ecks):
-    return six.u(str(ecks))
+    return str(ecks)
 
 
 class TestIndexerInit(unittest.TestCase):
@@ -202,12 +198,8 @@ class TestIndexerInit(unittest.TestCase):
         test_parts = [pandas.Series()]
         settings = {}
         self.assertRaises(TypeError, TestIndexer, test_parts, settings)
-        if six.PY2:
-            exp_err = "<class 'vis.tests.test_indexer.TestIndexer'>"
-            exp_err = indexer.Indexer._INIT_TYPE_ERR.format(exp_err, "stream.Part")
-        else:
-            exp_err = "<class 'vis.tests.test_indexer.TestIndexerInit.test_indexer_init_7.<locals>.TestIndexer'>"
-            exp_err = indexer.Indexer._INIT_TYPE_ERR.format(exp_err, "stream.Part")
+        exp_err = "<class 'vis.tests.test_indexer.TestIndexerInit.test_indexer_init_7.<locals>.TestIndexer'>"
+        exp_err = indexer.Indexer._INIT_TYPE_ERR.format(exp_err, "stream.Part")
         try:
             TestIndexer(test_parts, settings)
         except TypeError as err:
@@ -223,12 +215,8 @@ class TestIndexerInit(unittest.TestCase):
         test_parts = [pandas.Series()]
         settings = {}
         self.assertRaises(TypeError, TestIndexer, test_parts, settings)
-        if six.PY2:
-            exp_err = "<class 'vis.tests.test_indexer.TestIndexer'>"
-            exp_err = indexer.Indexer._INIT_KEY_ERR.format(exp_err, "stream.Part")
-        else:
-            exp_err = "<class 'vis.tests.test_indexer.TestIndexerInit.test_indexer_init_8.<locals>.TestIndexer'>"
-            exp_err = indexer.Indexer._INIT_KEY_ERR.format(exp_err, "stream.Part")
+        exp_err = "<class 'vis.tests.test_indexer.TestIndexerInit.test_indexer_init_8.<locals>.TestIndexer'>"
+        exp_err = indexer.Indexer._INIT_KEY_ERR.format(exp_err, "stream.Part")
         try:
             TestIndexer(test_parts, settings)
         except TypeError as err:
@@ -254,11 +242,11 @@ def verbatim_ser(iterable):
 
 
 def verbatim_rests(arg):
-    return 'Rest' if isinstance(arg[0], note.Rest) else six.u(str(arg[0].obj))
+    return 'Rest' if isinstance(arg[0], note.Rest) else str(arg[0].obj)
 
 
 def verbatim_variable(iterable):
-    return six.u(str(tuple(item.obj for item in iterable)))
+    return str(tuple(item.obj for item in iterable))
 
 
 # Jamie: pylint says we have 8 instance attributes on this bad boy, which is just too many.

@@ -30,11 +30,7 @@
 
 import os
 import unittest
-import six
-if six.PY3:
-    from unittest import mock
-else:
-    import mock
+from unittest import mock
 import pandas
 from vis.analyzers.indexers.offset import FilterByOffsetIndexer
 from vis.models.indexed_piece import Importer
@@ -80,7 +76,7 @@ class TestOffsetIndexerSinglePart(unittest.TestCase):
             FilterByOffsetIndexer(in_val, setts)
         except RuntimeError as run_err:
             self.assertEqual(FilterByOffsetIndexer._ZERO_PART_ERROR, run_err.args[0])
-    
+
     def test_run_1_a(self):
         # try statement correctly finds minimum start_offset and whole index when no series is empty.
         in_val = [pandas.Series(['A', 'B'], name=('N', '0')),
@@ -107,7 +103,7 @@ class TestOffsetIndexerSinglePart(unittest.TestCase):
         actual = FilterByOffsetIndexer(in_val, settings).run()
         self.assertListEqual(list(actual.index), [0.0, 1.0])
         self.assertEqual(len(actual.columns), 2)
-        
+
     def test_run_2_b(self):
         # checks if the index and number of columns are correct if all the passed series are empty.
         in_val = [pandas.Series(name=('N', '0')), pandas.Series(name=('N', '1'))]

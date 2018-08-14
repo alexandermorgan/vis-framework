@@ -26,7 +26,6 @@
 import os
 from unittest import TestCase, TestLoader
 import pandas
-from six.moves import range  # pylint: disable=import-error,redefined-builtin
 from vis.models.indexed_piece import Importer, IndexedPiece
 from vis.analyzers.indexers import fermata
 # get the path to the 'vis' directory
@@ -43,7 +42,7 @@ class AllVoiceFermatas(TestCase):
         # Create expected.
         parts = [pandas.Series(['Fermata']*4, index=[10,19,31,46]),
                  pandas.Series(), pandas.Series(),
-                 pandas.Series(['Fermata']*4, index=[10,19,31,46])]        
+                 pandas.Series(['Fermata']*4, index=[10,19,31,46])]
         expected = pandas.concat(parts, axis=1)
         indx = pandas.Index(range(47))
         expected = expected.reindex(index=indx)

@@ -30,7 +30,6 @@
 The controllers that deal with indexing data from music21 Score objects.
 """
 
-import six
 import pandas
 from music21 import stream, converter
 import multiprocessing as mp
@@ -308,7 +307,7 @@ class Indexer(object):
 
         :param labels: Indices of the parts or the part combinations, or another descriptive label
             as described in the indexer subclass documentation.
-        :type labels: list of six.string_types
+        :type labels: list of strings
         :param indices: The results of the indexer.
         :type indices: list of :class:`pandas.Series` or a :class:`pandas.DataFrame`
 
@@ -328,8 +327,8 @@ class Indexer(object):
             ret = pandas.concat(indices, levels=labels, axis=1)
 
         # make the indexer's name using filename and classname (but not full class name)
-        my_mod = six.u(str(self.__module__))[six.u(str(self.__module__)).rfind('.') + 1:]
-        my_class = six.u(str(self.__class__))[six.u(str(self.__class__)).rfind('.'):-2]
+        my_mod = str(self.__module__)[str(self.__module__).rfind('.') + 1:]
+        my_class = str(self.__class__)[str(self.__class__).rfind('.'):-2]
         my_name = my_mod + my_class
 
         # Apply the multi_index as the column labels.
