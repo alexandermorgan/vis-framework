@@ -46,7 +46,7 @@ def beatstrength_ind_func(event):
     :param event: A music21 note, rest, or chord object which get queried for its beat strength.
     :type event: A music21 note, rest, or chord object or NaN.
 
-    :returns: The :attr:`~music21.base.Music21Object.beatStrength` of the event which is dependent 
+    :returns: The :attr:`~music21.base.Music21Object.beatStrength` of the event which is dependent
         on the prevailing time signature.
     :rtype: float
     """
@@ -56,8 +56,8 @@ def beatstrength_ind_func(event):
 
 def measure_ind_func(event):
     """
-    The function that indexes the measure numbers of each part in a piece. Unlike most other 
-    indexers, this one returns int values. Measure numbering starts from 1 unless there is a pick-up 
+    The function that indexes the measure numbers of each part in a piece. Unlike most other
+    indexers, this one returns int values. Measure numbering starts from 1 unless there is a pick-up
     measure which gets the number 0. This can handle changes in time signature without problems.
 
     :param event: A music21 measure object which get queried for its "number" attribute.
@@ -73,12 +73,12 @@ def measure_ind_func(event):
 
 class NoteBeatStrengthIndexer(indexer.Indexer):
     """
-    Make an index of the :attr:`~music21.base.Music21Object.beatStrength` for all :class:`Note`, 
+    Make an index of the :attr:`~music21.base.Music21Object.beatStrength` for all :class:`Note`,
     :class:`Rest`, and :class:`Chord` objects.
 
     .. note:: Unlike nearly all other indexers, this indexer returns a :class:`Series` of ``float``
     objects rather than ``unicode`` objects.
-    
+
     **Example:**
     from vis.models.indexed_piece import Importer
     ip = Importer('pathnameToScore.xml')
@@ -104,11 +104,11 @@ class NoteBeatStrengthIndexer(indexer.Indexer):
 
 class DurationIndexer(indexer.Indexer):
     """
-    Make an index of the durations of all :class:`Note`, :class:`Rest`, and :class:`Chord` objects. 
+    Make an index of the durations of all :class:`Note`, :class:`Rest`, and :class:`Chord` objects.
     These are calculated based on the difference in index positions of consecutive events.
 
     .. note:: Unlike nearly all other indexers, this indexer returns a :class:`Series` of ``float``
-    objects rather than ``unicode`` objects. Also unlike most other indexers, this indexer does not 
+    objects rather than ``unicode`` objects. Also unlike most other indexers, this indexer does not
     have an indexer func.
 
     **Example:**
@@ -153,11 +153,11 @@ class DurationIndexer(indexer.Indexer):
 
 class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
     """
-    Make an index of the measures in a piece. Time signatures changes do not cause a problem. Note 
-    that unlike most other indexers this one returns integer values >= 0. Using music21's 
-    part.measureTemplate() function is an alternative but it turned out to be much less efficient 
-    to looping over the piece and doing it this way makes this indexer just like all the other 
-    stream indexers in VIS. 
+    Make an index of the measures in a piece. Time signatures changes do not cause a problem. Note
+    that unlike most other indexers this one returns integer values >= 0. Using music21's
+    part.measureTemplate() function is an alternative but it turned out to be much less efficient
+    to looping over the piece and doing it this way makes this indexer just like all the other
+    stream indexers in VIS.
 
     **Example:**
     from vis.models.indexed_piece import Importer
@@ -171,11 +171,38 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
         """
         :param score: :class:`pandas.DataFrame` of music21 measure objects.
         :type score: :class:`pandas.DataFrame`
-        
+
         :raises: :exc:`RuntimeError` if ``score`` is the wrong type.
         """
         super(MeasureIndexer, self).__init__(score, None)
         self._types = ('Measure',)
+        self._indexer_func = measure_ind_func
+
+    # NB: This indexer inherits its run() method from indexer.py
+
+class MensurationIndexer(indexer.Indexer): # MeasureIndexer is still experimental
+    """
+    Make an index of the mensuration signs in a piece. This is independent of
+    time signature changes. music21 doesn't seem to support mensuration signs,
+    so development on this indexer is stalled for the moment.
+
+    **Example:**
+    from vis.models.indexed_piece import Importer
+    ip = Importer('pathnameToScore.xml')
+    ip.get_data('mensuration')
+    """
+
+    required_score_type = 'pandas.DataFrame'
+
+    def __init__(self, score):
+        """
+        :param score: :class:`pandas.DataFrame` of music21 measure objects.
+        :type score: :class:`pandas.DataFrame`
+
+        :raises: :exc:`RuntimeError` if ``score`` is the wrong type.
+        """
+        super(MeasureIndexer, self).__init__(score, None)
+        self._types = ('Mensuration',)
         self._indexer_func = measure_ind_func
 
     # NB: This indexer inherits its run() method from indexer.py
