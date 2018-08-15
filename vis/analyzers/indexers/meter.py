@@ -36,6 +36,7 @@ Indexers for metric concerns.
 import pandas
 from vis.analyzers import indexer
 
+tie_types = {'start': '[', 'continue': '_', 'end': ']'}
 
 def beatstrength_ind_func(event):
     """
@@ -69,6 +70,28 @@ def measure_ind_func(event):
     if isinstance(event, float):
         return event
     return event.number
+
+def tie_ind_func(event):
+    """
+    Handles music21 note, rest, or chord objects and identifies what type of
+    tie they have, if anyself.
+
+    :param event: A music21 note, rest, or chord objectself.
+    :type event: A music21 object or a float('nan').
+
+    :returns: The Humdrum representation of the event's tie type, or NaN if
+        if there isn't one or if the object was a NaN to begin withself.
+    :rtype: string or float('nan')
+    """
+    if isinstance(event, float):
+        return event
+    elif hasattr(event, 'tie') and event.tie is not None:
+        if eve
+
+
+    if hasattr(event, 'tie') and event.tie is not None and event.tie.type != 'start':
+        return float('nan')
+    return tie_types[event.tie.type]
 
 
 class NoteBeatStrengthIndexer(indexer.Indexer):
@@ -151,6 +174,37 @@ class DurationIndexer(indexer.Indexer):
         return self.make_return(self._score.columns.get_level_values(1), result)
 
 
+
+class TieIndexer(indexer.Indexer):
+    """
+    Make an index of the ties in a piece. start, continue, and end tie types
+    (music21 terminology) are indexed and represented with the Humdrum tokens
+    '[', '_', and ']' respectively.
+
+    **Example:**
+    from vis.models.indexed_piece import Importer
+    ip = Importer('pathnameToScore.xml')
+    ip.get_data('tie')
+    """
+
+    required_score_type = 'pandas.DataFrame'
+
+    def __init__(self, score):
+        """
+        :param score: :class:`pandas.DataFrame` of music21 note, rest, and
+            chord objects.
+        :type score: :class:`pandas.DataFrame`
+
+        :raises: :exc:`RuntimeError` if ``score`` is the wrong type.
+        """
+        super(MeasureIndexer, self).__init__(score, None)
+        self._types = ('Note', 'Rest', 'Chord')
+        self._indexer_func = tie_ind_func
+
+    # NB: This indexer inherits its run() method from indexer.py
+
+
+
 class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
     """
     Make an index of the measures in a piece. Time signatures changes do not cause a problem. Note
@@ -180,7 +234,9 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
 
     # NB: This indexer inherits its run() method from indexer.py
 
-class MensurationIndexer(indexer.Indexer): # MeasureIndexer is still experimental
+
+
+class MensurationIndexer(indexer.Indexer):
     """
     Make an index of the mensuration signs in a piece. This is independent of
     time signature changes. music21 doesn't seem to support mensuration signs,
@@ -203,6 +259,6 @@ class MensurationIndexer(indexer.Indexer): # MeasureIndexer is still experimenta
         """
         super(MeasureIndexer, self).__init__(score, None)
         self._types = ('Mensuration',)
-        self._indexer_func = measure_ind_func
+        self._indexer_func = mensuration_ind_func
 
     # NB: This indexer inherits its run() method from indexer.py
