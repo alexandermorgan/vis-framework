@@ -187,12 +187,6 @@ def _type_func_voice(event):
         return event
     return float('nan')
 
-def _type_func_time_signature(event):
-    """Used internally by _get_time_signature() to filter for just the time signatures in a piece."""
-    if 'TimeSignature' in event.classes:
-        return event.ratioString
-    return float('nan')
-
 def _get_pitches(event):
     """Used internally by _combine_voices() to represent all the note and chord objects of a part as
     music21 pitches. Rests get discarded in this stage, but later re-instated with
@@ -459,6 +453,7 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
             ('me', 'measure', 'meter.MeasureIndexer', meter.MeasureIndexer): self._get_measure,
             ('bs', 'beat_strength', 'meter.NoteBeatStrengthIndexer', meter.NoteBeatStrengthIndexer): self._get_beat_strength,
             ('ti', 'tie', 'meter.TieIndexer', meter.TieIndexer): self._get_tie,
+            ('ts', 'time_signature', 'meter.TimeSignatureIndexer', meter.TimeSignatureIndexer): self._get_time_signature,
             ('ng', 'ngram', 'ngram.NGramIndexer', ngram.NGramIndexer): self._get_ngram,
             ('mu', 'multistop', 'noterest.MultiStopIndexer', noterest.MultiStopIndexer): self._get_multistop,
             ('nr', 'noterest', 'noterest.NoteRestIndexer', noterest.NoteRestIndexer): self._get_noterest,
@@ -793,11 +788,9 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         return offset.FilterByOffsetIndexer(data, settings).run()
 
     def _get_time_signature(self):
-        """Experimental method used only by the offset indexer when its 'dynamic' setting is
-        active. This returns a dataframe of the time signature strings in a piece."""
+        """Fetches and caches a dataframe of the time signatures in a piece."""
         if 'time_signature' not in self._analyses:
-            lyst = [ser.apply(_type_func_time_signature).dropna() for ser in self._get_m21_objs()]
-            self._analyses['time_signature'] = pandas.concat(lyst, axis=1)
+            self._analyses['time_signature'] = meter.TimeSignatureIndexer(self._get_m21_objs()).run()
         return self._analyses['time_signature']
 
 
