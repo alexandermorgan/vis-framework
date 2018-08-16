@@ -454,6 +454,7 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
             ('bs', 'beat_strength', 'meter.NoteBeatStrengthIndexer', meter.NoteBeatStrengthIndexer): self._get_beat_strength,
             ('ti', 'tie', 'meter.TieIndexer', meter.TieIndexer): self._get_tie,
             ('ts', 'time_signature', 'meter.TimeSignatureIndexer', meter.TimeSignatureIndexer): self._get_time_signature,
+            # ('mn', 'mensuration', 'meter.MensurationIndexer', meter.MensurationIndexer): self._get_mensuration, # Not currently supported by m21
             ('ng', 'ngram', 'ngram.NGramIndexer', ngram.NGramIndexer): self._get_ngram,
             ('mu', 'multistop', 'noterest.MultiStopIndexer', noterest.MultiStopIndexer): self._get_multistop,
             ('nr', 'noterest', 'noterest.NoteRestIndexer', noterest.NoteRestIndexer): self._get_noterest,
@@ -767,9 +768,14 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
             self._analyses['m21_measure_objs'] = pandas.concat(sers, axis=1)
         return self._analyses['m21_measure_objs']
 
-    def _get_measure(self):
-        """Fetches and caches a dataframe of the measure numbers in a piece."""
-        if 'measure' not in self._analyses:
+    def _get_measure(self, settings=None):
+        """Fetches and caches a dataframe of the measure numbers in a piece.
+        Can also return Humdrum-style measure numbers if {'style': 'Humdrum'}
+        is passed as the settings. In this case, the results are not cached."""
+        if (settings is not None and 'style' in settings and
+            settings['style'] == 'Humdrum'): # this case is not cached.
+            return meter.MeasureIndexer(self._get_m21_measure_objs(), settings).run()
+        elif 'measure' not in self._analyses:
             self._analyses['measure'] = meter.MeasureIndexer(self._get_m21_measure_objs()).run()
         return self._analyses['measure']
 

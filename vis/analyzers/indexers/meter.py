@@ -61,7 +61,7 @@ def measure_ind_func(event):
     indexers, this one returns int values. Measure numbering starts from 1 unless there is a pick-up
     measure which gets the number 0. This can handle changes in time signature without problems.
 
-    :param event: A music21 measure object which get queried for its "number" attribute.
+    :param event: A music21 measure object which gets queried for its "number" attribute.
     :type event: A music21 measure object or NaN.
 
     :returns: The number attribute of the passed music21 measure.
@@ -70,6 +70,24 @@ def measure_ind_func(event):
     if isinstance(event, float):
         return event
     return event.number
+
+def humdrum_measure_ind_func(event):
+    """
+    The function that indexes the measures in a piece and represents them with
+    the Humdrum-style strings. When using the measure indexer, use this setting
+    to get results in this way: settings = {'style': 'Humdrum'}
+
+    :param event: A music21 measure object that gets queried for its "number"
+        and style.
+    :type event: A music21 measure object or NaN.
+
+    :returns: The Humdrum-style string representation of the measure number and
+        it's style (i.e., normal, end, etc.).
+    :rtype: string or NaN.
+    """
+    if isinstance(event, float):
+        return event
+    return '=' + str(event.number)
 
 def tie_ind_func(event):
     """
@@ -225,7 +243,9 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
     that unlike most other indexers this one returns integer values >= 0. Using music21's
     part.measureTemplate() function is an alternative but it turned out to be much less efficient
     to looping over the piece and doing it this way makes this indexer just like all the other
-    stream indexers in VIS.
+    stream indexers. This indexer is experimental because it does not support the indexing of
+    measures in midi pieces yet. For Humdrum-style measure representations, set the 'style'
+    setting to 'Humdrum'.
 
     **Example:**
     from vis.models.indexed_piece import Importer
@@ -234,17 +254,26 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
     """
 
     required_score_type = 'pandas.DataFrame'
+    possible_settings = ('style')
 
-    def __init__(self, score):
+    def __init__(self, score, settings=None):
         """
         :param score: :class:`pandas.DataFrame` of music21 measure objects.
-        :type score: :class:`pandas.DataFrame`
+        :type score: :class:`pandas.DataFrame`.
+
+        :param settings: Only setting is 'style'. If it's set to 'Humdrum',
+            will return Humdrum-style measure strings.
+        :type settings: Dict or None.
 
         :raises: :exc:`RuntimeError` if ``score`` is the wrong type.
         """
-        super(MeasureIndexer, self).__init__(score, None)
+        super(MeasureIndexer, self).__init__(score, settings)
         self._types = ('Measure',)
-        self._indexer_func = measure_ind_func
+        if (isinstance(settings, dict) and 'style' in settings and
+            settings['style'] == 'Humdrum'):
+            self._indexer_func = humdrum_measure_ind_func
+        else:
+            self._indexer_func = measure_ind_func
 
     # NB: This indexer inherits its run() method from indexer.py
 

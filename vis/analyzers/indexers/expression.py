@@ -109,7 +109,7 @@ class ExpressionIndexer(indexer.Indexer):
             expressions that would otherwise be included in the
             results.
 
-        :type settings: Dictionary
+        :type settings: None
 
         :raises: :exc:`RuntimeError` if ``score`` is not a pandas
             Dataframe.
