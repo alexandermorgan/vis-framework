@@ -447,29 +447,30 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         self._password = password
         # Multi-key dictionary for calls to get_data()
         self._mkd = mkd({ # Indexers (in alphabetical order of their long-format strings):
-                        ('active_voices', 'active_voices.ActiveVoicesIndexer', active_voices.ActiveVoicesIndexer): self._get_active_voices,
-                        ('approach', 'approach.ApproachIndexer', approach.ApproachIndexer): self._get_approach,
-                        ('articulation', 'articulation.ArticulationIndexer', articulation.ArticulationIndexer): self._get_articulation,
-                        ('contour', 'contour.ContourIndexer', contour.ContourIndexer): contour.ContourIndexer,
-                        ('dissonance', 'dissonance.DissonanceIndexer', dissonance.DissonanceIndexer): self._get_dissonance,
-                        ('expression', 'expression.ExpressionIndexer', expression.ExpressionIndexer): self._get_expression,
-                        ('horizontal_interval', 'interval.HorizontalIntervalIndexer', interval.HorizontalIntervalIndexer): self._get_horizontal_interval,
-                        ('vertical_interval', 'interval.IntervalIndexer', interval.IntervalIndexer): self._get_vertical_interval,
-                        ('duration', 'meter.DurationIndexer', meter.DurationIndexer): self._get_duration,
-                        ('measure', 'meter.MeasureIndexer', meter.MeasureIndexer): self._get_measure,
-                        ('beat_strength', 'meter.NoteBeatStrengthIndexer', meter.NoteBeatStrengthIndexer): self._get_beat_strength,
-                        ('ngram', 'ngram.NGramIndexer', ngram.NGramIndexer): self._get_ngram,
-                        ('multistop', 'noterest.MultiStopIndexer', noterest.MultiStopIndexer): self._get_multistop,
-                        ('noterest', 'noterest.NoteRestIndexer', noterest.NoteRestIndexer): self._get_noterest,
-                        ('offset', 'offset.FilterByOffsetIndexer', offset.FilterByOffsetIndexer): self._get_offset,
-                        ('over_bass', 'over_bass.OverBassIndexer', over_bass.OverBassIndexer): over_bass.OverBassIndexer,
-                        ('repeat', 'repeat.FilterByRepeatIndexer', repeat.FilterByRepeatIndexer): repeat.FilterByRepeatIndexer,
-                        # Experimenters (in alphabetical order of their long-format strings):
-                        ('aggregator', 'aggregator.ColumnAggregator', aggregator.ColumnAggregator): aggregator.ColumnAggregator,
-                        ('bar_chart', 'barchart.RBarChart', barchart.RBarChart): barchart.RBarChart,
-                        # The dendrogram experimenter should only be used by an AggregatedPieces object
-                        ('frequency', 'frequency.FrequencyExperimenter', frequency.FrequencyExperimenter): frequency.FrequencyExperimenter
-						})
+            ('active_voices', 'active_voices.ActiveVoicesIndexer', active_voices.ActiveVoicesIndexer): self._get_active_voices,
+            ('approach', 'approach.ApproachIndexer', approach.ApproachIndexer): self._get_approach,
+            ('articulation', 'articulation.ArticulationIndexer', articulation.ArticulationIndexer): self._get_articulation,
+            ('contour', 'contour.ContourIndexer', contour.ContourIndexer): contour.ContourIndexer,
+            ('dissonance', 'dissonance.DissonanceIndexer', dissonance.DissonanceIndexer): self._get_dissonance,
+            ('expression', 'expression.ExpressionIndexer', expression.ExpressionIndexer): self._get_expression,
+            ('horizontal_interval', 'interval.HorizontalIntervalIndexer', interval.HorizontalIntervalIndexer): self._get_horizontal_interval,
+            ('vertical_interval', 'interval.IntervalIndexer', interval.IntervalIndexer): self._get_vertical_interval,
+            ('duration', 'meter.DurationIndexer', meter.DurationIndexer): self._get_duration,
+            ('measure', 'meter.MeasureIndexer', meter.MeasureIndexer): self._get_measure,
+            ('beat_strength', 'meter.NoteBeatStrengthIndexer', meter.NoteBeatStrengthIndexer): self._get_beat_strength,
+            ('tie', 'meter.TieIndexer', meter.TieIndexer): self._get_tie,
+            ('ngram', 'ngram.NGramIndexer', ngram.NGramIndexer): self._get_ngram,
+            ('multistop', 'noterest.MultiStopIndexer', noterest.MultiStopIndexer): self._get_multistop,
+            ('noterest', 'noterest.NoteRestIndexer', noterest.NoteRestIndexer): self._get_noterest,
+            ('offset', 'offset.FilterByOffsetIndexer', offset.FilterByOffsetIndexer): self._get_offset,
+            ('over_bass', 'over_bass.OverBassIndexer', over_bass.OverBassIndexer): over_bass.OverBassIndexer,
+            ('repeat', 'repeat.FilterByRepeatIndexer', repeat.FilterByRepeatIndexer): repeat.FilterByRepeatIndexer,
+            # Experimenters (in alphabetical order of their long-format strings):
+            ('aggregator', 'aggregator.ColumnAggregator', aggregator.ColumnAggregator): aggregator.ColumnAggregator,
+            ('bar_chart', 'barchart.RBarChart', barchart.RBarChart): barchart.RBarChart,
+            # The dendrogram experimenter should only be used by an AggregatedPieces object
+            ('frequency', 'frequency.FrequencyExperimenter', frequency.FrequencyExperimenter): frequency.FrequencyExperimenter
+    		})
 
         init_metadata()
         if metafile is not None:
@@ -653,6 +654,19 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         elif 'duration' not in self._analyses:
             self._analyses['duration'] = meter.DurationIndexer(self._get_noterest(), self._get_part_streams()).run()
         return self._analyses['duration']
+
+    def _get_tie(self, data=None):
+        """Used internally by get_data() to cache and retrieve results from the
+        meter.TieIndexer. The `data` argument should be a dataframe of music21
+        note, rest, and chord objects. If nothing is passed to data, it
+        gets the correct dataframe of music21 objects for this indexed piece
+        automatically. Only pass something to data if you don't want the
+        results to be cached or if you have some strange special-use case."""
+        if data is not None:
+            return meter.TieIndexer(data).run()
+        elif 'tie' not in self._analyses:
+            self._analyses['tie'] = meter.TieIndexer(self._get_m21_nrc_objs()).run()
+        return self._analyses['tie']
 
     def _get_active_voices(self, data=None, settings=None):
         """Used internally by get_data() to cache and retrieve results from the

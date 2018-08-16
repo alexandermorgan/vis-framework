@@ -36,7 +36,7 @@ Indexers for metric concerns.
 import pandas
 from vis.analyzers import indexer
 
-tie_types = {'start': '[', 'continue': '_', 'end': ']'}
+tie_types = {'start': '[', 'continue': '_', 'stop': ']'}
 
 def beatstrength_ind_func(event):
     """
@@ -86,12 +86,10 @@ def tie_ind_func(event):
     if isinstance(event, float):
         return event
     elif hasattr(event, 'tie') and event.tie is not None:
-        if eve
-
-
-    if hasattr(event, 'tie') and event.tie is not None and event.tie.type != 'start':
+        return(tie_types[event.tie.type])
+    else:
         return float('nan')
-    return tie_types[event.tie.type]
+
 
 
 class NoteBeatStrengthIndexer(indexer.Indexer):
@@ -177,9 +175,9 @@ class DurationIndexer(indexer.Indexer):
 
 class TieIndexer(indexer.Indexer):
     """
-    Make an index of the ties in a piece. start, continue, and end tie types
-    (music21 terminology) are indexed and represented with the Humdrum tokens
-    '[', '_', and ']' respectively.
+    Make an index of the ties in a piece. 'start', 'continue', and 'stop' tie
+    types (music21 terminology) are indexed and represented with the Humdrum
+    tokens '[', '_', and ']' respectively.
 
     **Example:**
     from vis.models.indexed_piece import Importer
@@ -197,7 +195,7 @@ class TieIndexer(indexer.Indexer):
 
         :raises: :exc:`RuntimeError` if ``score`` is the wrong type.
         """
-        super(MeasureIndexer, self).__init__(score, None)
+        super(TieIndexer, self).__init__(score, None)
         self._types = ('Note', 'Rest', 'Chord')
         self._indexer_func = tie_ind_func
 
