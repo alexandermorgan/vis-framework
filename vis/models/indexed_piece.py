@@ -43,7 +43,7 @@ from vis.models.aggregated_pieces import AggregatedPieces
 from vis.analyzers.experimenter import Experimenter
 from vis.analyzers.experimenters import aggregator, barchart, frequency
 from vis.analyzers.indexer import Indexer
-from vis.analyzers.indexers import noterest, approach, articulation, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram
+from vis.analyzers.indexers import noterest, lyric, approach, articulation, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram
 from multi_key_dict import multi_key_dict as mkd
 from collections import Counter
 
@@ -447,6 +447,7 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
             ('co', 'contour', 'contour.ContourIndexer', contour.ContourIndexer): contour.ContourIndexer,
             ('di', 'dissonance', 'dissonance.DissonanceIndexer', dissonance.DissonanceIndexer): self._get_dissonance,
             ('ex', 'expression', 'expression.ExpressionIndexer', expression.ExpressionIndexer): self._get_expression,
+            ('ly', 'lyric', 'lyric.LyricIndexer', lyric.LyricIndexer): self._get_lyric,
             ('hi', 'horizontal_interval', 'interval.HorizontalIntervalIndexer', interval.HorizontalIntervalIndexer): self._get_horizontal_interval,
             ('vi', 'vertical_interval', 'interval.IntervalIndexer', interval.IntervalIndexer): self._get_vertical_interval,
             ('du', 'duration', 'meter.DurationIndexer', meter.DurationIndexer): self._get_duration,
@@ -747,6 +748,14 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
                       self._get_horizontal_interval(h_setts), self._get_vertical_interval(v_setts)]
             self._analyses['dissonance'] = dissonance.DissonanceIndexer(in_dfs).run()
         return self._analyses['dissonance']
+
+    def _get_lyric(self):
+        """Used internally by get_data() as a convenience method to simplify
+        getting results from the LyricIndexer.
+        """
+        if 'lyric' not in self._analyses:
+            self._analyses['lyric'] = lyric.LyricIndexer(self._get_m21_nrc_objs()).run()
+        return self._analyses['lyric']
 
     def _get_approach(self, data=[], settings=None):
         """Used internally by get_data() as a convenience method to simplify getting results from
