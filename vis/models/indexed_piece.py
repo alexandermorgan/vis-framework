@@ -441,32 +441,32 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         self._password = password
         # Multi-key dictionary for calls to get_data()
         self._mkd = mkd({ # Indexers (in alphabetical order of their long-format strings):
-            ('av', 'active_voices', 'active_voices.ActiveVoicesIndexer', active_voices.ActiveVoicesIndexer): self._get_active_voices,
-            ('ap', 'approach', 'approach.ApproachIndexer', approach.ApproachIndexer): self._get_approach,
-            ('ar', 'articulation', 'articulation.ArticulationIndexer', articulation.ArticulationIndexer): self._get_articulation,
-            ('co', 'contour', 'contour.ContourIndexer', contour.ContourIndexer): contour.ContourIndexer,
-            ('di', 'dissonance', 'dissonance.DissonanceIndexer', dissonance.DissonanceIndexer): self._get_dissonance,
-            ('ex', 'expression', 'expression.ExpressionIndexer', expression.ExpressionIndexer): self._get_expression,
-            ('ly', 'lyric', 'lyric.LyricIndexer', lyric.LyricIndexer): self._get_lyric,
-            ('hi', 'horizontal_interval', 'interval.HorizontalIntervalIndexer', interval.HorizontalIntervalIndexer): self._get_horizontal_interval,
-            ('vi', 'vertical_interval', 'interval.IntervalIndexer', interval.IntervalIndexer): self._get_vertical_interval,
-            ('du', 'duration', 'meter.DurationIndexer', meter.DurationIndexer): self._get_duration,
-            ('me', 'measure', 'meter.MeasureIndexer', meter.MeasureIndexer): self._get_measure,
-            ('bs', 'beat_strength', 'meter.NoteBeatStrengthIndexer', meter.NoteBeatStrengthIndexer): self._get_beat_strength,
-            ('ti', 'tie', 'meter.TieIndexer', meter.TieIndexer): self._get_tie,
-            ('ts', 'time_signature', 'meter.TimeSignatureIndexer', meter.TimeSignatureIndexer): self._get_time_signature,
-            # ('mn', 'mensuration', 'meter.MensurationIndexer', meter.MensurationIndexer): self._get_mensuration, # Not currently supported by m21
-            ('ng', 'ngram', 'ngram.NGramIndexer', ngram.NGramIndexer): self._get_ngram,
-            ('mu', 'multistop', 'noterest.MultiStopIndexer', noterest.MultiStopIndexer): self._get_multistop,
-            ('nr', 'noterest', 'noterest.NoteRestIndexer', noterest.NoteRestIndexer): self._get_noterest,
-            ('of', 'offset', 'offset.FilterByOffsetIndexer', offset.FilterByOffsetIndexer): self._get_offset,
-            ('ob', 'over_bass', 'over_bass.OverBassIndexer', over_bass.OverBassIndexer): over_bass.OverBassIndexer,
-            ('re', 'repeat', 'repeat.FilterByRepeatIndexer', repeat.FilterByRepeatIndexer): repeat.FilterByRepeatIndexer,
+            ('av', 'active_voices'): self._get_active_voices,
+            ('ap', 'approach'): self._get_approach,
+            ('ar', 'articulation'): self._get_articulation,
+            ('co', 'contour'): contour.ContourIndexer,
+            ('di', 'dissonance'): self._get_dissonance,
+            ('ex', 'expression'): self._get_expression,
+            ('ly', 'lyric'): self._get_lyric,
+            ('hi', 'horizontal_interval'): self._get_horizontal_interval,
+            ('vi', 'vertical_interval'): self._get_vertical_interval,
+            ('du', 'duration'): self._get_duration,
+            ('me', 'measure'): self._get_measure,
+            ('bs', 'beat_strength'): self._get_beat_strength,
+            ('ti', 'tie'): self._get_tie,
+            ('ts', 'time_signature'): self._get_time_signature,
+            # ('mn', 'mensuration'): self._get_mensuration, # Not currently supported by m21 as of v. 5.3
+            ('ng', 'ngram'): self._get_ngram,
+            ('mu', 'multistop'): self._get_multistop,
+            ('nr', 'noterest'): self._get_noterest,
+            ('of', 'offset'): self._get_offset,
+            ('ob', 'over_bass'): over_bass.OverBassIndexer,
+            ('re', 'repeat'): repeat.FilterByRepeatIndexer,
             # Experimenters (in alphabetical order of their long-format strings):
-            ('ag', 'aggregator', 'aggregator.ColumnAggregator', aggregator.ColumnAggregator): aggregator.ColumnAggregator,
-            ('bc', 'bar_chart', 'barchart.RBarChart', barchart.RBarChart): barchart.RBarChart,
+            ('ag', 'aggregator'): aggregator.ColumnAggregator,
+            ('bc', 'bar_chart'): barchart.RBarChart,
             # The dendrogram experimenter should only be used by an AggregatedPieces object
-            ('fr', 'frequency', 'frequency.FrequencyExperimenter', frequency.FrequencyExperimenter): frequency.FrequencyExperimenter
+            ('fr', 'frequency'): frequency.FrequencyExperimenter
     		})
 
         init_metadata()
