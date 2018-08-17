@@ -31,31 +31,22 @@
 Index the lyrics in a piece.
 """
 
-from music21 import articulations
 from vis.analyzers import indexer
 
 def indexer_func(event):
     """
-    Used internally by :class:`ArticulationIndexer`. Inspects
-    :class:`~music21.note.Note` and :class:`~music21.note.Rest` and
-    returns kern symbols for *all* articulations present, or else NaN.
-    This means that more than one character can be returned if a note
-    or a rest has more than one music21 articulation associated with it.
-
     :param event: music21 note, rest, or chord.
+    :type event: :class:`music21.note.Note`, :class:`music21.note.Rest`, or
+        :class:`music21.chord.Chord`
 
-    :type event: :class:`music21.note.Note` or :class:`music21.note.Rest`
-
-    :returns: A string consisting of all the kern representations of
-        the music21 articulations present. These can later be filtered
-        to a single type of articulation if desired. If no articulations
-        are present for the note or rest, NaN is returned.
+    :returns: A string of the lyrics for a given note, rest, or chord,
+        otherwise a NaN is returned.
 
     :rtype: str or float
     """
     if isinstance(event, float): # event is NaN
         return event
-    elif event.lyric: # if the event has no lyric, it is a None which is False
+    elif event.lyric: # if the event has no lyrics, it is a None which is False
         return event.lyric
     return float('nan')
 
