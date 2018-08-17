@@ -103,12 +103,12 @@ received {}. Please choose from one of the following: {}.'
         init_metadata()
         # Multi-key dictionary for combined_experimenter calls to get_data()
         self._mkd = mkd({# Experimenters that can combine results from multiple pieces:
-                        ('aggregator', 'aggregator.ColumnAggregator', aggregator.ColumnAggregator): aggregator.ColumnAggregator,
-                        ('bar_chart', 'barchart.RBarChart', barchart.RBarChart): barchart.RBarChart,
-                        ('frequency', 'frequency.FrequencyExperimenter', frequency.FrequencyExperimenter): frequency.FrequencyExperimenter})
+                         ('ag', 'aggregator'): aggregator.ColumnAggregator,
+                         ('bc', 'bar_chart'): barchart.RBarChart,
+                         ('fr', 'frequency'): frequency.FrequencyExperimenter})
         # Only include dendrogram experimenter if scipy and matplotlib were installed
         try:
-            self._mkd[('dendrogram', 'dendrogram.HierarchicalClusterer', dendrogram.HierarchicalClusterer)] = self._get_dendrogram
+            self._mkd[('de', 'dendrogram')] = self._get_dendrogram
         except NameError:
             pass
 

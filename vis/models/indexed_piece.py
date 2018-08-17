@@ -440,7 +440,7 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         self._username = username
         self._password = password
         # Multi-key dictionary for calls to get_data()
-        self._mkd = mkd({ # Indexers (in alphabetical order of their long-format strings):
+        self._mkd = mkd({ # Indexers :
             ('av', 'active_voices'): self._get_active_voices,
             ('ap', 'approach'): self._get_approach,
             ('ar', 'articulation'): self._get_articulation,
