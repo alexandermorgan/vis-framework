@@ -394,8 +394,7 @@ When using IndexedPiece.get_data(), please use one of the following short- or lo
 strings to identify the desired Indexer or Experimenter: {}.'
 
     # When measure_index() is run on a piece with no measure information.
-    _NO_MEASURES = 'VIS is unable to detect measures in this IndexedPiece. Please note that measures \
-are not encoded in midi files so VIS currently cannot detect measures in midi files.'
+    _NO_MEASURES = 'There are no measures in this piece.'
 
     # When measure_index() is passed something other than a dataframe.
     _NOT_DATAFRAME = 'The passed argument must be a pandas.DataFrame and cannot be empty.'
@@ -791,8 +790,7 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         return approach.ApproachIndexer(data, settings).run()
 
     def _get_m21_measure_objs(self):
-        """Makes a dataframe of the music21 measure objects in the indexed_piece. Note that midi
-        files do not have measures."""
+        """Makes a dataframe of the music21 measure objects in the indexed_piece."""
         if 'm21_measure_objs' not in self._analyses:
             # filter for just the measure objects in each part of this indexed piece
             sers = [s.apply(_type_func_measure).dropna() for s in self._get_m21_objs()]
@@ -874,11 +872,9 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
     def measure_index(self, dataframe):
         """Multi-indexes the index of the passed dataframe by adding the measures to the offsets.
         The passed dataframe should be of an indexer's results, not an experimenters. Also adds
-        index labels. Note that this method currently does not work with midi files, because VIS
-        cannot detect measures in midi files since they are not encoded in midi. Also note that this
-        method should ideally only be used at the end of a set of analysis steps, because there is
-        no guarantee that the resultant multi-indexed dataframe will not cause problems if passed to
-        a subsequent indexer.
+        index labels. Note that this method should ideally only be used at the end of a set of
+        analysis steps, because there is no guarantee that the resultant multi-indexed dataframe
+        will not cause problems if passed to a subsequent indexer.
 
         **Example**
         from vis.models.indexed_piece import Importer()
@@ -895,7 +891,7 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         df = dataframe.copy()
         # Get a series of the measures from the first part of this IndexedPiece
         measures = self.get_data('measure').iloc[:, 0]
-        # Make sure it actually has measure events in it. NB: measure detection doesn't work with midi files
+        # Make sure it actually has measure events in it.
         if measures.empty:
             raise RuntimeWarning(IndexedPiece._NO_MEASURES)
         # Add measures as a column of the dataframe which merges the indecies

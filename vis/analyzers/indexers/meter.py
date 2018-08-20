@@ -223,13 +223,10 @@ class TieIndexer(indexer.Indexer):
 
 class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
     """
-    Make an index of the measures in a piece. Time signatures changes do not cause a problem. Note
-    that unlike most other indexers this one returns integer values >= 0. Using music21's
-    part.measureTemplate() function is an alternative but it turned out to be much less efficient
-    to looping over the piece and doing it this way makes this indexer just like all the other
-    stream indexers. This indexer is experimental because it does not support the indexing of
-    measures in midi pieces yet. For Humdrum-style measure representations, set the 'style'
-    setting to 'Humdrum'.
+    Make an index of the measures in a piece. Time signatures changes do not
+    cause a problem. Note that unlike most other indexers this one returns
+    integer values >= 0. 0 is used for pick-up measures. For Humdrum-style
+    measure representations, set the 'style' setting to 'Humdrum'.
 
     **Example:**
     from vis.models.indexed_piece import Importer
