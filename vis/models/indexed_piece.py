@@ -43,7 +43,7 @@ from vis.models.aggregated_pieces import AggregatedPieces
 from vis.analyzers.experimenter import Experimenter
 from vis.analyzers.experimenters import aggregator, barchart, frequency
 from vis.analyzers.indexer import Indexer
-from vis.analyzers.indexers import noterest, lyric, approach, articulation, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram
+from vis.analyzers.indexers import noterest, staff, lyric, approach, articulation, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram
 from collections import Counter
 
 # Error message when importing doesn't work because of unknown file type

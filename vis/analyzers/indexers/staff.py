@@ -92,5 +92,5 @@ class StaffIndexer(indexer.Indexer):
         """
         if len(self._score) == 0: # if there are no parts
             return None
-        post = [part.apply(staff_ind_func).dropna() for part in self._score]
+        post = [part.apply(self._indexer_func).dropna() for part in self._score]
         return pandas.concat(post, axis=1)
