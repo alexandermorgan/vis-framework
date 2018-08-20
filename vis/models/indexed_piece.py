@@ -487,8 +487,8 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
             'bc': barchart.RBarChart,
             'bar_chart': barchart.RBarChart,
             # The dendrogram experimenter should only be used by an AggregatedPieces object
-            'fr': frequency.FrequencyExperimenter
-            'frequency': frequency.FrequencyExperimenter
+            'fr': frequency.FrequencyExperimenter,
+            'frequency': frequency.FrequencyExperimenter,
     		}
 
         init_metadata()
