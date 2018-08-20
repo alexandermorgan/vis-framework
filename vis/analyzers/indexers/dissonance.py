@@ -59,7 +59,8 @@ _weights = {
     _dim_fake_susp_label: 3,
     _ant_label: 3,
     _camb_label: 3,
-    _chan_idiom_label, _echappee: 3,
+    _chan_idiom_label: 3,
+    _echappee: 3,
     _no_diss_label: 2,
     _unexplainable: 1}
 _consonances = set(['P1', 'm3', 'M3', 'CP4', 'CA4', 'Cd5', 'P5', 'm6',
