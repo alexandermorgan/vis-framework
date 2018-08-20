@@ -108,22 +108,6 @@ def tie_ind_func(event):
     else:
         return float('nan')
 
-def time_signature_ind_func(event):
-    """
-    Handles all music21 objects types and returns time_signature strings if the
-    event is a time signature object.
-
-    :param event: A music21 object.
-    :type event: A music21 object or a float('nan').
-
-    :returns: The Humdrum representation string for the time signature objects.
-    :rtype: string or float('nan').
-    """
-    if isinstance(event, float):
-        return event
-    elif 'TimeSignature' in event.classes:
-        return '*M' + event.ratioString
-    return float('nan')
 
 
 class NoteBeatStrengthIndexer(indexer.Indexer):
@@ -276,42 +260,6 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
             self._indexer_func = measure_ind_func
 
     # NB: This indexer inherits its run() method from indexer.py
-
-
-
-class TimeSignatureIndexer(indexer.Indexer):
-    """
-    Make an index of the time signatures in a piece. This is independent of
-    mensuration signs. They are represented with a string such as '4/4'. It is
-    not a problem if parts change time signatures at different moments in the
-    piece. Because of the way the object have to be processed, only time points
-    in the piece where at least one part has a time signature object will be
-    in the results, all other time points will be eliminated instead of
-    represented by NaNs as happens in most other indexers.
-    """
-
-    required_score_type = 'pandas.Series' # actually a list of series.
-
-    def __init__(self, score):
-        """
-        :param score: list of music21 parts as pandas.Series
-        :type score: list of :class:`pandas.Series` of music21 objects
-        """
-        super(TimeSignatureIndexer, self).__init__(score, None)
-        self._indexer_func = time_signature_ind_func
-
-    def run(self):
-        """
-        Make a new index of the time signatures in the piece. It's no problem
-        if the parts change time signatures at different times.
-
-        :returns: The Humdrum-format time signatures in a piece.
-        :rtype: :class:`pandas.DataFrame`, or None if there are no parts.
-        """
-        if len(self._score) == 0: # if there are no parts
-            return None
-        post = [part.apply(time_signature_ind_func).dropna() for part in self._score]
-        return pandas.concat(post, axis=1)
 
 
 

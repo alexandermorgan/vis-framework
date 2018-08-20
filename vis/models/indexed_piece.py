@@ -454,7 +454,7 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
             ('me', 'measure'): self._get_measure,
             ('bs', 'beat_strength'): self._get_beat_strength,
             ('ti', 'tie'): self._get_tie,
-            ('ts', 'time_signature'): self._get_time_signature,
+            ('st', 'staff'): self._get_staff,
             # ('mn', 'mensuration'): self._get_mensuration, # Not currently supported by m21 as of v. 5.3
             ('ng', 'ngram'): self._get_ngram,
             ('mu', 'multistop'): self._get_multistop,
@@ -798,15 +798,16 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
             ('dom_data' not in settings or type(settings['dom_data']) != list)):
             settings['dom_data'] = [self._get_dissonance(), self._get_duration(),
                                      self._get_beat_strength(), self._get_noterest(),
-                                     self._get_time_signature(),
+                                     self._get_staff(),
                                      self._get_part_streams()[0].highestTime]
         return offset.FilterByOffsetIndexer(data, settings).run()
 
-    def _get_time_signature(self):
-        """Fetches and caches a dataframe of the time signatures in a piece."""
-        if 'time_signature' not in self._analyses:
-            self._analyses['time_signature'] = meter.TimeSignatureIndexer(self._get_m21_objs()).run()
-        return self._analyses['time_signature']
+    def _get_staff(self):
+        """Fetches and caches a dataframe of the staff elements in a piece
+        including time signatures, key signatures, and clefs."""
+        if 'staff' not in self._analyses:
+            self._analyses['staff'] = staff.StaffIndexer(self._get_m21_objs()).run()
+        return self._analyses['staff']
 
 
     def get_data(self, analyzer_cls, data=None, settings=None):
