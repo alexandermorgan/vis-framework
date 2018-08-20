@@ -7,7 +7,7 @@
 # Filename:               analyzers/indexers/dissonance.py
 # Purpose:                Index dissonance types
 #
-# Copyright (C) 2013-2016 Christopher Antila, Alexander Morgan
+# Copyright (C) 2013-2016, 2018 Christopher Antila, Alexander Morgan
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -31,7 +31,6 @@ import pandas
 import numpy
 from numpy import nan  # pylint: disable=no-name-in-module
 from vis.analyzers import indexer
-from multi_key_dict import multi_key_dict as mkd
 
 
 _d3q_label = 'Q'
@@ -49,21 +48,20 @@ _echappee = 'E'
 _no_diss_label = '-'
 _unexplainable = 'Z'
 _only_diss_w_diss = 'O'
-_weights = mkd({(
-    _d3q_label,
-    _pass_dp_label,
-    _pass_rp_label,
-    _neigh_ln_label,
-    _neigh_un_label,
-    _susp_label,
-    _fake_susp_label,
-    _dim_fake_susp_label,
-    _ant_label,
-    _camb_label,
-    _chan_idiom_label, _echappee): 3,
+_weights = {
+    _d3q_label: 3,
+    _pass_dp_label: 3,
+    _pass_rp_label: 3,
+    _neigh_ln_label: 3,
+    _neigh_un_label: 3,
+    _susp_label: 3,
+    _fake_susp_label: 3,
+    _dim_fake_susp_label: 3,
+    _ant_label: 3,
+    _camb_label: 3,
+    _chan_idiom_label, _echappee: 3,
     _no_diss_label: 2,
-    _unexplainable: 1
-})
+    _unexplainable: 1}
 _consonances = set(['P1', 'm3', 'M3', 'CP4', 'CA4', 'Cd5', 'P5', 'm6',
     'M6', 'P8', '-m3', '-M3', 'C-P4', 'C-A4', 'C-d5', '-P5', '-m6',
     '-M6', '-P8'])

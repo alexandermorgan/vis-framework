@@ -44,7 +44,6 @@ from vis.analyzers.experimenter import Experimenter
 from vis.analyzers.experimenters import aggregator, barchart, frequency
 from vis.analyzers.indexer import Indexer
 from vis.analyzers.indexers import noterest, lyric, approach, articulation, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram
-from multi_key_dict import multi_key_dict as mkd
 from collections import Counter
 
 # Error message when importing doesn't work because of unknown file type
@@ -389,7 +388,7 @@ class IndexedPiece(object):
 arguments. Please refer to the {} documentation to see what is required by the Indexer or \
 Experimenter requested.'
 
-    # When get_data() gets an analysis_cls argument that isn't a key in IndexedPiece._mkd.
+    # When get_data() gets an analysis_cls argument that isn't a key in IndexedPiece._indexers.
     _NOT_AN_ANALYZER = 'Could not recognize the requested Indexer or Experimenter (received {}). \
 When using IndexedPiece.get_data(), please use one of the following short- or long-format \
 strings to identify the desired Indexer or Experimenter: {}.'
@@ -439,35 +438,58 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         self._opus_id = opus_id  # if the file imports as an Opus, this is the index of the Score
         self._username = username
         self._password = password
-        # Multi-key dictionary for calls to get_data()
-        self._mkd = mkd({ # Indexers :
-            ('av', 'active_voices'): self._get_active_voices,
-            ('ap', 'approach'): self._get_approach,
-            ('ar', 'articulation'): self._get_articulation,
-            ('co', 'contour'): contour.ContourIndexer,
-            ('di', 'dissonance'): self._get_dissonance,
-            ('ex', 'expression'): self._get_expression,
-            ('ly', 'lyric'): self._get_lyric,
-            ('hi', 'horizontal_interval'): self._get_horizontal_interval,
-            ('vi', 'vertical_interval'): self._get_vertical_interval,
-            ('du', 'duration'): self._get_duration,
-            ('me', 'measure'): self._get_measure,
-            ('bs', 'beat_strength'): self._get_beat_strength,
-            ('ti', 'tie'): self._get_tie,
-            ('st', 'staff'): self._get_staff,
-            # ('mn', 'mensuration'): self._get_mensuration, # Not currently supported by m21 as of v. 5.3
-            ('ng', 'ngram'): self._get_ngram,
-            ('mu', 'multistop'): self._get_multistop,
-            ('nr', 'noterest'): self._get_noterest,
-            ('of', 'offset'): self._get_offset,
-            ('ob', 'over_bass'): over_bass.OverBassIndexer,
-            ('re', 'repeat'): repeat.FilterByRepeatIndexer,
+        # Dictionary of indexers and their shorts for calls to get_data()
+        self._indexers = { # Indexers :
+            'av': self._get_active_voices,
+            'active_voices': self._get_active_voices,
+            'ap': self._get_approach,
+            'approach': self._get_approach,
+            'ar': self._get_articulation,
+            'articulation': self._get_articulation,
+            'co': contour.ContourIndexer,
+            'contour': contour.ContourIndexer,
+            'di': self._get_dissonance,
+            'dissonance': self._get_dissonance,
+            'ex': self._get_expression,
+            'expression': self._get_expression,
+            'ly': self._get_lyric,
+            'lyric': self._get_lyric,
+            'hi': self._get_horizontal_interval,
+            'horizontal_interval': self._get_horizontal_interval,
+            'vi': self._get_vertical_interval,
+            'vertical_interval': self._get_vertical_interval,
+            'du': self._get_duration,
+            'duration': self._get_duration,
+            'me': self._get_measure,
+            'measure': self._get_measure,
+            'bs': self._get_beat_strength,
+            'beat_strength': self._get_beat_strength,
+            'ti': self._get_tie,
+            'tie': self._get_tie,
+            'st': self._get_staff,
+            'staff': self._get_staff,
+            'ng': self._get_ngram,
+            'ngram': self._get_ngram,
+            'mu': self._get_multistop,
+            'multistop': self._get_multistop,
+            'nr': self._get_noterest,
+            'noterest': self._get_noterest,
+            'of': self._get_offset,
+            'offset': self._get_offset,
+            'ob': over_bass.OverBassIndexer,
+            'over_bass': over_bass.OverBassIndexer,
+            're': repeat.FilterByRepeatIndexer,
+            'repeat': repeat.FilterByRepeatIndexer,
+            # 'mensuration': self._get_mensuration, # Not currently supported by m21 as of v. 5.3
             # Experimenters (in alphabetical order of their long-format strings):
-            ('ag', 'aggregator'): aggregator.ColumnAggregator,
-            ('bc', 'bar_chart'): barchart.RBarChart,
+            'ag': aggregator.ColumnAggregator,
+            'aggregator': aggregator.ColumnAggregator,
+            'bc': barchart.RBarChart,
+            'bar_chart': barchart.RBarChart,
             # The dendrogram experimenter should only be used by an AggregatedPieces object
-            ('fr', 'frequency'): frequency.FrequencyExperimenter
-    		})
+            'fr': frequency.FrequencyExperimenter
+            'frequency': frequency.FrequencyExperimenter
+    		}
 
         init_metadata()
         if metafile is not None:
@@ -830,8 +852,8 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
         :raises: :exc:`RuntimeError` if the first analyzer class in ``analyzer_cls`` does not use
             :class:`~music21.stream.Score` objects, and ``data`` is ``None``.
         """
-        if analyzer_cls not in self._mkd: # Make sure the analyzer requested exists.
-            raise KeyError(IndexedPiece._NOT_AN_ANALYZER.format(analyzer_cls, sorted([k[0] for k in self._mkd.keys()])))
+        if analyzer_cls not in self._indexers: # Make sure the indexer requested exists.
+            raise KeyError(IndexedPiece._NOT_AN_ANALYZER.format(analyzer_cls, sorted(self._indexers.keys())))
 
         args_dict = {} # Only pass the settings argument if it is not ``None``.
         if settings is not None:
@@ -839,17 +861,13 @@ are not encoded in midi files so VIS currently cannot detect measures in midi fi
 
         try: # Fetch or calculate the actual results requested.
             if data is None:
-                results = self._mkd[analyzer_cls](**args_dict)
+                results = self._indexers[analyzer_cls](**args_dict)
             else:
-                results = self._mkd[analyzer_cls](data, **args_dict)
+                results = self._indexers[analyzer_cls](data, **args_dict)
             if hasattr(results, 'run'): # execute analyzer if there is no caching method for this one
                 results = results.run()
         except TypeError: # There is some issue with the 'settings' and/or 'data' arguments.
-            for key in self._mkd.keys():
-                if analyzer_cls in key:
-                    analyzer_name = key[1]
-                    break
-            raise RuntimeWarning(IndexedPiece._SUPERFLUOUS_OR_INSUFFICIENT_ARGUMENTS.format(analyzer_name))
+            raise RuntimeWarning(IndexedPiece._SUPERFLUOUS_OR_INSUFFICIENT_ARGUMENTS.format(analyzer_cls))
 
         return results
 

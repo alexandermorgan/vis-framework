@@ -38,7 +38,6 @@ try:
     from vis.analyzers.experimenters import dendrogram
 except ImportError:
     pass
-from multi_key_dict import multi_key_dict as mkd
 
 
 class AggregatedPieces(object):
@@ -102,13 +101,17 @@ received {}. Please choose from one of the following: {}.'
         self._metadata = {}
         init_metadata()
         # Multi-key dictionary for combined_experimenter calls to get_data()
-        self._mkd = mkd({# Experimenters that can combine results from multiple pieces:
-                         ('ag', 'aggregator'): aggregator.ColumnAggregator,
-                         ('bc', 'bar_chart'): barchart.RBarChart,
-                         ('fr', 'frequency'): frequency.FrequencyExperimenter})
+        self._experimenters = {# Experimenters that can combine results from multiple pieces:
+                         'ag': aggregator.ColumnAggregator,
+                         'aggregator': aggregator.ColumnAggregator,
+                         'bc': barchart.RBarChart,
+                         'bar_chart': barchart.RBarChart,
+                         'fr': frequency.FrequencyExperimenter,
+                         'frequency': frequency.FrequencyExperimenter}
         # Only include dendrogram experimenter if scipy and matplotlib were installed
         try:
-            self._mkd[('de', 'dendrogram')] = self._get_dendrogram
+            self._experimenters['de'] = self._get_dendrogram
+            self._experimenters['dendrogram'] = self._get_dendrogram
         except NameError:
             pass
 
@@ -277,10 +280,10 @@ received {}. Please choose from one of the following: {}.'
         if not self._pieces: # if there are no pieces in this aggregated_pieces object
             raise RuntimeWarning(AggregatedPieces._NO_PIECES)
 
-        if (combined_experimenter is not None and (combined_experimenter not in self._mkd.keys(str)
-            and combined_experimenter not in self._mkd.keys(type))): # make sure combined_experimenter is an appropriate experimenter
+         # make sure combined_experimenter is an appropriate experimenter
+        if combined_experimenter is not None and combined_experimenter not in self._experimenters.keys():
             raise TypeError(AggregatedPieces._NOT_EXPERIMENTER.format(combined_experimenter,
-                                                                      sorted([k[0] for k in self._mkd.keys()])))
+                                                                      sorted(self._experimenters.keys())))
 
         args_dict = {} # Only pass the settings argument if it is not ``None``.
         if settings is not None:
@@ -296,10 +299,10 @@ received {}. Please choose from one of the following: {}.'
             if ind_analyzer is not None:
                 data = results
             try:
-                results = self._mkd[combined_experimenter](data, **args_dict)
+                results = self._experimenters[combined_experimenter](data, **args_dict)
                 if hasattr(results, 'run'): # execute analyzer if there is no caching method for this one
                     results = results.run()
             except TypeError: # There is some issue with the 'settings' and/or 'data' arguments.
-                raise RuntimeWarning(AggregatedPieces._SUPERFLUOUS_OR_INSUFFICIENT_ARGUMENTS.format(self._mkd[combined_experimenter]))
+                raise RuntimeWarning(AggregatedPieces._SUPERFLUOUS_OR_INSUFFICIENT_ARGUMENTS.format(self._experimenters[combined_experimenter]))
 
         return results

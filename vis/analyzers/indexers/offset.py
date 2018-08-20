@@ -35,7 +35,6 @@ themselves.
 import pandas
 import numpy
 from vis.analyzers import indexer
-from multi_key_dict import multi_key_dict as mkd
 
 
 class FilterByOffsetIndexer(indexer.Indexer):
@@ -399,11 +398,15 @@ the following time signatures when the "quarterLength" setting is set to \
         # Broadcast any bs value to all columns of a df.
         cbs = pandas.concat([dom_data[2].T.bfill().iloc[0]]*len(bbs.columns), axis=1, ignore_index=True)
 
-        diss_levs = mkd({('2/1w', '4/2w'): {.0625: 1, .125: 2, .25: 4, .5: 8, 1: 8}, #NB: things that happen on beats 1 and 3 are treated the same way.
-                         ('2/1s', '4/2s'): {.0625: .25, .125: .5, .25: 1, .5: 2, 1: 2},
-                         ('2/2w', '4/4w'): {.0625: .5, .125: 1, .25: 2, .5: 4, 1: 4}, #NB: things that happen on beats 1 and 3 are treated the same way.
-                         ('2/2s', '4/4s'): {.0625: .125, .125: .25, .25: .5, .5: 1, 1: 1},
-                         })
+        diss_levs = {'2/1w': {.0625: 1, .125: 2, .25: 4, .5: 8, 1: 8}, #NB: things that happen on beats 1 and 3 are treated the same way.
+                     '4/2w': {.0625: 1, .125: 2, .25: 4, .5: 8, 1: 8}, #NB: things that happen on beats 1 and 3 are treated the same way.
+                     '2/1s': {.0625: .25, .125: .5, .25: 1, .5: 2, 1: 2},
+                     '4/2s': {.0625: .25, .125: .5, .25: 1, .5: 2, 1: 2},
+                     '2/2w': {.0625: .5, .125: 1, .25: 2, .5: 4, 1: 4}, #NB: things that happen on beats 1 and 3 are treated the same way.
+                     '4/4w': {.0625: .5, .125: 1, .25: 2, .5: 4, 1: 4}, #NB: things that happen on beats 1 and 3 are treated the same way.
+                     '2/2s': {.0625: .125, .125: .25, .25: .5, .5: 1, 1: 1},
+                     '4/4s': {.0625: .125, .125: .25, .25: .5, .5: 1, 1: 1},
+                     }
 
         # Get the beatstrength of the dissonances
         diss_cr = bbs[dds.isin(weaks)]
