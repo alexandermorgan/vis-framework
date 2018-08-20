@@ -99,8 +99,7 @@ class ExpressionIndexer(indexer.Indexer):
         """
         :param score: A dataframe of the note, rest, and chord objects
             in a piece.
-
-        :type score: pandas Dataframe
+        :type score: pandas.DataFrame
 
         :param settings: Settings are not currently implemented, but
             could potentially allow for the filtering of unwanted
@@ -108,7 +107,6 @@ class ExpressionIndexer(indexer.Indexer):
             fermatas, a setting could filter out all the other
             expressions that would otherwise be included in the
             results.
-
         :type settings: None
 
         :raises: :exc:`RuntimeError` if ``score`` is not a pandas
@@ -117,5 +115,5 @@ class ExpressionIndexer(indexer.Indexer):
         """
         self._settings = ExpressionIndexer.default_settings.copy()
         super(ExpressionIndexer, self).__init__(score, self._settings)
-        self._types = ('Note', 'Rest')
+        self._types = ('Note', 'Rest', 'Chord')
         self._indexer_func = indexer_func
