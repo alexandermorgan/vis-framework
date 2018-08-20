@@ -71,7 +71,7 @@ def indexer_func(event):
         return event
     else:
         res = []
-        for arti in event.articulation:
+        for arti in event.articulations:
             if arti.name in symbols:
                 res.append(symbols[arti.name])
             else:
