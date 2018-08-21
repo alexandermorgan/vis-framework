@@ -35,8 +35,10 @@ Indexers for metric concerns.
 
 import pandas
 from vis.analyzers import indexer
+import pdb
 
 tie_types = {'start': '[', 'continue': '_', 'stop': ']'}
+nan = float('nan')
 
 def beatstrength_ind_func(event):
     """
@@ -107,6 +109,21 @@ def tie_ind_func(event):
         return(tie_types[event.tie.type])
     else:
         return float('nan')
+
+def time_signature_ind_func(event):
+    """
+    Handles all music21 objects types and returns Humdrum-format string for
+    time signatures.
+
+    :param event: A music21 object.
+    :type event: A music21 object or a float('nan').
+
+    :returns: The Humdrum representation string for the staff element.
+    :rtype: string or float('nan').
+    """
+    if 'TimeSignature' in event.classes:
+        return '*M' + event.ratioString
+    return nan
 
 
 
@@ -185,8 +202,9 @@ class DurationIndexer(indexer.Indexer):
             for part in range(len(self._score.columns)):
                 indx = self._score.iloc[:, part].dropna().index
                 new = indx.insert(len(indx), self._part_streams[part].highestTime)
-                durations.append(pandas.Series((new[1:] - indx), index=indx))
-            result = pandas.concat(durations, axis=1)
+                durations.append(pandas.Series((new[1:].values - indx.values), index=indx))
+
+            result = pandas.concat(durations, sort=True, axis=1)
         return self.make_return(self._score.columns.get_level_values(1), result)
 
 
@@ -258,6 +276,44 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
 
     # NB: This indexer inherits its run() method from indexer.py
 
+
+
+class TimeSignatureIndexer(indexer.Indexer):
+    """
+    Make an index of the time signatures in a piece.
+
+    **Example:**
+    from vis.models.indexed_piece import Importer
+    ip = Importer('pathnameToScore.xml')
+    ip.get_data('ts')
+    """
+
+    required_score_type = 'pandas.Series' # actually a list of series
+
+    def __init__(self, score):
+        """
+        :param score: :class:`pandas.DataFrame` of music21 measure objects.
+        :type score: :class:`pandas.DataFrame`
+
+        :raises: :exc:`RuntimeError` if ``score`` is the wrong type.
+        """
+        super(TimeSignatureIndexer, self).__init__(score, None)
+        self._types = ('TimeSignature',)
+        self._indexer_func = time_signature_ind_func
+
+    def run(self):
+        """
+        Make a new index of the time signatures in the piece. It's no problem
+        if the parts change time signatures at different times.
+
+        :returns: The Humdrum-formated time signatures in a piece.
+        :rtype: :class:`pandas.DataFrame`, or None if there are no parts.
+        """
+        if len(self._score) == 0: # if there are no parts
+            return None
+        post = [part.apply(self._indexer_func).dropna() for part in self._score]
+        ret = pandas.concat(post, axis=1).dropna(how='all')
+        return ret.fillna('*')
 
 
 class MensurationIndexer(indexer.Indexer):

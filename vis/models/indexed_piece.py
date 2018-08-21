@@ -445,6 +445,8 @@ strings to identify the desired Indexer or Experimenter: {}.'
             'approach': self._get_approach,
             'ar': self._get_articulation,
             'articulation': self._get_articulation,
+            'cl': self._get_clef,
+            'clef': self._get_clef,
             'co': contour.ContourIndexer,
             'contour': contour.ContourIndexer,
             'di': self._get_dissonance,
@@ -455,6 +457,8 @@ strings to identify the desired Indexer or Experimenter: {}.'
             'lyric': self._get_lyric,
             'hi': self._get_horizontal_interval,
             'horizontal_interval': self._get_horizontal_interval,
+            'ks': self._get_key_signature,
+            'key_signature': self._get_key_signature,
             'vi': self._get_vertical_interval,
             'vertical_interval': self._get_vertical_interval,
             'du': self._get_duration,
@@ -465,8 +469,8 @@ strings to identify the desired Indexer or Experimenter: {}.'
             'beat_strength': self._get_beat_strength,
             'ti': self._get_tie,
             'tie': self._get_tie,
-            'st': self._get_staff,
-            'staff': self._get_staff,
+            'ts': self._get_time_signature,
+            'time_signature': self._get_time_signature,
             'ng': self._get_ngram,
             'ngram': self._get_ngram,
             'mu': self._get_multistop,
@@ -818,16 +822,33 @@ strings to identify the desired Indexer or Experimenter: {}.'
             ('dom_data' not in settings or type(settings['dom_data']) != list)):
             settings['dom_data'] = [self._get_dissonance(), self._get_duration(),
                                      self._get_beat_strength(), self._get_noterest(),
-                                     self._get_staff(),
+                                     self._get_time_signature(),
                                      self._get_part_streams()[0].highestTime]
         return offset.FilterByOffsetIndexer(data, settings).run()
 
-    def _get_staff(self):
-        """Fetches and caches a dataframe of the staff elements in a piece
-        including time signatures, key signatures, and clefs."""
-        if 'staff' not in self._analyses:
-            self._analyses['staff'] = staff.StaffIndexer(self._get_m21_objs()).run()
-        return self._analyses['staff']
+    def _get_clef(self, data=None):
+        """Fetches and caches a dataframe of the clefs."""
+        if data is not None:
+            return staff.ClefIndexer(data).run()
+        elif 'clef' not in self._analyses:
+            self._analyses['clef'] = staff.ClefIndexer(self._get_m21_objs()).run()
+        return self._analyses['clef']
+
+    def _get_key_signature(self, data=None):
+        """Fetches and caches a dataframe of the key signatures."""
+        if data is not None:
+            return staff.KeySignatureIndexer(data).run()
+        elif 'key_signature' not in self._analyses:
+            self._analyses['key_signature'] = staff.KeySignatureIndexer(self._get_m21_objs()).run()
+        return self._analyses['key_signature']
+
+    def _get_time_signature(self, data=None):
+        """Fetches and caches a dataframe of the time signatures."""
+        if data is not None:
+            return meter.TimeSignatureIndexer(data).run()
+        elif 'time_signature' not in self._analyses:
+            self._analyses['time_signature'] = meter.TimeSignatureIndexer(self._get_m21_objs()).run()
+        return self._analyses['time_signature']
 
 
     def get_data(self, analyzer_cls, data=None, settings=None):

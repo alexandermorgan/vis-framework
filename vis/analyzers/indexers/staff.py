@@ -34,26 +34,22 @@ Indexers for staff elements.
 
 import pandas
 from vis.analyzers import indexer
+import pdb
 
-def ind_func(event):
+nan = float('nan')
+
+def clef_ind_func(event):
     """
     Handles all music21 objects types and returns Humdrum-format string for
-    staff objects, namely time signatures, keys, and clefs.
+    the clefs.
 
     :param event: A music21 object.
     :type event: A music21 object or a float('nan').
 
-    :returns: The Humdrum representation string for the staff element.
+    :returns: The Humdrum representation string for the clefs.
     :rtype: string or float('nan').
     """
-    if 'TimeSignature' in event.classes:
-        return '*M' + event.ratioString
-    elif 'Key' in event.classes or 'KeySignature' in event.classes:
-        armure = ['*k[']
-        [armure.append(p.name.lower()) for p in event.alteredPitches]
-        armure.append(']')
-        return ''.join(armure)
-    elif 'Clef' in event.classes:
+    if 'Clef' in event.classes:
         clef = ['*clef', event.sign, str(event.line)]
         if event.octaveChange == 0:
             pass
@@ -63,34 +59,94 @@ def ind_func(event):
             clef.insert(2, 'va')
         return ''.join(clef)
 
-    return float('nan')
+    return nan
 
-
-class StaffIndexer(indexer.Indexer):
+def key_signature_ind_func(event):
     """
-    Make an index of the staff elements in a piece including time signatures,
-    keys, and clefs.
+    Handles all music21 objects types and returns Humdrum-format string for
+    key signatures.
+
+    :param event: A music21 object.
+    :type event: A music21 object or a float('nan').
+
+    :returns: The Humdrum representation string for the key signature.
+    :rtype: string or float('nan').
+    """
+    if 'Key' in event.classes or 'KeySignature' in event.classes:
+        armure = ['*k[']
+        [armure.append(p.name.lower()) for p in event.alteredPitches]
+        armure.append(']')
+        return ''.join(armure)
+
+    return nan
+
+
+
+class ClefIndexer(indexer.Indexer):
+    """
+    Make an index of the clefs in a piece.
+
+    **Example:**
+    from vis.models.indexed_piece import Importer
+    ip = Importer('pathnameToScore.xml')
+    ip.get_data('cl')
     """
 
-    required_score_type = 'pandas.Series' # actually a list of series.
+    required_score_type = 'pandas.Series' # actually a list of series
 
     def __init__(self, score):
         """
         :param score: list of music21 parts as pandas.Series
         :type score: list of :class:`pandas.Series` of music21 objects
         """
-        super(StaffIndexer, self).__init__(score, None)
-        self._indexer_func = ind_func
+        super(ClefIndexer, self).__init__(score, None)
+        self._indexer_func = clef_ind_func
 
     def run(self):
         """
-        Make a new index of the staff elements in the piece. It's no problem
-        if the parts change time signatures, etc. at different times.
+        Make a new index of the clefs in the piece. It's no problem
+        if the parts change clefs at different times.
 
-        :returns: The Humdrum-format staff elements in a piece.
+        :returns: The Humdrum-formated clefs in a piece.
         :rtype: :class:`pandas.DataFrame`, or None if there are no parts.
         """
         if len(self._score) == 0: # if there are no parts
             return None
         post = [part.apply(self._indexer_func).dropna() for part in self._score]
-        return pandas.concat(post, axis=1)
+        ret = pandas.concat(post, axis=1).dropna(how='all')
+        return ret.fillna('*')
+
+
+class KeySignatureIndexer(indexer.Indexer):
+    """
+    Make an index of the key signatures in a piece.
+
+    **Example:**
+    from vis.models.indexed_piece import Importer
+    ip = Importer('pathnameToScore.xml')
+    ip.get_data('ks')
+    """
+
+    required_score_type = 'pandas.Series' # actually a list of series
+
+    def __init__(self, score):
+        """
+        :param score: list of music21 parts as pandas.Series
+        :type score: list of :class:`pandas.Series` of music21 objects
+        """
+        super(KeySignatureIndexer, self).__init__(score, None)
+        self._indexer_func = key_signature_ind_func
+
+    def run(self):
+        """
+        Make a new index of the key signatures in the piece. It's no problem
+        if the parts change key signatures at different times.
+
+        :returns: The Humdrum-formated key signatures in a piece.
+        :rtype: :class:`pandas.DataFrame`, or None if there are no parts.
+        """
+        if len(self._score) == 0: # if there are no parts
+            return None
+        post = [part.apply(self._indexer_func).dropna() for part in self._score]
+        ret = pandas.concat(post, axis=1).dropna(how='all')
+        return ret.fillna('*')
