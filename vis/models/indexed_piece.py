@@ -45,6 +45,7 @@ from vis.analyzers.experimenters import aggregator, barchart, frequency
 from vis.analyzers.indexer import Indexer
 from vis.analyzers.indexers import noterest, staff, lyric, approach, articulation, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram
 from collections import Counter
+import pdb
 
 # Error message when importing doesn't work because of unknown file type
 _UNKNOWN_INPUT = 'This file type was not recognized. The file is probably not \
@@ -157,7 +158,7 @@ def _get_offsets(event, part):
     """
     for y in event.contextSites():
         if y[0] is part:
-            return y[1]
+            return float(y[1])
 
 def _eliminate_ties(event):
     """Gets rid of the notes and rests that have non-start ties. This is used internally for
@@ -807,9 +808,15 @@ strings to identify the desired Indexer or Experimenter: {}.'
         is passed as the settings. In this case, the results are not cached."""
         if (settings is not None and 'style' in settings and
             settings['style'] == 'Humdrum'): # this case is not cached.
-            return meter.MeasureIndexer(self._get_m21_measure_objs(), settings).run()
+            return meter.MeasureIndexer([self._get_m21_measure_objs(),
+                                         self._get_time_signature()],
+                                        self._get_part_streams(),
+                                        settings).run()
         elif 'measure' not in self._analyses:
-            self._analyses['measure'] = meter.MeasureIndexer(self._get_m21_measure_objs()).run()
+            self._analyses['measure'] = meter.MeasureIndexer([self._get_m21_measure_objs(),
+                                                              self._get_time_signature()],
+                                                             self._get_part_streams(),
+                                                             ).run()
         return self._analyses['measure']
 
     def _get_ngram(self, data, settings=None):

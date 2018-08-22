@@ -73,24 +73,6 @@ def measure_ind_func(event):
         return event
     return event.number
 
-def humdrum_measure_ind_func(event):
-    """
-    The function that indexes the measures in a piece and represents them with
-    the Humdrum-style strings. When using the measure indexer, use this setting
-    to get results in this way: settings = {'style': 'Humdrum'}
-
-    :param event: A music21 measure object that gets queried for its "number"
-        and style.
-    :type event: A music21 measure object or NaN.
-
-    :returns: The Humdrum-style string representation of the measure number and
-        it's style (i.e., normal, end, etc.).
-    :rtype: string or NaN.
-    """
-    if isinstance(event, float):
-        return event
-    return '=' + str(event.number)
-
 def tie_ind_func(event):
     """
     Handles music21 note, rest, or chord objects and identifies what type of
@@ -255,7 +237,7 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
     required_score_type = 'pandas.DataFrame'
     possible_settings = ('style')
 
-    def __init__(self, score, settings=None):
+    def __init__(self, score, part_streams, settings=None):
         """
         :param score: :class:`pandas.DataFrame` of music21 measure objects.
         :type score: :class:`pandas.DataFrame`.
@@ -268,13 +250,54 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
         """
         super(MeasureIndexer, self).__init__(score, settings)
         self._types = ('Measure',)
-        if (isinstance(settings, dict) and 'style' in settings and
-            settings['style'] == 'Humdrum'):
-            self._indexer_func = humdrum_measure_ind_func
-        else:
-            self._indexer_func = measure_ind_func
+        self._indexer_func = measure_ind_func
+        self._part_streams = part_streams
 
-    # NB: This indexer inherits its run() method from indexer.py
+    def _convert_ts(self, cell):
+        """If the standard approach for getting measures didn't work (often the
+        case for midi pieces) then use this to transform each cell in the time
+        signature indexer results to the amount of time between measures in the
+        the piece."""
+        if isinstance(cell, str) and len(cell) > 1:
+            numerator, denominator = cell[2:].split('/')
+            return int(numerator)*4/int(denominator) # the duration of this type of measure
+        else:
+            return nan
+
+    def _hummify(self, cell):
+        """Needed for processing of midi files."""
+        if isinstance(cell, float):
+            return cell
+        elif cell == 1:
+            return '=1-'
+        else:
+            return '=' + str(cell)
+
+    def run(self):
+        res = self._score[0].applymap(self._indexer_func)
+        # The following assumes there is no anacrusis, which is the best we
+        # can do if the user is parsing a midi file.
+        if res.empty:
+            ts = self._score[1] # time_signature indexer results
+            ts = ts.applymap(self._convert_ts)
+            cols = []
+            for i in range(ts.shape[1]):
+                col = ts.iloc[:,i].dropna()
+                col.at[self._part_streams[i].highestTime] = 9999999
+                m_indx = []
+                for jay in range(col.size-1):
+                    diff = col.index[jay+1] - col.index[jay]
+                    num_mea = int(diff/col.iat[jay])
+                    temp = [col.index[jay] + x*col.iat[jay] for x in range(num_mea)]
+                    m_indx.extend(temp)
+                    # pdb.set_trace()
+                cols.append(pandas.Series(range(1, len(m_indx)), index=m_indx[:-1]))
+            res = pandas.concat(cols, axis=1)
+            if (isinstance(self._settings, dict) and 'style' in self._settings
+                and self._settings['style'] == 'Humdrum'):
+                res = res.applymap(self._hummify)
+
+        return res
 
 
 
