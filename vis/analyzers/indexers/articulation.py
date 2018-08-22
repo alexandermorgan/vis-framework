@@ -90,7 +90,7 @@ class ArticulationIndexer(indexer.Indexer):
 
     >>> from vis.models.indexed_piece import Importer
     >>> ip = Importer('pathnameToScore.xml')
-    >>> ip.get_data('articulation')
+    >>> ip.get('articulation')
 
     """
     default_settings = {'articulation': 'all'}

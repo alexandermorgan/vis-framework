@@ -147,7 +147,7 @@ class Viz2HumIndexer(indexer.Indexer):
 
     >>> from vis.models.indexed_piece import Importer
     >>> ip = Importer('pathnameToScore.xml')
-    >>> ip.get_data('viz2hum')
+    >>> ip.get('viz2hum')
 
     """
     required_score_type = 'pandas.DataFrame'

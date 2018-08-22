@@ -52,10 +52,10 @@ class ActiveVoicesIndexer(indexer.Indexer):
     can either find all voices sounding, or only the voices that are 
     attacking, depending on the settings passed. 
 
-    Call this indexer via the ``get_data()`` method of either an 
+    Call this indexer via the ``get()`` method of either an 
     ``indexed_piece`` object or an ``aggregated_pieces`` object (see 
     example below). If nothing is passed in the 'data' argument of the 
-    call to ``get_data()``, then the default is to process the 
+    call to ``get()``, then the default is to process the 
     ``NoteRestIndexer`` results of the ``indexed_piece`` in question. 
     You can pass some other DataFrame in the 'data' argument, but it is 
     discouraged.
@@ -80,12 +80,12 @@ class ActiveVoicesIndexer(indexer.Indexer):
 
     Get the ``ActiveVoicesIndexer`` results with the default settings:
     
-    >>> ip.get_data('active_voices')
+    >>> ip.get('active_voices')
 
     Get the ``ActiveVoicesIndexer`` results with specified settings:
     
     >>> av_setts = {'attacked': True, 'show_all': True}
-    >>> ip.get_data('active_voices', settings=av_setts)
+    >>> ip.get('active_voices', settings=av_setts)
     
     """
 

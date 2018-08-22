@@ -106,9 +106,9 @@ class AllVoiceIntervalNGrams(TestCase):
         n_setts = {'n': 2, 'horizontal': [('Bass',)], 'brackets': True, 'continuer': '1',
                    'vertical': [('Soprano,Bass', 'Alto,Bass', 'Tenor,Bass')]}
         ind_piece = Importer(os.path.join(VIS_PATH, 'tests', 'corpus', 'bwv603.xml'))
-        vt = ind_piece.get_data('vertical_interval', settings=v_setts)
-        hz = ind_piece.get_data('horizontal_interval', settings=h_setts)
-        actual = ind_piece.get_data('ngram', data=(vt, hz), settings=n_setts)
+        vt = ind_piece.get('vertical_interval', settings=v_setts)
+        hz = ind_piece.get('horizontal_interval', settings=h_setts)
+        actual = ind_piece.get('ngram', data=(vt, hz), settings=n_setts)
         self.assertTrue(actual.equals(expected))
 
 #-------------------------------------------------------------------------------------------------#

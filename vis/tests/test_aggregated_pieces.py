@@ -146,35 +146,35 @@ class TestAggregatedPieces(TestCase):
         for piece in self.ind_pieces:
             piece.metadata.assert_called_once_with('locale_of_composition')
 
-    def test_get_data_1(self):
+    def test_get_1(self):
         """try getting data for a non-Indexer, non-Experimenter class"""
-        self.assertRaises(TypeError, self.agg_p.get_data, None, '')
+        self.assertRaises(TypeError, self.agg_p.get, None, '')
         try:
-            self.agg_p.get_data(None, '')
+            self.agg_p.get(None, '')
         except TypeError as t_err:
             # pylint: disable=protected-access
             self.assertEqual(AggregatedPieces._NOT_EXPERIMENTER.format('', sorted(self.agg_p._experimenters.keys())),
                              t_err.args[0])
 
-    def test_get_data_2(self):
-        """try get_data() on an AggregatedPieces object with no pieces"""
+    def test_get_2(self):
+        """try get() on an AggregatedPieces object with no pieces"""
         aps = AggregatedPieces()
-        self.assertRaises(RuntimeWarning, aps.get_data, None, None)
+        self.assertRaises(RuntimeWarning, aps.get, None, None)
         try:
-            aps.get_data()
+            aps.get()
         except RuntimeWarning as r_warn:
             # pylint: disable=protected-access
             self.assertEqual(AggregatedPieces._NO_PIECES, r_warn.args[0])
 
-    def test_get_data_3(self):
-        """integration test with a nested called to get_data, an ind_analyzer and a
+    def test_get_3(self):
+        """integration test with a nested called to get(), an ind_analyzer and a
         combined_experimenter"""
         expected = pandas.Series([4.0,2.0,2.0,2.0,2.0,2.0,2.0,4.0],
                                  index=['C3','C4','D4','E4','F4','G2','G4','Rest'])
         pieces = [Importer(os.path.join(VIS_PATH, 'tests', 'corpus', 'test_fermata_rest.xml'))]*2
         aps = AggregatedPieces(pieces=pieces)
-        actual = aps.get_data(combined_experimenter='aggregator',
-                              data=aps.get_data(ind_analyzer='noterest', combined_experimenter='frequency'))
+        actual = aps.get(combined_experimenter='aggregator',
+                              data=aps.get(ind_analyzer='noterest', combined_experimenter='frequency'))
         self.assertTrue(actual.iloc[:,0].equals(expected))
 
     def test_date(self):

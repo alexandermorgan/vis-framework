@@ -120,7 +120,7 @@ class NoteBeatStrengthIndexer(indexer.Indexer):
     **Example:**
     from vis.models.indexed_piece import Importer
     ip = Importer('pathnameToScore.xml')
-    ip.get_data('beat_strength')
+    ip.get('beat_strength')
     """
 
     required_score_type = 'pandas.DataFrame'
@@ -152,7 +152,7 @@ class DurationIndexer(indexer.Indexer):
     **Example:**
     from vis.models.indexed_piece import Importer
     ip = Importer('pathnameToScore.xml')
-    ip.get_data('duration')
+    ip.get('duration')
     """
 
     required_score_type = 'pandas.DataFrame'
@@ -200,7 +200,7 @@ class TieIndexer(indexer.Indexer):
     **Example:**
     from vis.models.indexed_piece import Importer
     ip = Importer('pathnameToScore.xml')
-    ip.get_data('tie')
+    ip.get('tie')
     """
 
     required_score_type = 'pandas.DataFrame'
@@ -231,7 +231,7 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
     **Example:**
     from vis.models.indexed_piece import Importer
     ip = Importer('pathnameToScore.xml')
-    ip.get_data('measure')
+    ip.get('measure')
     """
 
     required_score_type = 'pandas.DataFrame'
@@ -309,7 +309,7 @@ class TimeSignatureIndexer(indexer.Indexer):
     **Example:**
     from vis.models.indexed_piece import Importer
     ip = Importer('pathnameToScore.xml')
-    ip.get_data('ts')
+    ip.get('ts')
     """
 
     required_score_type = 'pandas.Series' # actually a list of series
@@ -350,7 +350,7 @@ class MensurationIndexer(indexer.Indexer):
     **Example:**
     from vis.models.indexed_piece import Importer
     ip = Importer('pathnameToScore.xml')
-    ip.get_data('mensuration')
+    ip.get('mensuration')
     """
 
     required_score_type = 'pandas.DataFrame'

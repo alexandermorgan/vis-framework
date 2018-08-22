@@ -122,7 +122,7 @@ class TestNoteRestIndexer(unittest.TestCase):
         ip = IndexedPiece()
         ip._analyses['part_streams'] = [test_part]
         ip.metadata('parts', _find_part_names(ip._analyses['part_streams']))
-        actual = ip.get_data('noterest')['noterest.NoteRestIndexer']
+        actual = ip.get('noterest')['noterest.NoteRestIndexer']
         self.assertTrue(actual.equals(expected))
 
     def test_noterest_indexer_3(self):
@@ -196,7 +196,7 @@ class TestMultiStopIndexer(unittest.TestCase):
     def test_multistop_indexer_3(self):
         # Integration test on a piece with multiple voices in each part
         ip = Importer(os.path.join(VIS_PATH, 'tests', 'corpus', 'prelude28-20.mid'))
-        actual = ip.get_data('multistop')
+        actual = ip.get('multistop')
         self.assertTrue(8 == len(actual.columns))
 
 

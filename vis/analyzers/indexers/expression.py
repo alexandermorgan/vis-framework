@@ -89,7 +89,7 @@ class ExpressionIndexer(indexer.Indexer):
 
     >>> from vis.models.indexed_piece import Importer
     >>> ip = Importer('pathnameToScore.xml')
-    >>> ip.get_data('expression')
+    >>> ip.get('expression')
 
     """
     default_settings = {'expression': 'all'}

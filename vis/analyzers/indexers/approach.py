@@ -38,7 +38,7 @@ class ApproachIndexer(indexer.Indexer):
     Using ``OverBassIndexer`` and ``FermataIndexer`` results, finds
     cadences as lists of events in the approach to a fermata.
 
-    Call this indexer via the ``get_data()`` method of either an
+    Call this indexer via the ``get()`` method of either an
     ``indexed_piece`` object or an ``aggregated_pieces`` object (see
     example below).
 
@@ -68,18 +68,18 @@ class ApproachIndexer(indexer.Indexer):
     without explicitly providing the ``FermataIndexer`` results, so the
     'data' argument is a singleton list.
 
-    >>> overbass_input_dfs = [ip.get_data('noterest'),
-            ip.get_data('vertical_interval')]
+    >>> overbass_input_dfs = [ip.get('noterest'),
+            ip.get('vertical_interval')]
     >>> ob_setts = {
             'type': 'notes'
         }
-    >>> overbass = ip.get_data('over_bass', data=overbass_input_dfs,
+    >>> overbass = ip.get('over_bass', data=overbass_input_dfs,
             settings=ob_setts)
 
     Get the ``ApproachIndexer`` results with specified settings:
 
     >>> approach_setts = {'length': 3}
-    >>> ip.get_data('approach', data=[overbass], settings=approach_setts)
+    >>> ip.get('approach', data=[overbass], settings=approach_setts)
 
     """
 

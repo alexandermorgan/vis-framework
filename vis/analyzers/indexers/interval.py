@@ -278,7 +278,7 @@ class IntervalIndexer(indexer.Indexer):
     from vis.models.indexed_piece import Importer
     settings = {'quality': 'chromatic', 'simple or compound': 'simple', 'directed': True}
     ip = Importer('pathnameToScore.xml')
-    ip.get_data('vertical_interval', settings)
+    ip.get('vertical_interval', settings)
     """
     required_score_type = 'pandas.DataFrame'
     default_settings = {'simple or compound': 'compound', 'quality': False, 'directed':True, 'mp': True}
@@ -371,7 +371,7 @@ class HorizontalIntervalIndexer(IntervalIndexer):
     from vis.models.indexed_piece import Importer
     settings = {'quality': 'interval class', 'simple or compound': 'simple', 'directed': False}
     ip = Importer('pathnameToScore.xml')
-    ip.get_data('horizontal_interval', settings)
+    ip.get('horizontal_interval', settings)
     """
 
     default_settings = {'simple or compound': 'compound', 'quality': False, 'directed':True, 

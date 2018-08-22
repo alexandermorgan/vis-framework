@@ -55,8 +55,8 @@ class FilterByRepeatIndexer(indexer.Indexer):
     This example filters the repeats out of the ``NoteRestIndexer``
     results, but any can be passed:
 
-    >>> notes = ip.get_data('noterest')
-    >>> ip.get_data('repeat', data=notes)
+    >>> notes = ip.get('noterest')
+    >>> ip.get('repeat', data=notes)
 
     """
 

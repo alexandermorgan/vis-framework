@@ -109,7 +109,7 @@ class DissonanceIndexer(indexer.Indexer):
     The score type must be a list of dataframes of the results of the
     following indexers (order matters): beatstrength, duration,
     horizontal, vertical. To simplify things, however, it is better to
-    use the ``get_data()`` on an ``indexed_piece`` object to get results
+    use the ``get()`` on an ``indexed_piece`` object to get results
     from the dissonance indexer as per the example below.
     The results of the disonance indexer are in the form of one cell in
     the resultant dataframe in each part at every offset where there is
@@ -137,7 +137,7 @@ class DissonanceIndexer(indexer.Indexer):
     **Example:**
     >>> from vis.models.indexed_piece import Importer
     >>> ip = Importer('symbolic_notation_file_location.xml')
-    >>> ip.get_data('dissonance')
+    >>> ip.get('dissonance')
     """
     required_score_type = 'pandas.DataFrame'
 

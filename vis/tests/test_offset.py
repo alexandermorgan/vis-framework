@@ -389,8 +389,8 @@ class TestOffsetIndexerManyParts(unittest.TestCase):
         expected = os.path.join(VIS_PATH, 'tests', 'expecteds', 'bwv77', 'dynamic_offset_method_test')
         expected = pandas.read_pickle(expected)
         ip = Importer(os.path.join(VIS_PATH, 'tests', 'corpus', 'bwv77.mxl'))
-        nr = ip.get_data('noterest')
-        actual = ip.get_data('offset', data=nr, settings={'quarterLength': 'dynamic'})
+        nr = ip.get('noterest')
+        actual = ip.get('offset', data=nr, settings={'quarterLength': 'dynamic'})
         self.assertTrue(actual.equals(expected))
 
 

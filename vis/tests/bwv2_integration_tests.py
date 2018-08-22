@@ -126,11 +126,11 @@ class AllVoiceIntervalNGrams(TestCase):
         expected = pandas.DataFrame({('ngram.NGramIndexer', 'Soprano,Bass Alto,Bass Tenor,Bass : Bass'): expected})
         ind_piece = Importer(os.path.join(VIS_PATH, 'tests', 'corpus', 'bwv2.xml'))
         setts = {'quality': False, 'simple': False, 'horiz_attach_later': True}
-        horiz_ints = ind_piece.get_data('horizontal_interval', settings=setts)
-        vert_ints = ind_piece.get_data('vertical_interval', settings=setts)
+        horiz_ints = ind_piece.get('horizontal_interval', settings=setts)
+        vert_ints = ind_piece.get('vertical_interval', settings=setts)
         setts = {'n': 2, 'continuer': '1', 'horizontal': 'lowest',
                  'vertical': [('Soprano,Bass', 'Alto,Bass', 'Tenor,Bass')], 'brackets': True,}
-        actual = ind_piece.get_data('ngram', data=(vert_ints, horiz_ints), settings=setts)
+        actual = ind_piece.get('ngram', data=(vert_ints, horiz_ints), settings=setts)
         self.assertTrue(actual.equals(expected))
 
 #-------------------------------------------------------------------------------------------------#

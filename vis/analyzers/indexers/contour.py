@@ -106,10 +106,10 @@ class ContourIndexer(indexer.Indexer):
     a way of numbering the relative heights of pitches, beginning at 0 
     for the lowest pitch.
 
-    Call this indexer via the ``get_data()`` method of either an 
+    Call this indexer via the ``get()`` method of either an 
     ``indexed_piece`` object or an ``aggregated_pieces`` object (see 
     example below). If nothing is passed in the 'data' argument of the 
-    call to ``get_data()``, then the default is to process the 
+    call to ``get()``, then the default is to process the 
     ``NoteRestIndexer`` results of the ``indexed_piece`` in question. 
     You can pass some other DataFrame to the 'data' argument, but it is
     discouraged.
@@ -129,9 +129,9 @@ class ContourIndexer(indexer.Indexer):
     Get the ``ContourIndexer`` results with specified settings and 
     processing the notes and rests:
     
-    >>> notes = ip.get_data('noterest')
+    >>> notes = ip.get('noterest')
     >>> contour_setts = {'length': 3}
-    >>> ip.get_data('contour', data=notes, settings=contour_setts)
+    >>> ip.get('contour', data=notes, settings=contour_setts)
     
     """
 

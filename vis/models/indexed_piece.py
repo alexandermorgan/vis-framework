@@ -366,7 +366,7 @@ class IndexedPiece(object):
     notation file to the Importer() method in this file. The Importer() will return an IndexedPiece
     object as long as the piece did not import as an opus. In this case Importer() will return an
     AggregatedPieces object. Information about an IndexedPiece object from an indexer or an
-    experimenter should be requested via the get_data() method. If you want to access the full
+    experimenter should be requested via the get() method. If you want to access the full
     music21 score object of a VIS IndexedPiece object, access the _score attribute of the
     IndexedPiece object. See the examples below:
 
@@ -376,22 +376,22 @@ class IndexedPiece(object):
     ip = Importer('path_to_file.xml')
 
     # Get the results of an indexer or experimenter (noterest and dissonance indexers shown)
-    noterest_results = ip.get_data('noterest')
-    dissonance_results = ip.get_data('dissonance')
+    noterest_results = ip.get('noterest')
+    dissonance_results = ip.get('dissonance')
 
     # Access the full music21 score object of the file
     ip._score
     """
 
-    # When get_data() is missing the "settings" and/or data" argument but needed them, or was
+    # When get() is missing the "settings" and/or data" argument but needed them, or was
     # supplied this information, but couldn't use it.
     _SUPERFLUOUS_OR_INSUFFICIENT_ARGUMENTS = 'You made improper use of the settings and/or data \
 arguments. Please refer to the {} documentation to see what is required by the Indexer or \
 Experimenter requested.'
 
-    # When get_data() gets an analysis_cls argument that isn't a key in IndexedPiece._indexers.
+    # When get() gets an analysis_cls argument that isn't a key in IndexedPiece._indexers.
     _NOT_AN_ANALYZER = 'Could not recognize the requested Indexer or Experimenter (received {}). \
-When using IndexedPiece.get_data(), please use one of the following short- or long-format \
+When using IndexedPiece.get(), please use one of the following short- or long-format \
 strings to identify the desired Indexer or Experimenter: {}.'
 
     # When measure_index() is run on a piece with no measure information.
@@ -438,7 +438,7 @@ strings to identify the desired Indexer or Experimenter: {}.'
         self._opus_id = opus_id  # if the file imports as an Opus, this is the index of the Score
         self._username = username
         self._password = password
-        # Dictionary of indexers and their shorts for calls to get_data()
+        # Dictionary of indexers and their shorts for calls to get()
         self._indexers = { # Indexers :
             'av': self._get_active_voices,
             'active_voices': self._get_active_voices,
@@ -660,21 +660,21 @@ strings to identify the desired Indexer or Experimenter: {}.'
         return self._analyses['m21_nrc_objs_no_tied']
 
     def _get_noterest(self):
-        """Used internally by get_data() to cache and retrieve results from the
+        """Used internally by get() to cache and retrieve results from the
         noterest.NoteRestIndexer."""
         if 'noterest' not in self._analyses:
             self._analyses['noterest'] = noterest.NoteRestIndexer(self._get_m21_nrc_objs_no_tied()).run()
         return self._analyses['noterest']
 
     def _get_multistop(self):
-        """Used internally by get_data() to cache and retrieve results from the
+        """Used internally by get() to cache and retrieve results from the
         noterest.MultiStopIndexer."""
         if 'multistop' not in self._analyses:
             self._analyses['multistop'] = noterest.MultiStopIndexer(self._get_m21_nrc_objs_no_tied()).run()
         return self._analyses['multistop']
 
     def _get_duration(self, data=None):
-        """Used internally by get_data() to cache and retrieve results from the
+        """Used internally by get() to cache and retrieve results from the
         meter.DurationIndexer. The `data` argument should be a 2-tuple where the first element is
         a dataframe of results with one column per voice (like the noterest indexer) and the second
         element is a list of the part streams, one per part."""
@@ -685,7 +685,7 @@ strings to identify the desired Indexer or Experimenter: {}.'
         return self._analyses['duration']
 
     def _get_tie(self, data=None):
-        """Used internally by get_data() to cache and retrieve results from the
+        """Used internally by get() to cache and retrieve results from the
         meter.TieIndexer. The `data` argument should be a dataframe of music21
         note, rest, and chord objects. If nothing is passed to data, it
         gets the correct dataframe of music21 objects for this indexed piece
@@ -698,7 +698,7 @@ strings to identify the desired Indexer or Experimenter: {}.'
         return self._analyses['tie']
 
     def _get_active_voices(self, data=None, settings=None):
-        """Used internally by get_data() to cache and retrieve results from the
+        """Used internally by get() to cache and retrieve results from the
         active_voices.ActiveVoicesIndexer."""
         if data is not None:
             return active_voices.ActiveVoicesIndexer(data, settings).run()
@@ -709,28 +709,28 @@ strings to identify the desired Indexer or Experimenter: {}.'
         return active_voices.ActiveVoicesIndexer(self._get_noterest(), settings).run()
 
     def _get_beat_strength(self):
-        """Used internally by get_data() to cache and retrieve results from the
+        """Used internally by get() to cache and retrieve results from the
         meter.NoteBeatStrengthIndexer."""
         if 'beat_strength' not in self._analyses:
             self._analyses['beat_strength'] = meter.NoteBeatStrengthIndexer(self._get_m21_nrc_objs_no_tied()).run()
         return self._analyses['beat_strength']
 
     def _get_articulation(self):
-        """Used internally by get_data() to cache and retrieve results from the
+        """Used internally by get() to cache and retrieve results from the
         expression.ExpressionIndexer."""
         if 'articulation' not in self._analyses:
             self._analyses['articulation'] = articulation.ArticulationIndexer(self._get_m21_nrc_objs_no_tied()).run()
         return self._analyses['articulation']
 
     def _get_expression(self):
-        """Used internally by get_data() to cache and retrieve results from the
+        """Used internally by get() to cache and retrieve results from the
         expression.ExpressionIndexer."""
         if 'expression' not in self._analyses:
             self._analyses['expression'] = expression.ExpressionIndexer(self._get_m21_nrc_objs_no_tied()).run()
         return self._analyses['expression']
 
     def _get_vertical_interval(self, settings=None):
-        """Used internally by get_data() to cache and retrieve results from the
+        """Used internally by get() to cache and retrieve results from the
         interval.IntervalIndexer. Since there are many possible settings for intervals, no matter
         what the user asks for intervals are calculated as compound, directed, and diatonic with
         quality. The results with these settings are stored and if the user asked for different
@@ -745,7 +745,7 @@ strings to identify the desired Indexer or Experimenter: {}.'
         return self._analyses['vertical_interval']
 
     def _get_horizontal_interval(self, settings=None):
-        """Used internally by get_data() to cache and retrieve results from the
+        """Used internally by get() to cache and retrieve results from the
         interval.IntervalIndexer. Since there are many possible settings for intervals, no matter
         what the user asks for intervals are calculated as compound, directed, and diatonic with
         quality. The results with these settings are stored and if the user asked for different
@@ -769,7 +769,7 @@ strings to identify the desired Indexer or Experimenter: {}.'
         return self._analyses['horizontal_interval']
 
     def _get_dissonance(self):
-        """Used internally by get_data() to cache and retrieve results from the
+        """Used internally by get() to cache and retrieve results from the
         dissonance.DissonanceIndexer. This method automatically supplies the input dataframes from
         the indexed_piece that is the self argument. If you want to call this with indexer results
         other than those associated with self, you can call the indexer directly."""
@@ -782,7 +782,7 @@ strings to identify the desired Indexer or Experimenter: {}.'
         return self._analyses['dissonance']
 
     def _get_lyric(self):
-        """Used internally by get_data() as a convenience method to simplify
+        """Used internally by get() as a convenience method to simplify
         getting results from the LyricIndexer.
         """
         if 'lyric' not in self._analyses:
@@ -790,7 +790,7 @@ strings to identify the desired Indexer or Experimenter: {}.'
         return self._analyses['lyric']
 
     def _get_approach(self, data=[], settings=None):
-        """Used internally by get_data() as a convenience method to simplify getting results from
+        """Used internally by get() as a convenience method to simplify getting results from
         the ApproachIndexer. Since the results of the ExpressionIndexer are required for this and do not
         take any settings, they are automatically provided for the user, so only the results of the
         OverBassIndexer must necessarily be provided in the 'data' argument."""
@@ -864,7 +864,7 @@ strings to identify the desired Indexer or Experimenter: {}.'
         return self._analyses['time_signature']
 
 
-    def get_data(self, analyzer_cls, data=None, settings=None):
+    def get(self, analyzer_cls, data=None, settings=None):
         """
         Get the results of an Experimenter or Indexer run on this :class:`IndexedPiece`.
 
@@ -915,7 +915,7 @@ strings to identify the desired Indexer or Experimenter: {}.'
         # Make an IndexedPiece object out of a symbolic notation file:
         ip = Importer('path_to_file.xml')
         # Get some results from an indexer (not an experimenter):
-        df = ip.get_data('horizontal_interval')
+        df = ip.get('horizontal_interval')
         # Multi-index the dataframe index by adding the measure informaiton:
         ip.measure_index(df)
         """
@@ -924,7 +924,7 @@ strings to identify the desired Indexer or Experimenter: {}.'
         # Make a copy of the dataframe to avoid altering it inplace
         df = dataframe.copy()
         # Get a series of the measures from the first part of this IndexedPiece
-        measures = self.get_data('measure').iloc[:, 0]
+        measures = self.get('measure').iloc[:, 0]
         # Make sure it actually has measure events in it.
         if measures.empty:
             raise RuntimeWarning(IndexedPiece._NO_MEASURES)

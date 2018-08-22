@@ -39,7 +39,7 @@ class OverBassIndexer(indexer.Indexer):
     Using horizontal events and vertical intervals, this finds the 
     intervals over the bass motion.
 
-    Call this indexer via the ``get_data()`` method of either an 
+    Call this indexer via the ``get()`` method of either an 
     ``indexed_piece`` object or an ``aggregated_pieces`` object (see 
     examples below). The DataFrames passed in the 'score' argument 
     should be concatenated 
@@ -65,18 +65,18 @@ class OverBassIndexer(indexer.Indexer):
     This example provides note names for the tracked voice (usually the 
     bass voice):
 
-    >>> input_dfs = [ip.get_data('noterest'), 
-            ip.get_data('vertical_interval')]
+    >>> input_dfs = [ip.get('noterest'), 
+            ip.get('vertical_interval')]
     >>> ob_setts = {'type': 'notes'}
-    >>> ip.get_data('over_bass', data=input_dfs, settings=ob_setts)
+    >>> ip.get('over_bass', data=input_dfs, settings=ob_setts)
 
     To use the OverBassIndexer with the melodic intervals of the tracked 
     voice instead, do this:
     
-    >>> input_dfs = [ip.get_data('horizontal_interval'), 
-            ip.get_data('vertical_interval')]
+    >>> input_dfs = [ip.get('horizontal_interval'), 
+            ip.get('vertical_interval')]
     >>> ob_setts = {'type': 'intervals'}
-    >>> ip.get_data('over_bass', data=input_dfs, settings=ob_setts)
+    >>> ip.get('over_bass', data=input_dfs, settings=ob_setts)
     
     """
 

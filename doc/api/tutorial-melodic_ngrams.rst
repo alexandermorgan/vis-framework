@@ -58,18 +58,18 @@ The first part of our query looks like this:
 
     # prepare for and run the NGramIndexer
     for piece in ind_ps:
-        intervals = piece.get_data([noterest.NoteRestIndexer, interval.HorizontalIntervalIndexer], interval_settings)
+        intervals = piece.get([noterest.NoteRestIndexer, interval.HorizontalIntervalIndexer], interval_settings)
         for part in intervals:
-            ngram_results.append(piece.get_data([ngram.NGramIndexer], ngram_settings, [part])
+            ngram_results.append(piece.get([ngram.NGramIndexer], ngram_settings, [part])
 
 After the imports, we start by making a list of all the pathnames to use in this query, then use a Python list comprehension to make a list of :class:`IndexedPiece` objcects for each file.
 We make the settings dictionaries to use for the interval then n-gram indexers on lines 7 and 8, but note we have not included all possible settings.
 The empty ``ngram_results`` list will store results from the :class:`NGramIndexer`.
 
-The loop started on line 12 is a little confusing: why not use an :class:`AggregatedPieces` object to run the :class:`NGramIndexer` on all pieces with a single call to :meth:`get_data`?
+The loop started on line 12 is a little confusing: why not use an :class:`AggregatedPieces` object to run the :class:`NGramIndexer` on all pieces with a single call to :meth:`get`?
 The reason is the inner loop, started on line 14: if we run the :class:`NGramIndexer` on an :class:`IndexedPiece` once, we can only index a single part, but we want results from all parts.
 This is the special burden of using the :class:`NGramIndexer`, which is flexible but not (yet) intelligent.
-In order to index the melodic intervals in every part using the :meth:`get_data` call on line 15, we must add the nested loops.
+In order to index the melodic intervals in every part using the :meth:`get` call on line 15, we must add the nested loops.
 
 How Shall We Prepare Results?
 -----------------------------
@@ -99,17 +99,17 @@ With these modifications, our program looks like this:
 
     # prepare for and run the NGramIndexer
     for piece in ind_ps:
-        intervals = piece.get_data([noterest.NoteRestIndexer, interval.HorizontalIntervalIndexer], interval_settings)
+        intervals = piece.get([noterest.NoteRestIndexer, interval.HorizontalIntervalIndexer], interval_settings)
         for part in intervals:
-            ngram_freqs.append(piece.get_data([ngram.NGramIndexer, frequency.FrequencyExperimenter], ngram_settings, [part]))
+            ngram_freqs.append(piece.get([ngram.NGramIndexer, frequency.FrequencyExperimenter], ngram_settings, [part]))
 
     # aggregate results of all pieces
     agg_p = AggregatedPieces(ind_ps)
-    result = agg_p.get_data([aggregator.ColumnAggregator], [], {}, ngram_freqs)
+    result = agg_p.get([aggregator.ColumnAggregator], [], {}, ngram_freqs)
     result = DataFrame({'Frequencies': result})
 
-The first thing to note is that I modified the loop from the previous step by adding the :class:`FrequencyExperimenter` to the :meth:`get_data` call on line 18 that uses the :class:`NGramIndexer`.
-As you can see, the aggregation step is actually the easiest; it simply requires we create an :class:`AggregatedPieces` object and call its :meth:`get_data` method with the appropriate input, which is the frequency data we collected in the loop.
+The first thing to note is that I modified the loop from the previous step by adding the :class:`FrequencyExperimenter` to the :meth:`get` call on line 18 that uses the :class:`NGramIndexer`.
+As you can see, the aggregation step is actually the easiest; it simply requires we create an :class:`AggregatedPieces` object and call its :meth:`get` method with the appropriate input, which is the frequency data we collected in the loop.
 
 On line 22, ``result`` holds a :class:`Series` with all the information we need!
 To export your data to one of the supported formats (CSV, Excel, etc.) you must create a :class:`DataFrame` and use one of the methods described in the `pandas documentation <http://pandas.pydata.org/pandas-docs/stable/io.html>`_.

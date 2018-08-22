@@ -191,9 +191,9 @@ class FilterByOffsetIndexer(indexer.Indexer):
     ip = Importer('full_path_to_piece_in_symbolic_notation.xml')
     # assuming you want to apply the offset filter to the noterest
     # indexer results:
-    nr = ip.get_data('noterest')
+    nr = ip.get('noterest')
     setts = {'quarterLength': 'dynamic'}
-    filtered_nr = ip.get_data('offset', data=nr, settings=setts)
+    filtered_nr = ip.get('offset', data=nr, settings=setts)
     """
 
     required_score_type = 'pandas.Series'
@@ -219,7 +219,7 @@ class FilterByOffsetIndexer(indexer.Indexer):
         beatstrength, and noterest indexer dataframes and finally the
         "highest_time" of the piece or movement in that order. The
         correct information is automatically fetched if this indexer is
-        called on an IndexedPiece object via the get_data method() if
+        called on an IndexedPiece object via the get() method() if
         the 'data' argument in that method is not passed.
 
     :keyword 'method': The value passed as the ``method`` kwarg to
@@ -241,9 +241,9 @@ class FilterByOffsetIndexer(indexer.Indexer):
 
     >>> from vis.models.indexed_piece import Importer
     >>> ip = Importer('path_to_piece.xml')
-    >>> notes = ip.get_data('noterest')
+    >>> notes = ip.get('noterest')
     >>> setts = {'quarterLength': 2}
-    >>> ip.get_data('offset', data=notes, settings=setts)
+    >>> ip.get('offset', data=notes, settings=setts)
 
     # Note that other analysis results can be passed to the offset indexer too,
     # such as the IntervalIndexer results as in the following example. Note

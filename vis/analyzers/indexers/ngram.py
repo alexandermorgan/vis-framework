@@ -208,9 +208,9 @@ class NGramIndexer(indexer.Indexer):
             'directed': True,
             'horiz_attach_later': True
         }
-    >>> vert_ints = ip.get_data('vertical_interval', settings=vert_settings)
-    >>> horiz_ints = ip.get_data('horizontal_interval', settings=horiz_settings)
-    >>> ip.get_data('ngram', data=[vert_ints, horiz_ints], settings=ngram_settings)
+    >>> vert_ints = ip.get('vertical_interval', settings=vert_settings)
+    >>> horiz_ints = ip.get('horizontal_interval', settings=horiz_settings)
+    >>> ip.get('ngram', data=[vert_ints, horiz_ints], settings=ngram_settings)
 
     """
 

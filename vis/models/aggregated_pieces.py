@@ -45,7 +45,7 @@ class AggregatedPieces(object):
     Hold data from multiple :class:`~vis.models.indexed_piece.IndexedPiece` instances.
     """
 
-    # When get_data() is called but _pieces is still an empty list.
+    # When get() is called but _pieces is still an empty list.
     _NO_PIECES = 'This aggregated_pieces object has no pieces assigned to it. This probably means \
 that this aggregated_pieces object was instantiated incorrectly. Please refer to the documentation \
 on the Importer() method in vis.models.indexed_piece.'
@@ -53,12 +53,12 @@ on the Importer() method in vis.models.indexed_piece.'
     # When a directory has no files in it.
     _NO_FILES = 'There are no files in the directory provided.'
 
-    # When get_data() is missing the "settings" and/or data" argument but needed them, or was supplied .
+    # When get() is missing the "settings" and/or data" argument but needed them, or was supplied .
     _SUPERFLUOUS_OR_INSUFFICIENT_ARGUMENTS = 'You made improper use of the settings and/or data \
 arguments. Please refer to the {} documentation to see what it requires.'
 
-    # When one of the "aggregated_experiments" classes in get_data() isn't an Experimenter subclass
-    _NOT_EXPERIMENTER = 'The "combined_experimenter" argument of the AggregatedPieces.get_data() \
+    # When one of the "aggregated_experiments" classes in get() isn't an Experimenter subclass
+    _NOT_EXPERIMENTER = 'The "combined_experimenter" argument of the AggregatedPieces.get() \
 method requires an experimenter that can combine the results of multiple pieces but instead \
 received {}. Please choose from one of the following: {}.'
 
@@ -100,7 +100,7 @@ received {}. Please choose from one of the following: {}.'
         self._metafile = metafile if metafile is not None else []
         self._metadata = {}
         init_metadata()
-        # Multi-key dictionary for combined_experimenter calls to get_data()
+        # Multi-key dictionary for combined_experimenter calls to get()
         self._experimenters = {# Experimenters that can combine results from multiple pieces:
                          'ag': aggregator.ColumnAggregator,
                          'aggregator': aggregator.ColumnAggregator,
@@ -222,8 +222,8 @@ received {}. Please choose from one of the following: {}.'
         temp = []
         if isinstance(data[0][0], pandas.DataFrame):
             for i in data:
-                freq = self.get_data('frequency', data=i)
-                agg = self.get_data('aggregator', data=freq)
+                freq = self.get('frequency', data=i)
+                agg = self.get('aggregator', data=freq)
                 sers = [df.iloc[:, 0] for df in agg]
                 temp.append(sers)
 
@@ -232,7 +232,7 @@ received {}. Please choose from one of the following: {}.'
 
         return dendrogram.HierarchicalClusterer(data, settings).run()
 
-    def get_data(self, ind_analyzer=None, combined_experimenter=None, settings=None, data=None):
+    def get(self, ind_analyzer=None, combined_experimenter=None, settings=None, data=None):
         """
         Get the results of an :class:`Indexer` or an :class:`Experimenter` run on all the
         :class:`IndexedPiece` objects either individually, or all together. If settings are
@@ -256,7 +256,7 @@ received {}. Please choose from one of the following: {}.'
         **Examples**
 
         .. note:: The analyzers in the ``analyzer_cls`` argument are run with
-            :meth:`~vis.models.indexed_piece.IndexedPiece.get_data` from the :class:`IndexedPiece`
+            :meth:`~vis.models.indexed_piece.IndexedPiece.get` from the :class:`IndexedPiece`
             objects themselves. Thus any exceptions raised there may also be raised here.
         Get the results of an Experimenter or Indexer run on this :class:`IndexedPiece`.
 
@@ -291,9 +291,9 @@ received {}. Please choose from one of the following: {}.'
 
         if ind_analyzer is not None: # for indexers or experimenters run individually on each indexed_piece in self._pieces
             if data is None:
-                results = [p.get_data(ind_analyzer, **args_dict) for p in self._pieces]
+                results = [p.get(ind_analyzer, **args_dict) for p in self._pieces]
             else:
-                results = [p.get_data(ind_analyzer, data[i], **args_dict) for i, p in enumerate(self._pieces)]
+                results = [p.get(ind_analyzer, data[i], **args_dict) for i, p in enumerate(self._pieces)]
 
         if combined_experimenter is not None: # for experimenters that combine all the results in the data argument
             if ind_analyzer is not None:

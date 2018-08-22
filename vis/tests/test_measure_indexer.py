@@ -105,7 +105,7 @@ class TestMeasureIndexer(unittest.TestCase):
         measure_data = pandas.Series([1, 2], index=[0.0, 4.0])
         expected = pandas.concat([measure_data]*2, axis=1)
         ip = Importer(os.path.join(VIS_PATH, 'tests', 'corpus/test_fermata_rest.xml'))
-        actual = ip.get_data('measure')
+        actual = ip.get('measure')
         expected.columns = actual.columns
         self.assertTrue(actual.equals(expected))
 

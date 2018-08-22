@@ -70,26 +70,26 @@ class TestIndexedPieceA(TestCase):
         self.assertRaises(TypeError, self.ind_piece.metadata, [])
         self.assertRaises(TypeError, self.ind_piece.metadata, {})
 
-    def test_get_data_0(self):
+    def test_get_0(self):
         """try getting data for a non-Indexer, non-Experimenter class"""
         non_analyzer = Mock()
-        self.assertRaises(KeyError, self.ind_piece.get_data, non_analyzer)
+        self.assertRaises(KeyError, self.ind_piece.get, non_analyzer)
 
-    def test_get_data_1(self):
+    def test_get_1(self):
         """
-        That get_data() complains when an Indexer expects the results of another Indexer but
+        That get() complains when an Indexer expects the results of another Indexer but
         doesn't get them.
         """
         mock_indexer_cls = type('MockIndexer', (Indexer,), {})
         mock_indexer_cls.required_score_type = pandas.DataFrame
-        self.assertRaises(RuntimeWarning, self.ind_piece.get_data, vis.analyzers.indexers.ngram.NGramIndexer)
+        self.assertRaises(RuntimeWarning, self.ind_piece.get, vis.analyzers.indexers.ngram.NGramIndexer)
 
-    def test_get_data_2(self):
+    def test_get_2(self):
         """
-        That get_data() complains when you call it with something that isn't either an Indexer
+        That get() complains when you call it with something that isn't either an Indexer
         or Experimenter.
         """
-        self.assertRaises(KeyError, self.ind_piece.get_data, TestIndexedPieceA)
+        self.assertRaises(KeyError, self.ind_piece.get, TestIndexedPieceA)
 
     def test_get_nrindex_1(self):
         """That _get_noterest() returns self._analyses['noterest'] if it's not None."""

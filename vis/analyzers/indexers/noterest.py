@@ -125,14 +125,14 @@ class NoteRestIndexer(indexer.Indexer):
     :class:`Rest` objects become ``'Rest'``, and :class:`Note` objects become the string-format
     version of their :attr:`~music21.note.Note.nameWithOctave` attribute.
 
-    This indexer is meant to be called indirectly with a call to get_data on an indexed piece in the
+    This indexer is meant to be called indirectly with a call to get() on an indexed piece in the
     manner of the following example.
 
     **Example:**
 
     from vis.models.indexed_piece import Importer
     ip = Importer('path_to_piece.xml')
-    ip.get_data('noterest')
+    ip.get('noterest')
     """
 
     required_score_type = 'pandas.DataFrame'
@@ -158,14 +158,14 @@ class MultiStopIndexer(indexer.Indexer):
     version of their :attr:`~music21.note.Note.nameWithOctave` attribute.
     :class:`~music21.chord.Chord` objects get unpacked into their constituent pitches.
 
-    This indexer is meant to be called indirectly with a call to get_data on an indexed piece in the
+    This indexer is meant to be called indirectly with a call to get() on an indexed piece in the
     manner of the following example.
 
     **Example:**
 
     from vis.models.indexed_piece import Importer
     ip = Importer('path_to_piece.xml')
-    ip.get_data('multistop')
+    ip.get('multistop')
     """
 
     required_score_type = 'pandas.DataFrame'

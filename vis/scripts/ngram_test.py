@@ -50,27 +50,27 @@ n_setts_5 = {'n': 3, 'continuer': 'P1', 'horizontal': 'lowest', 'vertical': 'all
 
 ip = indexed_piece.Importer(piece_path)
 print(ip.metadata('parts'))
-nr = ip.get_data('noterest')
-hz = ip.get_data('horizontal_interval')
-vt = ip.get_data('vertical_interval')
-ng = ip.get_data('ngram', data=(vt, hz), settings=n_setts_4)
-du = ip.get_data('duration')
+nr = ip.get('noterest')
+hz = ip.get('horizontal_interval')
+vt = ip.get('vertical_interval')
+ng = ip.get('ngram', data=(vt, hz), settings=n_setts_4)
+du = ip.get('duration')
 ts = ip._get_time_signature()
-off = ip.get_data('offset', data=nr, settings={'quarterLength': 'dynamic'})
+off = ip.get('offset', data=nr, settings={'quarterLength': 'dynamic'})
 # setts = {'use_title': True, 'run_lilypond':True, 'output_pathname': 'trialpath'}#, 'annotation_part': hz}
-# ip.get_data('lilypond', data=ip._score, settings=setts)
+# ip.get('lilypond', data=ip._score, settings=setts)
 # out_path = '/home/amor/new/vis-framework/vis/scripts/Success'
 # setts = {'run_lilypond': True, 'output_pathname': out_path}
-# ip.get_data('lilypond', data=[ip._score], settings=setts)
+# ip.get('lilypond', data=[ip._score], settings=setts)
 pdb.set_trace()
 t0 = time.time()
-# input_dfs = [ip.get_data('noterest'), ip.get_data('vertical_interval')]
+# input_dfs = [ip.get('noterest'), ip.get('vertical_interval')]
 # ob_setts = {'type': 'notes'}
-# overbass = ip.get_data('over_bass', data=input_dfs, settings=ob_setts)
+# overbass = ip.get('over_bass', data=input_dfs, settings=ob_setts)
 # ca_setts = {'length': 3}
-# ca = ip.get_data('cadence', data=[overbass], settings=ca_setts)
+# ca = ip.get('cadence', data=[overbass], settings=ca_setts)
 # ag = indexed_piece.Importer(folder)
-# di = ag.get_data(ind_analyzer='dissonance')
+# di = ag.get(ind_analyzer='dissonance')
 # ps = ip._get_part_streams()
 # bs = ip._get_beat_strength()
 # dr = ip._get_duration()

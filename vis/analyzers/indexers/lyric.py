@@ -60,7 +60,7 @@ class LyricIndexer(indexer.Indexer):
 
     >>> from vis.models.indexed_piece import Importer
     >>> ip = Importer('pathnameToScore.xml')
-    >>> ip.get_data('lyric')
+    >>> ip.get('lyric')
 
     """
     required_score_type = 'pandas.DataFrame'

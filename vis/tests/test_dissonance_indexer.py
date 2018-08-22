@@ -181,7 +181,7 @@ class TestDissonanceIndexer(unittest.TestCase):
         expected.replace('Z', '-', inplace=True)
         expected.replace('O', '-', inplace=True)
         ip = Importer(os.path.join(VIS_PATH, 'tests', 'corpus', 'Kyrie.krn'))
-        actual = ip.get_data('dissonance')
+        actual = ip.get('dissonance')
         expected.columns = actual.columns # the pickle file has old-style column names.
         assert_frame_equal(actual, expected)
 

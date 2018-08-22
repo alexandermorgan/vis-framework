@@ -136,7 +136,7 @@ class TestDurationIndexer(unittest.TestCase):
         test_part = [test_part]
         ip._analyses['part_streams'] = test_part
         ip.metadata('parts', [expected.name])
-        actual = ip.get_data('duration').iloc[:, 0]
+        actual = ip.get('duration').iloc[:, 0]
         self.assertTrue(actual.equals(expected))
 
     def test_duration_indexer_4(self):
@@ -144,7 +144,7 @@ class TestDurationIndexer(unittest.TestCase):
         expected = TestDurationIndexer.make_series(TestDurationIndexer.bwv77_soprano)
         ip = Importer(os.path.join(VIS_PATH, 'tests', 'corpus/bwv77.mxl'))
         ip._analyses['part_streams'] = ip._get_part_streams()
-        actual = ip.get_data('duration').iloc[:, 0].dropna()
+        actual = ip.get('duration').iloc[:, 0].dropna()
         self.assertTrue(actual.equals(expected))
 
     def test_duration_indexer_5(self):
@@ -152,7 +152,7 @@ class TestDurationIndexer(unittest.TestCase):
         # correctly. Since the data argument is passed, these results should not be cached.
         expected = TestDurationIndexer.make_series(TestDurationIndexer.bwv603_alto)
         ip = Importer(os.path.join(VIS_PATH, 'tests', 'corpus/bwv603.xml'))
-        actual = ip.get_data('duration', data=(ip.get_data('noterest'), ip._analyses['part_streams'])).iloc[:, 1].dropna()
+        actual = ip.get('duration', data=(ip.get('noterest'), ip._analyses['part_streams'])).iloc[:, 1].dropna()
         self.assertTrue(actual.equals(expected))
         self.assertTrue('duration' not in ip._analyses.keys())
 
@@ -163,7 +163,7 @@ class TestDurationIndexer(unittest.TestCase):
                                   TestDurationIndexer.make_series(TestDurationIndexer.bwv603_bass)], axis=1)
         expected.columns = pandas.MultiIndex.from_product([('meter.DurationIndexer',), ('Soprano', 'Bass')])
         ip = Importer(os.path.join(VIS_PATH, 'tests', 'corpus/bwv603.xml'))
-        actual = ip.get_data('duration').iloc[:, [0, 3]].dropna(how='all')
+        actual = ip.get('duration').iloc[:, [0, 3]].dropna(how='all')
         self.assertTrue(actual.equals(expected))
 
 

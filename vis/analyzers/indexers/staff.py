@@ -89,7 +89,7 @@ class ClefIndexer(indexer.Indexer):
     **Example:**
     from vis.models.indexed_piece import Importer
     ip = Importer('pathnameToScore.xml')
-    ip.get_data('cl')
+    ip.get('cl')
     """
 
     required_score_type = 'pandas.Series' # actually a list of series
@@ -124,7 +124,7 @@ class KeySignatureIndexer(indexer.Indexer):
     **Example:**
     from vis.models.indexed_piece import Importer
     ip = Importer('pathnameToScore.xml')
-    ip.get_data('ks')
+    ip.get('ks')
     """
 
     required_score_type = 'pandas.Series' # actually a list of series
