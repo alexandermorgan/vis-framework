@@ -637,6 +637,12 @@ strings to identify the desired Indexer or Experimenter: {}.'
             for i, ser in enumerate(sers): # and index  the offsets
                 if not ser.index.is_unique: # the index is often not unique if there is an embedded voice
                     sers[i] = _combine_voices(ser, self._get_m21_objs()[i])
+                # if it's still not unique, it's probably because of quantization.
+                # This is a somewhat brutal solution in that it wipes all notes
+                # that have a zero duration.
+                if not ser.index.is_unique:
+                    temp = sers[i].apply(lambda x: x.quarterLength)
+                    sers[i] = sers[i][temp > 0]
             self._analyses['m21_nrc_objs'] = pandas.concat(sers, axis=1)
         return self._analyses['m21_nrc_objs']
 

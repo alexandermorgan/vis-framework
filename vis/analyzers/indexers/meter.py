@@ -251,6 +251,7 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
         super(MeasureIndexer, self).__init__(score, settings)
         self._types = ('Measure',)
         self._indexer_func = measure_ind_func
+        self._settings = settings
         self._part_streams = part_streams
 
     def _convert_ts(self, cell):
@@ -293,9 +294,9 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
                     # pdb.set_trace()
                 cols.append(pandas.Series(range(1, len(m_indx)), index=m_indx[:-1]))
             res = pandas.concat(cols, axis=1)
-            if (isinstance(self._settings, dict) and 'style' in self._settings
-                and self._settings['style'] == 'Humdrum'):
-                res = res.applymap(self._hummify)
+        if (isinstance(self._settings, dict) and 'style' in self._settings
+            and self._settings['style'] == 'Humdrum'):
+            res = res.applymap(self._hummify)
 
         return res
 
@@ -339,6 +340,7 @@ class TimeSignatureIndexer(indexer.Indexer):
         return ret.fillna('*')
 
 
+
 class MensurationIndexer(indexer.Indexer):
     """
     Make an index of the mensuration signs in a piece. This is independent of
@@ -360,7 +362,7 @@ class MensurationIndexer(indexer.Indexer):
 
         :raises: :exc:`RuntimeError` if ``score`` is the wrong type.
         """
-        super(MeasureIndexer, self).__init__(score, None)
+        super(MensurationIndexer, self).__init__(score, None)
         self._types = ('Mensuration',)
         self._indexer_func = mensuration_ind_func
 
