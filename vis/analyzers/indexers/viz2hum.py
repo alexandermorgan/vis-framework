@@ -42,10 +42,11 @@ from vis.analyzers.indexers.meter import tie_ind_func as tieIF
 
 
 # Used to memoize hDurIF results. Start with some tuplet durations since I
-# currently have a function that can handle these.
+# don't currently have a function that can handle these.
 recip = {2.66667: '3%2', # two thirds of a whole note
          1.33333: '3', # one third of a whole note
-         .66667: '3%4'}
+         .66667: '3%4',
+         }
 
 def hDurIF(event):
     """Works on notes, rests, and chords. Returns a single value for chords.
@@ -173,31 +174,6 @@ class Viz2HumIndexer(indexer.Indexer):
         """
         num_cols = self._score[0].shape[1]
         col_indx = range(num_cols)
-        dfs = [df for df in self._score[:5]]
-        # Index the note, rest and chord objects.
-        dfs[4] = dfs[4].applymap(indexer_func) # nrc objects
-        # Reverse the order of the parts.
-        dfs[4] = pd.concat([dfs[4].iloc[:,i] for i in col_indx], axis=1)
-
-        for i, df in enumerate(dfs):
-            # drop the column names:
-            df.columns = col_indx
-            # Give a name to the existing index
-            df.index.name = 'Offset'
-            # Create a new index, first as a column
-            df['Order'] = i
-            # Make the "Order" column part of the MultiIndex
-            df.set_index('Order', append=True, inplace=True)
-
-        # Merge and sort dfs, breaking offset ties with "Order" from above.
-        post = pd.concat(dfs)
-        post.sort_index(inplace=True)
-        # Reverse the order of the parts:
-        post = pd.concat([post.iloc[:,x] for x in reversed(col_indx)], axis=1, ignore_index=True)
-
-        # Make the empty cells into period strings.
-        post.fillna('.', inplace=True)
-
         # Prepare the fields at the beginning of the file.
         vizmd = self._score[6] # Vizitka metadata
         m21md = self._score[7] # music21 metadata
@@ -220,8 +196,57 @@ class Viz2HumIndexer(indexer.Indexer):
                              '*I"'+vizmd['parts'][i] if vizmd['parts'][i][:5] != 'Part ' else None,
                               #part-name abbreviations:
                              "*I'"+vizmd['parts'][i][0] if vizmd['parts'][i][:5] != 'Part ' else None,
-                             )).dropna() for i in col_indx]
+                             )).dropna() for i in reversed(col_indx)]
         header = pd.concat(header, axis=1)
+
+        dfs = [df for df in self._score[:4]]
+        # Index the note, rest and chord objects
+        dfs.append(self._score[4].applymap(indexer_func))
+        # If there are lyrics, make sure the nrc and lyric dfs are the same shape
+        if not self._score[5].empty: # LyricIndexer results
+            nrly = pd.concat((dfs[4], self._score[5]), axis=1, ignore_index=True)
+            # Separate them back out and add nrc results back to dfs
+            dfs[4] = nrly.iloc[:, :dfs[4].shape[1]]
+
+        for i, df in enumerate(dfs):
+            # drop the column names:
+            df.columns = col_indx
+            # Give a name to the existing index
+            df.index.name = 'Offset'
+            # Create a new index, first as a column
+            df['Order'] = i
+            # Make the "Order" column part of the MultiIndex
+            df.set_index('Order', append=True, inplace=True)
+
+        # Merge and sort all dfs but lyric, breaking offset ties with "Order" from above.
+        post = pd.concat(dfs)
+        post.sort_index(inplace=True)
+        # Reverse the order of the parts:
+        post = pd.concat([post.iloc[:,x] for x in reversed(col_indx)], axis=1, ignore_index=True)
+
+        # If necessary, do the same for the LyricIndexer results in place of the nrc df
+        if not self._score[5].empty: # LyricIndexer results
+            dfs.append(nrly.iloc[:, dfs[4].shape[1]:]) # reshaped lyric results
+            dfs[-1].columns, dfs[-1].index = col_indx, dfs[-2].index
+            dfs.pop(-2) # remove nrc df from dfs
+            # Merge and sort all dfs but nrc, breaking offset ties with "Order" from above.
+            vost = pd.concat(dfs)
+            vost.sort_index(inplace=True)
+            # Reverse the order of the parts:
+            vost = pd.concat([vost.iloc[:,x] for x in reversed(col_indx)], axis=1, ignore_index=True)
+            ly_header = header.copy()
+            ly_header.iloc[0, :] = '**text'
+            # combine nrc and lyric dfs and their respective headers too
+            cols1, cols2 = [], []
+            temp = [(cols1.append(header.iloc[:,x]), cols1.append(ly_header.iloc[:,x]),
+                     cols2.append(post.iloc[:,x]), cols2.append(vost.iloc[:,x]))
+                    for x in range(num_cols)]
+            # make a new combined header
+            header = pd.concat(cols1, axis=1, ignore_index=True)
+            # make a new combined post
+            post = pd.concat(cols2, axis=1, ignore_index=True)
+            # this will make the footer the right shape
+            num_cols *= 2
 
         # final barlines and end of kern tokens
         footer = pd.concat([pd.Series(['==', '*_'])]*num_cols, axis=1)
@@ -231,8 +256,13 @@ class Viz2HumIndexer(indexer.Indexer):
                      enc,
                      eed,
                      '!!!ONB: Converted to Humdrum using Vizitka', # Vizitka conversion stamp
-                     None if not hasattr(m21md, 'copyright') or m21md.copyright is None else '!!!YEC: '+m21md.copyright,
+                     None if not (hasattr(m21md, 'copyright') and m21md.copyright is not None) else
+                        '!!!YEC: '+m21md.copyright.getNormalizedArticle(),
                      None if not hasattr(m21md, 'date') or m21md.date == 'None' else '!!!DAT: '+m21md.date)).dropna()
+
+        # Make the empty cells into period strings.
+        post.fillna('.', inplace=True)
+
         # Assemble all the chunks and get rid of the row index.
         res = pd.concat((head_data, header, post, footer, tail_data), ignore_index=True)
 
