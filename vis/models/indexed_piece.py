@@ -927,7 +927,14 @@ strings to identify the desired Indexer or Experimenter: {}.'
         default is to use the title of the piece in the metadata (not a very
         reliable naming convention) or the current indexed_piece's current
         path if there is no title. If there are lyrics in the piece, they
-        will be included in the new kern file."""
+        will be included in the new kern file.
+
+        **Example**
+        from vis.models.indexed_piece import Importer()
+        # Make an IndexedPiece object out of a symbolic notation file:
+        ip = Importer('path_to_file.xml')
+        ip.to_kern() # exports the piece to a kern file at 'path_to_file.krn'
+        """
         # no valid path string was provided
         if not (isinstance(path, str) and path):
             if self._metadata['title']: # if there's a title in the metadata, use that
@@ -978,100 +985,3 @@ strings to identify the desired Indexer or Experimenter: {}.'
         df.set_index('Measure', append=True, inplace=True)
         # Rearrange indecies and return result. NB: rearranging cannot be done in place
         return df.reorder_levels(('Measure', 'Offset'))
-
-    def _open_file(self):
-
-        if os.path.isfile(self._metafile):
-            with open(self._metafile) as mf:
-                f = []
-                x = 0
-
-                lines = mf.readlines()
-                exists = False
-                if '/' in self._pathname:
-                    pth = self._pathname.split('/')
-                    pth = pth[len(pth) - 1]
-                else:
-                    pth = self._pathname
-                for line in lines:
-                    if self._pathname in line or pth in line:
-                        exists = True
-                if not exists:
-                    warnings.warn('The meta file you have included does not seem to correspond to the file.')
-                    return
-
-                for n, line in enumerate(lines):
-                    if line.startswith('}'):
-                        line_range = [x, n]
-                        x = n + 1
-                        f.append(line_range)
-
-                if len(f) == 1:
-                    self._json_reader()
-
-                for pair in f:
-                    for line in lines[pair[0]: pair[1]]:
-                        if self._pathname in line:
-                            target = open('temp', 'w')
-                            for line1 in lines[pair[0]: pair[1]]:
-                                target.write(line1)
-                            target.write('}' + '\n')
-                            target.close()
-                            self._metafile = 'temp'
-                            self._json_reader()
-        else:
-            self._json_reader()
-
-    def load_url(self, url):
-
-        if self._username is None:
-            raise RuntimeError(self._MISSING_USERNAME)
-        elif self._password is None:
-            raise RuntimeError(self._MISSING_PASSWORD)
-        else:
-            self._logged = login_edb(self._username, self._password)
-        resp = auth_get(url, self._logged['csrftoken'], self._logged['sessionid'])
-
-        try:
-            resp.json()
-        except ValueError:
-            if url[len(url) - 1] == '/':
-                url = url + '?format=json'
-            else:
-                url = url + '&format=json'
-
-        resp = auth_get(url, self._logged['csrftoken'], self._logged['sessionid'])
-
-        jason = resp.json()
-        return url, jason
-
-    def _json_reader(self):
-
-        if os.path.isfile(self._metafile):
-            with open(self._metafile) as mf:
-                data = json.load(mf)
-                mf.close()
-
-        else:
-            url, data = self.load_url(self._metafile)
-
-        self._metadata['composer'] = data['composer']['title']
-        self._metadata['languages'] = []
-        for lang in data['languages']:
-            for title in lang:
-                self._metadata['languages'].append(lang[title])
-        self._metadata['tags'] = []
-        for tag in data['tags']:
-            for title in tag:
-                self._metadata['tags'].append(tag[title])
-        if 'piece' in data:
-            self._metadata['title'] = data['piece']['title'] + ': ' + data['title']
-        else:
-            self._metadata['title'] = data['title']
-        self._metadata['composer'] = data['composer']['title']
-        types = ['vocalization', 'sources', 'religiosity', 'locations', 'instruments_voices', 'genres', 'creator']
-        for dat in types:
-            self._metadata[dat] = data[dat]
-
-        if self._metafile is 'temp':
-            os.remove('temp')
