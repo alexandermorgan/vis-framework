@@ -474,9 +474,6 @@ strings to identify the desired Indexer: {}.'
         else:
             return '<IndexedPiece ({})>'.format(self.metadata('pathname'))
 
-    def __unicode__(self):
-        return str(self)
-
     def metadata(self, field, value=None):
         """
         Get or set metadata about the piece.
@@ -909,7 +906,6 @@ strings to identify the desired Indexer: {}.'
 
         self._get_viz2hum().to_csv(path, sep='\t', index=False, header=False,
                                    index_label=False, quotechar='`')
-
 
     def measure_index(self, dataframe):
         """Multi-indexes the index of the passed dataframe by adding the measures to the offsets.
