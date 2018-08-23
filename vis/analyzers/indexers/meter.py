@@ -269,10 +269,7 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
         """Needed for processing of midi files."""
         if isinstance(cell, float):
             return cell
-        elif cell == 1:
-            return '=1-'
-        else:
-            return '=' + str(cell)
+        return '=' + str(cell)
 
     def run(self):
         res = self._score[0].applymap(self._indexer_func)
@@ -294,9 +291,13 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
                     # pdb.set_trace()
                 cols.append(pandas.Series(range(1, len(m_indx)), index=m_indx[:-1]))
             res = pandas.concat(cols, axis=1)
+        # Make the measure tokens conform to Humdrum syntax if requested
         if (isinstance(self._settings, dict) and 'style' in self._settings
             and self._settings['style'] == 'Humdrum'):
             res = res.applymap(self._hummify)
+            # Make the first measure in each part invisible. This could be a
+            # measure 1 or a measure 0 if there is a pick-up.
+            res.iloc[0, :] = res.iloc[0, :].apply(lambda x: str(x + '-'))
 
         return res
 
