@@ -31,7 +31,6 @@ from unittest import TestCase, TestLoader
 from unittest.mock import MagicMock, Mock
 import pandas
 from vis.analyzers.indexer import Indexer
-from vis.analyzers.experimenter import Experimenter
 from vis.models.aggregated_pieces import AggregatedPieces
 from vis.models.indexed_piece import Importer, IndexedPiece
 import vis
@@ -146,16 +145,6 @@ class TestAggregatedPieces(TestCase):
         for piece in self.ind_pieces:
             piece.metadata.assert_called_once_with('locale_of_composition')
 
-    def test_get_1(self):
-        """try getting data for a non-Indexer, non-Experimenter class"""
-        self.assertRaises(TypeError, self.agg_p.get, None, '')
-        try:
-            self.agg_p.get(None, '')
-        except TypeError as t_err:
-            # pylint: disable=protected-access
-            self.assertEqual(AggregatedPieces._NOT_EXPERIMENTER.format('', sorted(self.agg_p._experimenters.keys())),
-                             t_err.args[0])
-
     def test_get_2(self):
         """try get() on an AggregatedPieces object with no pieces"""
         aps = AggregatedPieces()
@@ -165,17 +154,6 @@ class TestAggregatedPieces(TestCase):
         except RuntimeWarning as r_warn:
             # pylint: disable=protected-access
             self.assertEqual(AggregatedPieces._NO_PIECES, r_warn.args[0])
-
-    def test_get_3(self):
-        """integration test with a nested called to get(), an ind_analyzer and a
-        combined_experimenter"""
-        expected = pandas.Series([4.0,2.0,2.0,2.0,2.0,2.0,2.0,4.0],
-                                 index=['C3','C4','D4','E4','F4','G2','G4','Rest'])
-        pieces = [Importer(os.path.join(VIS_PATH, 'tests', 'corpus', 'test_fermata_rest.xml'))]*2
-        aps = AggregatedPieces(pieces=pieces)
-        actual = aps.get(combined_experimenter='aggregator',
-                              data=aps.get(ind_analyzer='noterest', combined_experimenter='frequency'))
-        self.assertTrue(actual.iloc[:,0].equals(expected))
 
     def test_date(self):
         date = ['----/--/-- to ----/--/--']

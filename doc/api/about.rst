@@ -35,11 +35,10 @@ Finally, if your query cannot be implemented using the built-in analyzers, you c
 A More Detailed Look
 =========================
 
-Two Types of Analyzers
+Indexers
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Analyzers make music analysis decisions.
-The VIS Framework has two types of analyzers: indexers and experimenters.
+The VIS Framework consists of a wide variety of indexers.
 
 **Indexers** use a :class:`music21.stream.Score`, or a :class:`pandas.DataFrame` from another indexer, to perform a music analytic calculation.
 The output of any indexer can be sensibly attached to a specific moment of a piece.
@@ -47,22 +46,6 @@ That is, indexers are for events that "happen" at an identifiable time.
 Indexers may be relatively simple, like the :class:`~vis.analyzers.indexers.interval.IntervalIndexer`, which accepts an index of the notes and rests in a piece, transforming it into an index of the vertical intervals between all the pairs of parts.
 Indexers may also be complicated, like the :class:`~vis.analyzers.indexers.ngram.NGramIndexer`, which accepts at least one index of anything, and outputs an index of successions found therein.
 An indexer might tell you scale degrees, the harmonic function of a chord, the figured bass signature of a simultaneity, or the moment of a modulation.
-
-**Experimenters** always start with a :class:`~pandas.DataFrame` produced by another analyzer, producing results that cannot be sensibly attached to a specific moment of a piece.
-That is, experimenters are for characteristics of a piece (or movement) as a whole.
-Experiments may be relatively simple, like the :class:`~vis.analyzers.experimenters.frequency.FrequencyExperimenter`, which counts the number of occurrences of the objects in a :class:`DataFrame`.
-Experimenters may also be complicated, like one that produces a Markov transition model of figured bass signatures.
-
-The distinction between indexers and experimenters helps to organize valid workflows.
-Analyses may flow from indexer to indexer, from indexer to experimenter, and from experimenter to experimenter.
-However, an analysis may not move from an experimenter to an indexer; once moment-specific information is lost, it cannot be recovered.
-(The exception to the rule: indexers may use data from experimenters---as long as they also use data from another indexer or a :class:`Score`).
-
-When designing your own analyzers, we encourage you to avoid the temptation to include many analysis steps in the same analyzer. Please keep things modular and as simple as possible.
-
-If required, you may use an analyzer to run external programs, possibly written in a different programming language.
-For example, the :class:`~vis.analyzers.experimenters.barchart.RBarChart` experimenter runs a program in the R language, using the *ggplot2* library to produce a bar chart.
-Another example is the :class:`~vis.analyzers.experimenters.lilypond.LilyPondExperimenter`, which uses the external :mod:`outputlilypond` Python module to produce a file for `LilyPond <https://lilypond.org>`_, a C program, which that module calls directly.
 
 Two Types of Models
 ^^^^^^^^^^^^^^^^^^^^^^^^^

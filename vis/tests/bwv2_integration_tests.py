@@ -31,7 +31,6 @@ from unittest import TestCase, TestLoader
 import pandas
 from vis.models.indexed_piece import Importer, IndexedPiece
 from vis.analyzers.indexers import noterest, interval, ngram
-from vis.analyzers.experimenters import frequency
 
 # get the path to the 'vis' directory
 import vis

@@ -31,13 +31,6 @@ The model representing data from multiple :class:`~vis.models.indexed_piece.Inde
 import sys
 import os
 import pandas
-from vis.analyzers import experimenter
-from vis.analyzers.experimenters import aggregator, barchart, frequency
-# Only import dendrogram experiment if scipy and matplotlib have been installed.
-try:
-    from vis.analyzers.experimenters import dendrogram
-except ImportError:
-    pass
 
 
 class AggregatedPieces(object):
@@ -57,10 +50,6 @@ on the Importer() method in vis.models.indexed_piece.'
     _SUPERFLUOUS_OR_INSUFFICIENT_ARGUMENTS = 'You made improper use of the settings and/or data \
 arguments. Please refer to the {} documentation to see what it requires.'
 
-    # When one of the "aggregated_experiments" classes in get() isn't an Experimenter subclass
-    _NOT_EXPERIMENTER = 'The "combined_experimenter" argument of the AggregatedPieces.get() \
-method requires an experimenter that can combine the results of multiple pieces but instead \
-received {}. Please choose from one of the following: {}.'
 
     # When metadata() gets a 'field' argument that isn't a string
     _FIELD_STRING = "parameter 'field' must be of type 'string'"
@@ -100,21 +89,6 @@ received {}. Please choose from one of the following: {}.'
         self._metafile = metafile if metafile is not None else []
         self._metadata = {}
         init_metadata()
-        # Multi-key dictionary for combined_experimenter calls to get()
-        self._experimenters = {# Experimenters that can combine results from multiple pieces:
-                         'ag': aggregator.ColumnAggregator,
-                         'aggregator': aggregator.ColumnAggregator,
-                         'bc': barchart.RBarChart,
-                         'bar_chart': barchart.RBarChart,
-                         'fr': frequency.FrequencyExperimenter,
-                         'frequency': frequency.FrequencyExperimenter}
-        # Only include dendrogram experimenter if scipy and matplotlib were installed
-        try:
-            self._experimenters['de'] = self._get_dendrogram
-            self._experimenters['dendrogram'] = self._get_dendrogram
-        except NameError:
-            pass
-
 
 
     @staticmethod
@@ -215,53 +189,23 @@ received {}. Please choose from one of the following: {}.'
         else:
             return None
 
-    def _get_dendrogram(self, data, settings=None):
-        """Convenience method for plotting dendrograms. You can pass it a list of lists of pandas
-        dataframes. If there is more than one internal list, make sure to supply the ``weights``
-        setting. See the dendrogram experimenter documentation for more details."""
-        temp = []
-        if isinstance(data[0][0], pandas.DataFrame):
-            for i in data:
-                freq = self.get('frequency', data=i)
-                agg = self.get('aggregator', data=freq)
-                sers = [df.iloc[:, 0] for df in agg]
-                temp.append(sers)
-
-        if temp:
-            data = temp
-
-        return dendrogram.HierarchicalClusterer(data, settings).run()
-
-    def get(self, ind_analyzer=None, combined_experimenter=None, settings=None, data=None):
+    def get(self, ind_analyzer=None, settings=None, data=None):
         """
-        Get the results of an :class:`Indexer` or an :class:`Experimenter` run on all the
-        :class:`IndexedPiece` objects either individually, or all together. If settings are
-        provided, the same settings dict will be used throughout.
+        Get the results of an :class:`Indexer` run on all the
+        :class:`IndexedPiece` objects either individually, or all together. If
+        settings are provided, the same settings dict will be used throughout.
 
-        In VIS, analyzers are broken down into two categories: Indexers which associate observations
-        with a specific moment in a piece, and Experimenters which still work with musical
-        observations, but do not associate them with a specific moment in a specific IndexedPiece.
-        For example, the noterest.NoteRestIndexer associates each note and rest with a time point in
-        a given IndexedPiece, but if we then use the frequency.FrequencyExperimenter to count the
-        number of times each type of note or rest happens, these counts will not and cannot be
-        associated with a specific time point.
-
-        All VIS Indexers and most Experimenters  run on each piece individually, and so if  these
-        results are desired, the analyzer in question should be assigned to the ``ind_analyzer``
-        argument. The barchart.RBarChart and aggregator.ColumnAggregator experimenters often
-        combine the data of several pieces together. The frequency.FrequencyExperimenter can also
-        be used this way. If this is the desired behavior, supply the appropriate Experimenter as
-        the combined_experimenter argument.
+        Indexers  associate observations with a specific moment in a piece.
 
         **Examples**
 
         .. note:: The analyzers in the ``analyzer_cls`` argument are run with
             :meth:`~vis.models.indexed_piece.IndexedPiece.get` from the :class:`IndexedPiece`
             objects themselves. Thus any exceptions raised there may also be raised here.
-        Get the results of an Experimenter or Indexer run on this :class:`IndexedPiece`.
+        Get the results of an Indexer run on this :class:`IndexedPiece`.
 
         :param ind_analyzer: The analyzer to run.
-        :type ind_analyzer: str or VIS Indexer or Experimenter class.
+        :type ind_analyzer: str or VIS Indexer.
         :param settings: Settings to be used with the analyzer. Only use if necessary.
         :type settings: dict
         :param data: Input data for the analyzer to run. If this is provided for an indexer that
@@ -280,29 +224,14 @@ received {}. Please choose from one of the following: {}.'
         if not self._pieces: # if there are no pieces in this aggregated_pieces object
             raise RuntimeWarning(AggregatedPieces._NO_PIECES)
 
-         # make sure combined_experimenter is an appropriate experimenter
-        if combined_experimenter is not None and combined_experimenter not in self._experimenters.keys():
-            raise TypeError(AggregatedPieces._NOT_EXPERIMENTER.format(combined_experimenter,
-                                                                      sorted(self._experimenters.keys())))
-
         args_dict = {} # Only pass the settings argument if it is not ``None``.
         if settings is not None:
             args_dict['settings'] = settings
 
-        if ind_analyzer is not None: # for indexers or experimenters run individually on each indexed_piece in self._pieces
+        if ind_analyzer is not None: # for indexers run individually on each indexed_piece in self._pieces
             if data is None:
                 results = [p.get(ind_analyzer, **args_dict) for p in self._pieces]
             else:
                 results = [p.get(ind_analyzer, data[i], **args_dict) for i, p in enumerate(self._pieces)]
-
-        if combined_experimenter is not None: # for experimenters that combine all the results in the data argument
-            if ind_analyzer is not None:
-                data = results
-            try:
-                results = self._experimenters[combined_experimenter](data, **args_dict)
-                if hasattr(results, 'run'): # execute analyzer if there is no caching method for this one
-                    results = results.run()
-            except TypeError: # There is some issue with the 'settings' and/or 'data' arguments.
-                raise RuntimeWarning(AggregatedPieces._SUPERFLUOUS_OR_INSUFFICIENT_ARGUMENTS.format(self._experimenters[combined_experimenter]))
 
         return results

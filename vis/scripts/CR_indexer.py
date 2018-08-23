@@ -1,13 +1,10 @@
 from vis.analyzers.indexers import noterest, interval, new_ngram, meter, dissonance, active_voices
-from vis.models.indexed_piece import IndexedPiece 
+from vis.models.indexed_piece import IndexedPiece
 from vis.models.aggregated_pieces import AggregatedPieces
 import pandas
 import numpy
 import pdb
 import time
-from vis.analyzers.indexers import lilypond
-from vis.analyzers.experimenters.lilypond import PartNotesExperimenter, AnnotateTheNoteExperimenter, \
-    LilyPondExperimenter, annotate_the_note
 
 """Prototype Intervallic-Rhythm Indexer"""
 
@@ -136,7 +133,7 @@ for number, piece_path in enumerate(pieces):
         ddr.at[spot, cols[x]] = float('nan')
         nnr.iat[indx[x], cols[x]] = nnr.at[spot, cols[x]]
         nnr.at[spot, cols[x]] = float('nan')
-    # Delete the duration entries of weak dissonances 
+    # Delete the duration entries of weak dissonances
     ddr[dds.isin(weaks)] = float('nan')
     nnr[dds.isin(weaks)] = float('nan')
     # Delete the duration entries of strong dissonances other than suspensions
@@ -264,9 +261,6 @@ pdb.set_trace()
 # ri_ng = new_ngram.NewNGramIndexer((ri_vt, ri_hz), n_setts).run()
 
 
-# # # Output to Lilypond
-# # setts = {'run_lilypond': True, 'output_pathname': '/home/amor/Code/vis-framework/vis/scripts/Lilypond_Output', 'annotation_part': ri_vt}
-# # LilyPondExperimenter([piece], setts).run()
 
 
 # # TODO: use this new index in the same way that the current offset indexer does

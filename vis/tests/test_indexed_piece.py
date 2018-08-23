@@ -35,7 +35,6 @@ import music21
 from music21 import converter
 from vis.analyzers.indexer import Indexer
 from vis.analyzers.indexers import noterest
-from vis.analyzers.experimenter import Experimenter
 from vis.models.indexed_piece import Importer, IndexedPiece, _find_piece_title, _find_part_names, _find_piece_range, _find_part_ranges, login_edb, auth_get
 # find pathname to the 'vis' directory
 import vis
@@ -71,7 +70,7 @@ class TestIndexedPieceA(TestCase):
         self.assertRaises(TypeError, self.ind_piece.metadata, {})
 
     def test_get_0(self):
-        """try getting data for a non-Indexer, non-Experimenter class"""
+        """try getting data for a non-Indexer"""
         non_analyzer = Mock()
         self.assertRaises(KeyError, self.ind_piece.get, non_analyzer)
 
@@ -86,8 +85,7 @@ class TestIndexedPieceA(TestCase):
 
     def test_get_2(self):
         """
-        That get() complains when you call it with something that isn't either an Indexer
-        or Experimenter.
+        That get() complains when you call it with something that isn't an Indexer.
         """
         self.assertRaises(KeyError, self.ind_piece.get, TestIndexedPieceA)
 

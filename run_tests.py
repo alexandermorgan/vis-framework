@@ -39,10 +39,6 @@ from vis.tests import test_ngram
 from vis.tests import test_dissonance_indexer
 from vis.tests import test_repeat
 from vis.tests import test_interval_indexer
-from vis.tests import test_frequency_experimenter
-from vis.tests import test_aggregator
-from vis.tests import test_barchart
-# from vis.tests import test_dendrogram
 from vis.tests import test_offset
 from vis.tests import test_indexed_piece
 from vis.tests import test_aggregated_pieces
@@ -77,10 +73,6 @@ THE_TESTS = (  # Indexer and Subclasses
              test_approach.APPROACH_INDEXER_SUITE,
              test_contour.CONTOUR_INDEXER_SUITE,
              test_active_voices.ACTIVE_VOICES_INDEXER_SUITE,
-             # Experimenter and Subclasses
-             test_frequency_experimenter.FREQUENCY_SUITE,
-             test_aggregator.COLUMN_AGGREGATOR_SUITE,
-             # test_dendrogram.DENDROGRAM_SUITE, # This test suite is commented out so that we can remove our SciPy dependency.
              # Importer, IndexedPiece, and AggregatedPieces
              test_aggregated_pieces.IMPORTER_SUITE,
              test_indexed_piece.INDEXED_PIECE_SUITE_A,

@@ -65,11 +65,9 @@ Two Data Models:
 - AggregatedPieces:
     Stores, formats, and prepares data about more than one IndexedPiece.
 
-Two Types of Analyzers:
+Just indexers for analysis:
 - Indexer:
     For things that make sense to imagine as starting at the beginning and ending at the end of a piece, like "notes" or "chords." You might describe these as "observed" features.
-- Experimenter:
-    For things that correspond to a piece, but not a particular moment in it, like "number of notes" and "contrapuntal entropy." You might describe these as "extracted" features.
 
 
 Documentation Needs:
@@ -78,4 +76,3 @@ Documentation Needs:
     - AggregatedPieces
 - vis Extensibility API:
     - Indexer
-    - Experimenter

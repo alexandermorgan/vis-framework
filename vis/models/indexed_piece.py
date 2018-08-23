@@ -37,12 +37,9 @@ import pandas
 import numpy
 from music21 import converter, stream, analysis
 from vis.models.aggregated_pieces import AggregatedPieces
-from vis.analyzers.experimenter import Experimenter
-from vis.analyzers.experimenters import aggregator, barchart, frequency
 from vis.analyzers.indexer import Indexer
 from vis.analyzers.indexers import noterest, output, staff, lyric, approach, articulation, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram
 from collections import Counter
-import pdb
 
 # Error message when importing doesn't work because of unknown file type
 _UNKNOWN_INPUT = 'This file type was not recognized. The file is probably not \
@@ -337,17 +334,17 @@ class IndexedPiece(object):
     that piece. An IndexedPiece object should be created by passing the pathname of a symbolic
     notation file to the Importer() method in this file. The Importer() will return an IndexedPiece
     object as long as the piece did not import as an opus. In this case Importer() will return an
-    AggregatedPieces object. Information about an IndexedPiece object from an indexer or an
-    experimenter should be requested via the get() method. If you want to access the full
+    AggregatedPieces object. Information about an IndexedPiece object from an indexer should be
+    requested via the get() method. If you want to access the full
     music21 score object of a VIS IndexedPiece object, access the _score attribute of the
     IndexedPiece object. See the examples below:
 
     **Examples**
-    # Creat an IndexedPiece object
+    # Create an IndexedPiece object
     from vis.models.indexed_piece import Importer
     ip = Importer('path_to_file.xml')
 
-    # Get the results of an indexer or experimenter (noterest and dissonance indexers shown)
+    # Get the results of an indexer (noterest and dissonance indexers shown)
     noterest_results = ip.get('noterest')
     dissonance_results = ip.get('dissonance')
 
@@ -359,12 +356,12 @@ class IndexedPiece(object):
     # supplied this information, but couldn't use it.
     _SUPERFLUOUS_OR_INSUFFICIENT_ARGUMENTS = 'You made improper use of the settings and/or data \
 arguments. Please refer to the {} documentation to see what is required by the Indexer or \
-Experimenter requested.'
+requested.'
 
     # When get() gets an analysis_cls argument that isn't a key in IndexedPiece._indexers.
-    _NOT_AN_ANALYZER = 'Could not recognize the requested Indexer or Experimenter (received {}). \
+    _NOT_AN_ANALYZER = 'Could not recognize the requested Indexer (received {}). \
 When using IndexedPiece.get(), please use one of the following short- or long-format \
-strings to identify the desired Indexer or Experimenter: {}.'
+strings to identify the desired Indexer: {}.'
 
     # When measure_index() is run on a piece with no measure information.
     _NO_MEASURES = 'There are no measures in this piece.'
@@ -459,14 +456,6 @@ strings to identify the desired Indexer or Experimenter: {}.'
             'vh': self._get_viz2hum,
             'viz2hum': self._get_viz2hum,
             # 'mensuration': self._get_mensuration, # Not currently supported by m21 as of v. 5.3
-            # Experimenters (in alphabetical order of their long-format strings):
-            'ag': aggregator.ColumnAggregator,
-            'aggregator': aggregator.ColumnAggregator,
-            'bc': barchart.RBarChart,
-            'bar_chart': barchart.RBarChart,
-            # The dendrogram experimenter should only be used by an AggregatedPieces object
-            'fr': frequency.FrequencyExperimenter,
-            'frequency': frequency.FrequencyExperimenter,
     		}
 
         init_metadata()
@@ -856,10 +845,10 @@ strings to identify the desired Indexer or Experimenter: {}.'
 
     def get(self, analyzer_cls, data=None, settings=None):
         """
-        Get the results of an Experimenter or Indexer run on this :class:`IndexedPiece`.
+        Get the results of an Indexer run on this :class:`IndexedPiece`.
 
         :param analyzer_cls: The analyzer to run.
-        :type analyzer_cls: str or VIS Indexer or Experimenter class.
+        :type analyzer_cls: str or VIS Indexer.
         :param settings: Settings to be used with the analyzer. Only use if necessary.
         :type settings: dict
         :param data: Input data for the analyzer to run. If this is provided for an indexer that
@@ -924,7 +913,7 @@ strings to identify the desired Indexer or Experimenter: {}.'
 
     def measure_index(self, dataframe):
         """Multi-indexes the index of the passed dataframe by adding the measures to the offsets.
-        The passed dataframe should be of an indexer's results, not an experimenters. Also adds
+        The passed dataframe should be of an indexer's results. Also adds
         index labels. Note that this method should ideally only be used at the end of a set of
         analysis steps, because there is no guarantee that the resultant multi-indexed dataframe
         will not cause problems if passed to a subsequent indexer.
@@ -933,7 +922,7 @@ strings to identify the desired Indexer or Experimenter: {}.'
         from vis.models.indexed_piece import Importer()
         # Make an IndexedPiece object out of a symbolic notation file:
         ip = Importer('path_to_file.xml')
-        # Get some results from an indexer (not an experimenter):
+        # Get some results from an indexer:
         df = ip.get('horizontal_interval')
         # Multi-index the dataframe index by adding the measure informaiton:
         ip.measure_index(df)

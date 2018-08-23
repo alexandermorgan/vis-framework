@@ -9,14 +9,6 @@ analyzers Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`experimenter` Module
---------------------------
-
-.. automodule:: vis.analyzers.experimenter
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 :mod:`indexer` Module
 ---------------------
 
@@ -30,6 +22,4 @@ Subpackages
 
 .. toctree::
 
-    vis.analyzers.experimenters
     vis.analyzers.indexers
-

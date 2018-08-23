@@ -21,10 +21,7 @@ pitches. Others create new information by analyzing another index, like the
 in the score, or the :class:`~repeat.FilterByRepeatIndexer`, which removes consecutive identical
 events, leaving only the first.
 
-Analysis modules of the subclass :class:`~vis.analyzers.experimenter.Experimenter`, by contrast,
-produce results that cannot be attached to a moment in a score.
-
 Indexers work only on single :class:`~vis.models.indexed_piece.IndexedPiece` instances. To analyze
-many :class:`~vis.models.indexed_piece.IndexedPiece` objects together, use an experimenter with an
+many :class:`~vis.models.indexed_piece.IndexedPiece` objects together, use  an
 :class:`~vis.models.aggregated_pieces.AggregatedPieces` object.
 """

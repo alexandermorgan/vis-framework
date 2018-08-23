@@ -3,7 +3,6 @@ import os
 import pandas
 from vis.models.indexed_piece import IndexedPiece
 from vis.analyzers.indexers import interval, dissonance, meter, noterest, offset
-from vis.analyzers.experimenters import frequency
 from numpy import nan, isnan
 import numpy
 import time
