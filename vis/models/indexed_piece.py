@@ -390,7 +390,7 @@ strings to identify the desired Indexer: {}.'
             """
             Initialize valid metadata fields with a zero-length string.
             """
-            field_list = ['opusNumber', 'movementName', 'composer', 'number', 'anacrusis',
+            field_list = ['opusNumber', 'movementName', 'composer',
                 'movementNumber', 'date', 'composers', 'alternativeTitle', 'title',
                 'localeOfComposition', 'parts']
             for field in field_list:
@@ -496,9 +496,6 @@ strings to identify the desired Indexer: {}.'
         | alternativeTitle    | A possible alternate title for the piece; e.g. Bruckner's          |
         |                     | Symphony No. 8 in C minor is known as "The German Michael."        |
         +---------------------+--------------------------------------------------------------------+
-        | anacrusis           | The length of the pick-up measure, if there is one. This is not    |
-        |                     | determined by music21.                                             |
-        +---------------------+--------------------------------------------------------------------+
         | composer            | The author of the piece.                                           |
         +---------------------+--------------------------------------------------------------------+
         | composers           | If the piece has multiple authors.                                 |
@@ -512,8 +509,6 @@ strings to identify the desired Indexer: {}.'
         +---------------------+--------------------------------------------------------------------+
         | movementNumber      | If the piece is part of a larger work, the number of this          |
         |                     | subsection.                                                        |
-        +---------------------+--------------------------------------------------------------------+
-        | number              | Taken from music21.                                                |
         +---------------------+--------------------------------------------------------------------+
         | opusNumber          | Number assigned by the composer to the piece or a group            |
         |                     | containing it, to help with identification or cataloguing.         |
