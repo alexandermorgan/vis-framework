@@ -2,4 +2,3 @@
 # Certain functionality will be missing; see optional_requirements.txt.
 music21==5.3.0
 pandas==0.23.4
-requests==2.11.1

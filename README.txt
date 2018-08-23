@@ -23,8 +23,6 @@ The VIS Framework uses many software libraries to help with analysis. These are 
 - [Python 3.5](https://www.python.org)
 - [music21](http://web.mit.edu/music21/)
 - [pandas](http://pandas.pydata.org)
-- [multi_key_dict](https://pypi.python.org/pypi/multi_key_dict)
-- [requests](https://pypi.python.org/pypi/requests/)
 
 These are recommended dependencies:
 
@@ -35,8 +33,6 @@ These are recommended dependencies:
 - [mock](https://pypi.python.org/pypi/mock) (for testing)
 - [coverage](https://pypi.python.org/pypi/coverage) (for testing)
 - [python-coveralls](https://pypi.python.org/pypi/python-coveralls) (to for automated coverage with coveralls.io)
-- [matplotlib](https://pypi.python.org/pypi/matplotlib) (plotting)
-- [scipy](https://pypi.python.org/pypi/scipy) (plotting)
 
 Documentation
 =============
@@ -44,7 +40,7 @@ Documentation
 You can find documentation here:
 - [Major Release Documentation](http://vis-framework.readthedocs.org/en/vis-framework-2.0.0/)
 - [Stable Release Documentation](http://vis-framework.readthedocs.org/en/stable/)
-- [Latest Release Documentation](http://vis-framework.readthedocs.org/en/latest/), a.k.a. "bleeding edge" 
+- [Latest Release Documentation](http://vis-framework.readthedocs.org/en/latest/), a.k.a. "bleeding edge"
 
 Citation
 ========

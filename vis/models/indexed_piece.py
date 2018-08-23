@@ -31,9 +31,6 @@ This model represents an indexed and analyzed piece of music.
 
 # Imports
 import os
-import requests
-import warnings
-import json
 import music21
 import music21.chord as chord
 import pandas
@@ -55,31 +52,6 @@ _UNKNOWN_PIECE_TITLE = 'Unknown Piece'
 # Types for noterest indexing
 _noterest_types = ('Note', 'Rest', 'Chord')
 _default_interval_setts = {'quality':True, 'directed':True, 'simple or compound':'compound', 'horiz_attach_later':True}
-
-def login_edb(username, password):
-    """Return csrf and session tokens for a login."""
-    ANON_CSRF_TOKEN = "pkYF0M7HQpBG4uZCfDaBKjvTNe6u1UTZ"
-    data = {"username": username, "password": password}
-    headers = {
-        "Cookie": "csrftoken={}; test_cookie=null".format(ANON_CSRF_TOKEN),
-        "X-CSRFToken": ANON_CSRF_TOKEN
-    }
-    resp = requests.post('http://database.elvisproject.ca/login/',
-                         data=data, headers=headers, allow_redirects=False)
-    if resp.status_code == 302:
-        return dict(resp.cookies)
-    else:
-        raise ValueError("Failed login.")
-
-
-def auth_get(url, csrftoken, sessionid):
-    """Use a csrftoken and sessionid to request a url on the elvisdatabase."""
-    headers = {
-        "Cookie": "test_cookie=null; csrftoken={}; sessionid={}".format(csrftoken, sessionid)
-    }
-    resp = requests.get(url, headers=headers)
-    return resp
-
 
 def _find_piece_title(the_score):
     """
