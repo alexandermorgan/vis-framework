@@ -152,7 +152,7 @@ class Viz2HumIndexer(indexer.Indexer):
     """
     required_score_type = 'pandas.DataFrame'
 
-    def __init__(self, score, settings=None):
+    def __init__(self, score, settings):
         """
         :param score: 2-tuple of measure and m21_nrc_objs dataframes
         :type score: 2-tuple of pandas.DataFrames
@@ -161,10 +161,12 @@ class Viz2HumIndexer(indexer.Indexer):
             Dataframe.
 
         """
-        self._settings = Viz2HumIndexer.default_settings.copy()
+        self._settings = settings
         super(Viz2HumIndexer, self).__init__(score, self._settings)
         self._types = ('Note', 'Rest', 'Chord')
         self._indexer_func = indexer_func
+        self._vizmd = settings['vizmd']
+        self._m21md = settings['m21md']
 
     def run(self):
         """
@@ -175,8 +177,8 @@ class Viz2HumIndexer(indexer.Indexer):
         num_cols = self._score[0].shape[1]
         col_indx = range(num_cols)
         # Prepare the fields at the beginning of the file.
-        vizmd = self._score[6] # Vizitka metadata
-        m21md = self._score[7] # music21 metadata
+        vizmd = self._vizmd # Vizitka metadata
+        m21md = self._m21md # music21 metadata
 
         com, enc, eed = [None]*3
         if hasattr(m21md, 'contributors'):

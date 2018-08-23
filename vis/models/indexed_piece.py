@@ -43,7 +43,7 @@ from vis.models.aggregated_pieces import AggregatedPieces
 from vis.analyzers.experimenter import Experimenter
 from vis.analyzers.experimenters import aggregator, barchart, frequency
 from vis.analyzers.indexer import Indexer
-from vis.analyzers.indexers import noterest, staff, lyric, approach, articulation, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram
+from vis.analyzers.indexers import noterest, output, staff, lyric, approach, articulation, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram
 from collections import Counter
 import pdb
 
@@ -484,6 +484,8 @@ strings to identify the desired Indexer or Experimenter: {}.'
             'over_bass': over_bass.OverBassIndexer,
             're': repeat.FilterByRepeatIndexer,
             'repeat': repeat.FilterByRepeatIndexer,
+            'vh': self._get_viz2hum,
+            'viz2hum': self._get_viz2hum,
             # 'mensuration': self._get_mensuration, # Not currently supported by m21 as of v. 5.3
             # Experimenters (in alphabetical order of their long-format strings):
             'ag': aggregator.ColumnAggregator,
@@ -863,6 +865,22 @@ strings to identify the desired Indexer or Experimenter: {}.'
             self._analyses['time_signature'] = meter.TimeSignatureIndexer(self._get_m21_objs()).run()
         return self._analyses['time_signature']
 
+    def _get_viz2hum(self):
+        """Fetches and chaches a dataframe of a kern representation of a piece.
+        Don't even try to use this indexer without this convenience method. It's
+        relatively complicated and poorly documented, but that's where this
+        method comes in handy. """
+        if 'viz2hum' not in self._analyses:
+            score_arg = [self._get_clef(),
+                         self._get_key_signature(),
+                         self._get_time_signature(),
+                         self._get_measure(settings={'style': 'Humdrum'}),
+                         self._get_m21_nrc_objs(),
+                         self._get_lyric()]
+            setts = {'vizmd': self._metadata, 'm21md': self._score.metadata}
+            self._analyses['viz2hum'] = output.Viz2HumIndexer(score_arg, setts).run()
+
+        return self._analyses['viz2hum']
 
     def get(self, analyzer_cls, data=None, settings=None):
         """
