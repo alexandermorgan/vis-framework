@@ -921,6 +921,28 @@ strings to identify the desired Indexer or Experimenter: {}.'
 
         return results
 
+    def to_kern(self, path=None):
+        """Exports score to a kern file in the humdrum format at the location
+        specified in the `path` argument. If no path is provided, the
+        default is to use the title of the piece in the metadata (not a very
+        reliable naming convention) or the current indexed_piece's current
+        path if there is no title. If there are lyrics in the piece, they
+        will be included in the new kern file."""
+        # no valid path string was provided
+        if not (isinstance(path, str) and path):
+            if self._metadata['title']: # if there's a title in the metadata, use that
+                path = self._metadata['title']
+            else: # otherwise use the current file's path
+                path = self._pathname.rsplit('.', 1)[0]
+
+        # Add .krn to the end if it's not already there.
+        if not path.endswith('.krn'):
+            path += '.krn'
+
+        self._get_viz2hum().to_csv(path, sep='\t', index=False, header=False,
+                                   index_label=False, quotechar='`')
+
+
     def measure_index(self, dataframe):
         """Multi-indexes the index of the passed dataframe by adding the measures to the offsets.
         The passed dataframe should be of an indexer's results, not an experimenters. Also adds
