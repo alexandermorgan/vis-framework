@@ -513,11 +513,7 @@ strings to identify the desired Indexer: {}.'
         | opusNumber          | Number assigned by the composer to the piece or a group            |
         |                     | containing it, to help with identification or cataloguing.         |
         +---------------------+--------------------------------------------------------------------+
-        | parts               | A list of the parts in a multi-voice work. This is determined      |
-        |                     | partially by music21.                                              |
-        +---------------------+--------------------------------------------------------------------+
-        | pathname            | The filesystem path to the music file encoding the piece. This is  |
-        |                     | not determined by music21.                                         |
+        | parts               | A list of the parts names in a multi-voice work.                   |
         +---------------------+--------------------------------------------------------------------+
         | title               | The title of the piece. This is determined partially by music21.   |
         +---------------------+--------------------------------------------------------------------+
