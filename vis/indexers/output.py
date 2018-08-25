@@ -35,10 +35,10 @@ import pandas as pd
 import pdb
 from vis.analyzers import indexer
 from music21 import chord
-from vis.analyzers.indexers.articulation import indexer_func as artIF
-from vis.analyzers.indexers.articulation import symbols
-from vis.analyzers.indexers.expression import indexer_func as expIF
-from vis.analyzers.indexers.meter import tie_ind_func as tieIF
+from vis.indexers.articulation import indexer_func as artIF
+from vis.indexers.articulation import symbols
+from vis.indexers.expression import indexer_func as expIF
+from vis.indexers.meter import tie_ind_func as tieIF
 
 
 # Used to memoize hDurIF results. Start with some tuplet durations since I

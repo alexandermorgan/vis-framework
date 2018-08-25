@@ -32,7 +32,7 @@ import os
 import unittest
 import pandas
 from music21 import converter, stream, clef, bar, note
-from vis.analyzers.indexers import meter
+from vis.indexers import meter
 from numpy import isnan
 from vis.models.indexed_piece import Importer, IndexedPiece
 

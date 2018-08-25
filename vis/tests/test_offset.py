@@ -32,7 +32,7 @@ import os
 import unittest
 from unittest import mock
 import pandas
-from vis.analyzers.indexers.offset import FilterByOffsetIndexer
+from vis.indexers.offset import FilterByOffsetIndexer
 from vis.models.indexed_piece import Importer
 # find pathname to the 'vis' directory
 import vis

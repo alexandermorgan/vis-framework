@@ -1,5 +1,5 @@
 from music21 import converter
-from vis.analyzers.indexers import meter
+from vis.indexers import meter
 
 convert_error = 'This piece could not be converted by music21.'
 no_parts = 'This piece appears to have no parts.'

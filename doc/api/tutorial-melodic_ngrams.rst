@@ -46,7 +46,7 @@ The first part of our query looks like this:
 .. code-block:: python
     :linenos:
 
-    from vis.analyzers.indexers import noterest, interval, ngram
+    from vis.indexers import noterest, interval, ngram
     from vis.models.indexed_piece import IndexedPiece
 
     # prepare inputs and output-collectors

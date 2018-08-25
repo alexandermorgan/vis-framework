@@ -33,7 +33,7 @@ import unittest
 import pandas
 from music21 import stream, clef, bar, note
 from music21 import meter as m21_meter
-from vis.analyzers.indexers import meter
+from vis.indexers import meter
 from vis.models.indexed_piece import Importer, IndexedPiece
 from numpy import nan
 

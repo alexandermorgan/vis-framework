@@ -1,4 +1,4 @@
-from vis.analyzers.indexers import noterest, interval, new_ngram, meter, active_voices
+from vis.indexers import noterest, interval, new_ngram, meter, active_voices
 from vis.models.indexed_piece import IndexedPiece 
 from vis.models.aggregated_pieces import AggregatedPieces
 import pandas

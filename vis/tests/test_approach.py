@@ -25,7 +25,7 @@
 
 from unittest import TestCase, TestLoader
 import pandas
-from vis.analyzers.indexers import approach
+from vis.indexers import approach
 
 
 def make_dataframe(labels, indices, name):

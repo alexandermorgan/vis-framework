@@ -29,7 +29,7 @@
 import os
 import unittest
 import pandas
-from vis.analyzers.indexers import ngram
+from vis.indexers import ngram
 
 # find pathname of the 'vis' directory
 import vis

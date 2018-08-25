@@ -27,7 +27,7 @@ import os
 from unittest import TestCase, TestLoader
 import pandas
 from vis.models.indexed_piece import Importer, IndexedPiece
-from vis.analyzers.indexers import fermata
+from vis.indexers import fermata
 # get the path to the 'vis' directory
 import vis
 VIS_PATH = vis.__path__[0]

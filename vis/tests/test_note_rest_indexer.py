@@ -32,7 +32,7 @@ import os
 import unittest
 import pandas
 from music21 import note, chord, stream, clef, bar
-from vis.analyzers.indexers import noterest
+from vis.indexers import noterest
 from vis.models.indexed_piece import Importer, IndexedPiece, _find_part_names
 
 # find the pathname of the 'vis' directory

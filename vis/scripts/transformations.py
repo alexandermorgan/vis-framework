@@ -20,7 +20,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #--------------------------------------------------------------------------------------------------
 import music21
-from vis.analyzers.indexers import noterest, interval, new_ngram
+from vis.indexers import noterest, interval, new_ngram
 
 
 def _find_inv(motif):

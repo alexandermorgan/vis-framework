@@ -31,7 +31,7 @@
 import os
 import unittest
 import pandas as pd
-from vis.analyzers.indexers import dissonance, noterest, meter, interval
+from vis.indexers import dissonance, noterest, meter, interval
 from vis.models.indexed_piece import Importer, IndexedPiece
 from pandas.util.testing import assert_frame_equal
 

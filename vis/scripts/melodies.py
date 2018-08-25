@@ -22,7 +22,7 @@
 #--------------------------------------------------------------------------------------------------
 import pandas
 import music21
-from vis.analyzers.indexers import noterest, interval, new_ngram
+from vis.indexers import noterest, interval, new_ngram
 
 
 # This function finds all the melodies in a piece and returns a dictionary of

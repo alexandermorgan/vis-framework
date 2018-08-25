@@ -4,5 +4,5 @@ vis
 .. toctree::
    :maxdepth: 4
 
-   vis.analyzers
+   vis.indexers
    vis.models

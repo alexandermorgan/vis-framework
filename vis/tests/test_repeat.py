@@ -32,7 +32,7 @@
 import unittest
 from numpy import nan, isnan
 import pandas
-from vis.analyzers.indexers.repeat import FilterByRepeatIndexer
+from vis.indexers.repeat import FilterByRepeatIndexer
 
 
 class TestRepeatIndexer(unittest.TestCase):

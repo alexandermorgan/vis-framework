@@ -27,7 +27,7 @@
 import os
 from unittest import TestCase, TestLoader
 import pandas
-from vis.analyzers.indexers import over_bass
+from vis.indexers import over_bass
 import vis
 
 

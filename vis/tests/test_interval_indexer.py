@@ -33,7 +33,7 @@ import os
 import unittest
 import pandas
 from music21 import interval, note
-from vis.analyzers.indexers.interval import IntervalIndexer, HorizontalIntervalIndexer, real_indexer_func, indexer_funcs
+from vis.indexers.interval import IntervalIndexer, HorizontalIntervalIndexer, real_indexer_func, indexer_funcs
 from vis.tests.test_note_rest_indexer import TestNoteRestIndexer
 
 # find the pathname of the 'vis' directory

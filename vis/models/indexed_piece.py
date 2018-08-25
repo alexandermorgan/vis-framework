@@ -37,8 +37,8 @@ import pandas
 import numpy
 from music21 import converter, stream, analysis
 from vis.models.aggregated_pieces import AggregatedPieces
-from vis.analyzers.indexer import Indexer
-from vis.analyzers.indexers import noterest, output, staff, lyric, approach, articulation, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram
+from vis.indexer import Indexer
+from vis.indexers import noterest, output, staff, lyric, approach, articulation, meter, interval, dissonance, expression, offset, repeat, active_voices, offset, over_bass, contour, ngram
 from collections import Counter
 
 # Error message when importing doesn't work because of unknown file type

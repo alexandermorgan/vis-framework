@@ -3,9 +3,6 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. image:: ELVIS_logo-framework.png
-    :alt: Logo for the VIS Music Analysis Framework
-    :width: 100 %
 
 This is the API documentation for the VIS Framework for Music Analysis.
 The VIS Framework is a Python package that uses music21 and pandas to build a flexible and easy system for writing symbolic music analysis computer programs.

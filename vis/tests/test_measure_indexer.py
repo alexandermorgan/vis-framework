@@ -36,7 +36,7 @@ import os
 import unittest
 import pandas
 from music21 import stream, note
-from vis.analyzers.indexers import meter
+from vis.indexers import meter
 from vis.models.indexed_piece import Importer, IndexedPiece
 
 # find the pathname of the 'vis' directory

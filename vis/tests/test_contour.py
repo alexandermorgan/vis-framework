@@ -28,7 +28,7 @@
 
 from unittest import TestCase, TestLoader
 import pandas
-from vis.analyzers.indexers import contour
+from vis.indexers import contour
 
 
 def make_dataframe(labels, indices, name):

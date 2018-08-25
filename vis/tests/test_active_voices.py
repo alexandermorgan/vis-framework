@@ -25,7 +25,7 @@
 
 from unittest import TestCase, TestLoader
 import pandas
-from vis.analyzers.indexers import active_voices
+from vis.indexers import active_voices
 from vis.models.indexed_piece import IndexedPiece
 
 
