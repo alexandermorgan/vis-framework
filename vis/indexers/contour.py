@@ -32,7 +32,7 @@
 
 """
 
-from vis.analyzers import indexer
+from vis.indexers import indexer
 import music21
 import pandas
 

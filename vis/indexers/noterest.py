@@ -31,7 +31,7 @@ Index note and rest objects.
 
 import pandas
 from music21 import pitch, note, chord
-from vis.analyzers import indexer
+from vis.indexers import indexer
 
 def noterest_ind_func(event):
     """

@@ -31,7 +31,7 @@
 Index the lyrics in a piece.
 """
 
-from vis.analyzers import indexer
+from vis.indexers import indexer
 
 def indexer_func(event):
     """

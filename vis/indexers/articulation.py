@@ -33,7 +33,7 @@ on the expression indexer.
 """
 
 from music21 import articulations
-from vis.analyzers import indexer
+from vis.indexers import indexer
 
 symbols = {
     # Articulation          Kern representation

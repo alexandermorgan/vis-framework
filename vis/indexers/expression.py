@@ -34,7 +34,7 @@ Index music21 "expressions" such as fermatas.
 """
 
 from music21 import expressions
-from vis.analyzers import indexer
+from vis.indexers import indexer
 
 symbols = {
     # Expression            Kern representation

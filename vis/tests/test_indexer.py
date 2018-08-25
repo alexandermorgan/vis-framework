@@ -35,7 +35,7 @@ from unittest import mock
 from numpy import NaN
 import pandas
 from music21 import base, stream, duration, note, converter, clef
-from vis.analyzers import indexer
+from vis.indexers import indexer
 from vis.tests.corpus import int_indexer_short
 
 

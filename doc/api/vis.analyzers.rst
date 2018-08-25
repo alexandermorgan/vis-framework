@@ -9,14 +9,6 @@ analyzers Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`indexer` Module
----------------------
-
-.. automodule:: vis.analyzers.indexer
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Subpackages
 -----------
 

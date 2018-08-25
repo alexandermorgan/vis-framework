@@ -31,7 +31,7 @@
 Indexers that consider repetition in any way.
 """
 
-from vis.analyzers import indexer
+from vis.indexers import indexer
 
 
 class FilterByRepeatIndexer(indexer.Indexer):

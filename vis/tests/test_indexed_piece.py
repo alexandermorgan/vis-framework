@@ -33,7 +33,7 @@ from unittest.mock import call, patch, MagicMock, Mock
 import pandas
 import music21
 from music21 import converter
-from vis.indexer import Indexer
+from vis.indexers.indexer import Indexer
 from vis.indexers import noterest
 from vis.models.indexed_piece import Importer, IndexedPiece, _find_piece_title, _find_part_names, _find_piece_range, _find_part_ranges, login_edb, auth_get
 # find pathname to the 'vis' directory

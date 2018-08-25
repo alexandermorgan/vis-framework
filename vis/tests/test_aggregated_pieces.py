@@ -30,7 +30,7 @@ import os
 from unittest import TestCase, TestLoader
 from unittest.mock import MagicMock, Mock
 import pandas
-from vis.indexer import Indexer
+from vis.indexers.indexer import Indexer
 from vis.models.aggregated_pieces import AggregatedPieces
 from vis.models.indexed_piece import Importer, IndexedPiece
 import vis

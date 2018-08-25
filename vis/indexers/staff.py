@@ -33,7 +33,7 @@ Indexers for staff elements.
 # pylint: disable=W0105
 
 import pandas
-from vis.analyzers import indexer
+from vis.indexers import indexer
 import pdb
 
 nan = float('nan')

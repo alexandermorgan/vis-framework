@@ -35,7 +35,7 @@ same part.
 
 import pandas
 from music21 import note, interval, pitch
-from vis.analyzers import indexer
+from vis.indexers import indexer
 from itertools import combinations
 
 _names = ('Indexer', 'Parts')

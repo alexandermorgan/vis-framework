@@ -34,7 +34,7 @@ themselves.
 
 import pandas
 import numpy
-from vis.analyzers import indexer
+from vis.indexers import indexer
 
 
 class FilterByOffsetIndexer(indexer.Indexer):

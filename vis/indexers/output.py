@@ -33,7 +33,7 @@ Create a Humdrum-format kern score.
 
 import pandas as pd
 import pdb
-from vis.analyzers import indexer
+from vis.indexers import indexer
 from music21 import chord
 from vis.indexers.articulation import indexer_func as artIF
 from vis.indexers.articulation import symbols

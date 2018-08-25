@@ -29,7 +29,7 @@
 
 """
 
-from vis.analyzers import indexer
+from vis.indexers import indexer
 import pandas
 
 

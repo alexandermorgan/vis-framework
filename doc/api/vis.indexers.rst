@@ -9,6 +9,16 @@ indexers Package
     :undoc-members:
     :show-inheritance:
 
+
+:mod:`indexer` Module
+---------------------
+
+.. automodule:: vis.indexers.indexer
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
 :mod:`active_voices` Module
 ----------------------
 

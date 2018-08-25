@@ -30,7 +30,7 @@
 import pandas
 import numpy
 from numpy import nan  # pylint: disable=no-name-in-module
-from vis.analyzers import indexer
+from vis.indexers import indexer
 
 
 _d3q_label = 'Q'
