@@ -34,7 +34,7 @@ Create a Humdrum-format kern score.
 import pandas as pd
 import pdb
 from vis.indexers import indexer
-from music21 import chord
+from music21 import chord, musicxml
 from vis.indexers.articulation import indexer_func as artIF
 from vis.indexers.articulation import symbols
 from vis.indexers.expression import indexer_func as expIF
@@ -59,12 +59,8 @@ def hDurIF(event):
     rounded = float(round(event.quarterLength, 5))
     if rounded not in recip:
         dots = event.duration.dots
-        if dots == 0:
-            ret = str(int(4/event.quarterLength))
-        elif dots == 1:
-            ret = str(int(6/event.quarterLength)) + '.'
-        elif dots == 2:
-            ret = str(int(7/event.quarterLength)) + '..'
+        dur_multiplier = (2 - .5**dots)*4
+        ret = str(int(dur_multiplier/event.quarterLength))
         recip[rounded] = ret
     return recip[rounded]
 
@@ -138,6 +134,32 @@ def indexer_func(event):
 
 
 
+class XMLIndexer(object):
+    """Creates an xml file of a score using music21's converter.
+
+    **Example:**
+
+    from vis.models.indexed_piece import Importer
+    ip = Importer('pathnameToScore.krn')
+    ip.get('xml')
+    """
+    def __init__(self, score):
+        """This indexer doesn't inherit from indexer.Indexer like other
+        indexers because it's the only one that takes a music21 score as its
+        score argument. This is why it doesn't have a required score type.
+        """
+        self._score = score
+
+    def run(self):
+        """Create and return an xml representation of the score. This code is
+        mostly taken from a music21 example."""
+        GEX = musicxml.m21ToXml.GeneralObjectExporter(self._score)
+        out = GEX.parse() # out is bytes in Py3
+        outStr = out.decode()
+        return outStr.strip()
+
+
+
 class Viz2HumIndexer(indexer.Indexer):
     """
     Index all musical events and metadata.
@@ -145,9 +167,9 @@ class Viz2HumIndexer(indexer.Indexer):
 
     **Example:**
 
-    >>> from vis.models.indexed_piece import Importer
-    >>> ip = Importer('pathnameToScore.xml')
-    >>> ip.get('viz2hum')
+    from vis.models.indexed_piece import Importer
+    ip = Importer('pathnameToScore.xml')
+    ip.get('viz2hum')
 
     """
     required_score_type = 'pandas.DataFrame'
@@ -247,8 +269,8 @@ class Viz2HumIndexer(indexer.Indexer):
             header = pd.concat(cols1, axis=1, ignore_index=True)
             # make a new combined post
             post = pd.concat(cols2, axis=1, ignore_index=True)
-            # this will make the footer the right shape
-            num_cols *= 2
+            # this will make the footer the right number of columns
+            num_cols = post.shape[1]
 
         # final barlines and end of kern tokens
         footer = pd.concat([pd.Series(['==', '*_'])]*num_cols, axis=1)
