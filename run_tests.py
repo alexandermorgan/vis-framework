@@ -30,25 +30,25 @@ VERBOSITY = 0
 
 from unittest import TextTestRunner
 
-from vis.tests import test_indexer
-from vis.tests import test_duration_indexer
-from vis.tests import test_note_beat_strength_indexer
-from vis.tests import test_measure_indexer
-from vis.tests import test_note_rest_indexer
-from vis.tests import test_ngram
-from vis.tests import test_dissonance_indexer
-from vis.tests import test_repeat
-from vis.tests import test_interval_indexer
-from vis.tests import test_offset
-from vis.tests import test_indexed_piece
-from vis.tests import test_aggregated_pieces
-from vis.tests import bwv2_integration_tests as bwv2
-from vis.tests import bwv603_integration_tests as bwv603
-from vis.tests import test_fermata_indexer
-from vis.tests import test_over_bass
-from vis.tests import test_approach
-from vis.tests import test_contour
-from vis.tests import test_active_voices
+from vizitka.tests import test_indexer
+from vizitka.tests import test_duration_indexer
+from vizitka.tests import test_note_beat_strength_indexer
+from vizitka.tests import test_measure_indexer
+from vizitka.tests import test_note_rest_indexer
+from vizitka.tests import test_ngram
+from vizitka.tests import test_dissonance_indexer
+from vizitka.tests import test_repeat
+from vizitka.tests import test_interval_indexer
+from vizitka.tests import test_offset
+from vizitka.tests import test_indexed_piece
+from vizitka.tests import test_aggregated_pieces
+from vizitka.tests import bwv2_integration_tests as bwv2
+from vizitka.tests import bwv603_integration_tests as bwv603
+from vizitka.tests import test_fermata_indexer
+from vizitka.tests import test_over_bass
+from vizitka.tests import test_approach
+from vizitka.tests import test_contour
+from vizitka.tests import test_active_voices
 
 
 THE_TESTS = (  # Indexer and Subclasses

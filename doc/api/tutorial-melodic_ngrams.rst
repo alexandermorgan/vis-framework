@@ -46,8 +46,8 @@ The first part of our query looks like this:
 .. code-block:: python
     :linenos:
 
-    from vis.indexers import noterest, interval, ngram
-    from vis.models.indexed_piece import IndexedPiece
+    from vizitka.indexers import noterest, interval, ngram
+    from vizitka.models.indexed_piece import IndexedPiece
 
     # prepare inputs and output-collectors
     pathnames = [list_of_pathnames_here]
