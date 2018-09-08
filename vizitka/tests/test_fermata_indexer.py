@@ -28,8 +28,8 @@ from unittest import TestCase, TestLoader
 import pandas
 from vizitka.models.indexed_piece import Importer, IndexedPiece
 from vizitka.indexers import fermata
-# get the path to the 'vis' directory
-import vis
+# get the path to the 'vizitka' directory
+import vizitka
 VIS_PATH = vis.__path__[0]
 
 

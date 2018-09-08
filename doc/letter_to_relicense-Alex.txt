@@ -117,7 +117,7 @@ If you wish to discuss the relicensing effort, I would be happy to
 consider other options.
 
 The affected software is that currently contained in the "vis-vm,"
-"django-vis" and "vis" repositories on our project's GitHub page:
+"django-vis" and "vizitka" repositories on our project's GitHub page:
 https://github.com/ELVIS-Project/vis-vm
 https://github.com/ELVIS-Project/vis
 https://github.com/ELVIS-Project/django-vis
@@ -131,7 +131,7 @@ affected repository.
 
 You can verify the validity of this message with the
 "letter_to_relicense.txt" and "letter_to_relicense.txt.asc" files in the
-"doc" subdirectory of the "vis" repository. The files are currently only
+"doc" subdirectory of the "vizitka" repository. The files are currently only
 present in the "visX-devel" branch, but will be merged to master in the
 future.
 

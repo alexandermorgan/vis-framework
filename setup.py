@@ -5,7 +5,7 @@
 # Program Description:    Helps analyze music with computers.
 #
 # Filename:               setup.py
-# Purpose:                Distutils Information for the VIS Framework
+# Purpose:                Distutils Information for the Vizitka
 #
 # Copyright (C) 2014 Christopher Antila
 #
@@ -25,11 +25,11 @@
 """
 .. codeauthor:: Christopher Antila <christopher@antila.ca>
 
-Distutils information for the VIS Framework.
+Distutils information for the Vizitka.
 """
 
 from setuptools import setup
-import vis  # to get the version numbers
+import vizitka  # to get the version numbers
 
 
 # NOTE: update this from 'vis/__init__.py'
@@ -39,14 +39,14 @@ PATCH = vis._PATCH
 VERSION = vis.__version__
 
 setup(
-    name = "vis-framework",
+    name = "vizitka",
     version = VERSION,
-    description = "The VIS Framework for Music Analysis",
+    description = "The Vizitka for Music Analysis",
     author = "Christopher Antila, Jamie Klassen, Alexander Morgan, Ryan Bannon",
     author_email = "christopher@antila.ca",
     license = "AGPLv3+",
     url = "http://elvisproject.ca/api/",
-    download_url = 'https://pypi.python.org/packages/source/v/vis-framework/vis-framework-%s.tar.bz2' % VERSION,
+    download_url = 'https://pypi.python.org/packages/source/v/vizitka/vizitka-%s.tar.bz2' % VERSION,
     platforms = 'any',
     keywords = ['music', 'music analysis', 'music theory', 'counterpoint'],
     requires = [
@@ -58,12 +58,12 @@ setup(
         'pandas == 0.18.1'
         ],
     packages = [
-        'vis',
+        'vizitka',
         'vis.models',
         'vis.analyzers',
         'vis.analyzers.indexers',
         ],
-    package_data = {'vis': ['scripts/*']},
+    package_data = {'vizitka': ['scripts/*']},
     classifiers = [
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.3",
@@ -86,9 +86,9 @@ setup(
         "Topic :: Scientific/Engineering :: Information Analysis",
         ],
     long_description = """\
-The VIS Framework for Music Analysis
+The Vizitka for Music Analysis
 ------------------------------------
 
-VIS is a Python package that uses the music21 and pandas libraries to build a ridiculously flexible and preposterously easy system for writing computer music analysis programs.
+Vizitkais a Python package that uses the music21 and pandas libraries to build a ridiculously flexible and preposterously easy system for writing computer music analysis programs.
 """
 )

@@ -6,29 +6,29 @@ import pandas
 import pdb
 import time
 
-import vis
+import vizitka
 VIS_PATH = vis.__path__[0]
 
-# piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/Jos2308.mei'
-# piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/bwv2.xml'
-# piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/sqOp76-4-i.midi'
-# piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/Kyrie.krn'
-piece_path = '/home/amor/Code/vis-framework/vis/scripts/Lassus_Duets/Lassus_1_Beatus_Vir.xml'
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Josquin_Duets/Crucifixus.xml' #example of CR = half note
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Morley_Duets/7 Miraculous loves wounding.xml' # example of CR = quarter note
-# chopin_prelude = '/home/amor/Code/vis-framework/vis/scripts/prelude28-20.mid'
+# piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/Jos2308.mei'
+# piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/bwv2.xml'
+# piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/sqOp76-4-i.midi'
+# piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/Kyrie.krn'
+piece_path = '/home/amor/Code/vizitka/vis/scripts/Lassus_Duets/Lassus_1_Beatus_Vir.xml'
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Josquin_Duets/Crucifixus.xml' #example of CR = half note
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Morley_Duets/7 Miraculous loves wounding.xml' # example of CR = quarter note
+# chopin_prelude = '/home/amor/Code/vizitka/vis/scripts/prelude28-20.mid'
 
 # Senfl_Buchner folder:
-folder = '/home/amor/Code/vis-framework/vis/scripts/Senfl motets'
+folder = '/home/amor/Code/vizitka/vis/scripts/Senfl motets'
 # Senfl Pieces:
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Senfl motets/No03_LaudateDominum_ns_final.xml'
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Senfl_Buchner/AssumptaEst_normal.xml'
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Senfl_Buchner/DumSteteritis_normal.xml'
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Senfl_Buchner/No01_Converte_nos Kopie.xml'
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Senfl motets/No03_LaudateDominum_ns_final.xml'
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Senfl_Buchner/AssumptaEst_normal.xml'
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Senfl_Buchner/DumSteteritis_normal.xml'
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Senfl_Buchner/No01_Converte_nos Kopie.xml'
 
 # Extremely short piece:
-# piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/test_fermata_rest.xml'
-# piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/bwv77.mxl'
+# piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/test_fermata_rest.xml'
+# piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/bwv77.mxl'
 
 
 v_setts = {'quality': True, 'simple or compound': 'simple', 'directed': True}
@@ -59,7 +59,7 @@ ts = ip._get_time_signature()
 off = ip.get('offset', data=nr, settings={'quarterLength': 'dynamic'})
 # setts = {'use_title': True, 'run_lilypond':True, 'output_pathname': 'trialpath'}#, 'annotation_part': hz}
 # ip.get('lilypond', data=ip._score, settings=setts)
-# out_path = '/home/amor/new/vis-framework/vis/scripts/Success'
+# out_path = '/home/amor/new/vizitka/vis/scripts/Success'
 # setts = {'run_lilypond': True, 'output_pathname': out_path}
 # ip.get('lilypond', data=[ip._score], settings=setts)
 pdb.set_trace()
@@ -137,7 +137,7 @@ vt_vc = pandas.concat([vt.iloc[:,v].value_counts() for v in range(len(vt.columns
 # ng_2 = ngram.NGramIndexer((vt,), n_setts_2).run()
 # ng_3 = ngram.NGramIndexer((vt, hz,), n_setts_3).run()
 ng_4 = ngram.NGramIndexer((vt, hz2,), n_setts_4).run()
-# ng_4.to_csv('/home/amor/Code/vis-framework/vis/scripts/Senfl_Buchner/Sample results.csv')
+# ng_4.to_csv('/home/amor/Code/vizitka/vis/scripts/Senfl_Buchner/Sample results.csv')
 
 # Spot cadences missing ficta:
 missing_ficta = ng_4[ng_4 == 'm7 P1 m6 -M2 P8'].dropna(how='all')
@@ -148,7 +148,7 @@ missing_ficta = ng_4[ng_4 == 'm7 P1 m6 -M2 P8'].dropna(how='all')
 # vt3 = interval.IntervalIndexer(nr2, v_setts_2).run()
 
 # ng_5 = ngram.NGramIndexer((vt3, hz3,), n_setts_4).run()
-# ng_5.stack().stack().value_counts().to_csv('/home/amor/Code/vis-framework/vis/scripts/Senfl_Buchner/Sample results2.csv')
+# ng_5.stack().stack().value_counts().to_csv('/home/amor/Code/vizitka/vis/scripts/Senfl_Buchner/Sample results2.csv')
 
 # dissonances = dissonance.DissonanceIndexer([bs_ind, dur_ind, horiz, vert_ints]).run()
 

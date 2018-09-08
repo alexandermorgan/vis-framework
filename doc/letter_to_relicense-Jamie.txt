@@ -86,7 +86,7 @@ Resent-Date: Mon, 16 Sep 2013 19:05:10 -0400 (EDT)
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-I, Jamie Klassen, give my full consent to relicense vis software, including=
+I, Jamie Klassen, give my full consent to relicense Vizitka software, including=
  the vis, django-vis and vis-vm GitHub repositories, under the "GNU Affero =
 General Public License," version 3 or any later.
 
@@ -116,7 +116,7 @@ If you wish to discuss the relicensing effort, I would be happy to
 consider other options.
 
 The affected software is that currently contained in the "vis-vm,"
-"django-vis" and "vis" repositories on our project's GitHub page:
+"django-vis" and "vizitka" repositories on our project's GitHub page:
 https://github.com/ELVIS-Project/vis-vm
 https://github.com/ELVIS-Project/vis
 https://github.com/ELVIS-Project/django-vis
@@ -130,7 +130,7 @@ affected repository.
 
 You can verify the validity of this message with the
 "letter_to_relicense.txt" and "letter_to_relicense.txt.asc" files in the
-"doc" subdirectory of the "vis" repository. The files are currently only
+"doc" subdirectory of the "vizitka" repository. The files are currently only
 present in the "visX-devel" branch, but will be merged to master in the
 future.
 
@@ -151,7 +151,7 @@ Content-Transfer-Encoding: quoted-printable
 1">
 </head>
 <body>
-<div dir=3D"ltr">I, Jamie Klassen, give my full consent to relicense vis so=
+<div dir=3D"ltr">I, Jamie Klassen, give my full consent to relicense Vizitka so=
 ftware, including the vis, django-vis and vis-vm GitHub repositories, under=
  the&nbsp;<span style=3D"font-family:arial,sans-serif;font-size:12.72727203=
 3691406px">&quot;GNU Affero General Public License,&quot;

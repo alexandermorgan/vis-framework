@@ -37,8 +37,8 @@ from vizitka.indexers import meter
 from vizitka.models.indexed_piece import Importer, IndexedPiece
 from numpy import nan
 
-# find the pathname of the 'vis' directory
-import vis
+# find the pathname of the 'vizitka' directory
+import vizitka
 VIS_PATH = vis.__path__[0]
 
 

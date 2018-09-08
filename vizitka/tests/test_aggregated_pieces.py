@@ -33,7 +33,7 @@ import pandas
 from vizitka.indexers.indexer import Indexer
 from vizitka.models.aggregated_pieces import AggregatedPieces
 from vizitka.models.indexed_piece import Importer, IndexedPiece
-import vis
+import vizitka
 VIS_PATH = vis.__path__[0]
 
 

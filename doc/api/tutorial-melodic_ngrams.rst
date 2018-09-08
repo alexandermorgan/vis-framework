@@ -11,7 +11,7 @@ Develop a Question
 
 Our research question involves numerically comparing melodic styles of multiple composers.
 To help focus our findings on the differences between *composers*, our test sets should consist of pieces that are otherwise as similar as possible.
-One of the best ways to compare styles is using patterns, which are represented in the VIS Framework as *n*-grams: a unit of *n* objects in a row.
+One of the best ways to compare styles is using patterns, which are represented in the Vizitka as *n*-grams: a unit of *n* objects in a row.
 While the Framework's *n*-gram functionality is fairly complex, in this tutorial we will focus on simple *n*-grams of melodic intervals, which will help us find melodic patterns.
 The most frequently occurring melodic patterns will tell us something about the melodic styles of the composers under consideration: we will be pointed to some similarities and some differences that, taken together, will help us refine future queries.
 
@@ -27,7 +27,7 @@ What Does the NGramIndexer Require?
 -----------------------------------
 
 To begin, try reading the documentation for the :class:`~vis.analyzers.indexers.ngram.NGramIndexer`.
-At present, this Indexer is the most powerful and most complicated module in the VIS Framework, and as such it may pose difficulties and behave in unexpected ways.
+At present, this Indexer is the most powerful and most complicated module in the Vizitka, and as such it may pose difficulties and behave in unexpected ways.
 For this tutorial we focus on the basic functionality: the "n" and "vertical" settings.
 
 TODO: continue revising here

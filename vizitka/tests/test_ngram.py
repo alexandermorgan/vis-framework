@@ -31,8 +31,8 @@ import unittest
 import pandas
 from vizitka.indexers import ngram
 
-# find pathname of the 'vis' directory
-import vis
+# find pathname of the 'vizitka' directory
+import vizitka
 VIS_PATH = vis.__path__[0]
 
 
@@ -51,14 +51,14 @@ def series_maker(lotuples):
     return pandas.Series([x[1] for x in lotuples], index=[x[0] for x in lotuples])
 
 def mi_maker(iterable1, iterable2):
-    """Makes a pandas MultiIndex that conforms to vis standards. Iterable1 should be the
+    """Makes a pandas MultiIndex that conforms to Vizitka standards. Iterable1 should be the
     name of the indexer and iterable2 should be a list of the part combinations. Returns
     the same df with the columns renamed according to the iterables passed."""
     iterables = (iterable1, iterable2)
     return pandas.MultiIndex.from_product(iterables, names = ['Indexer', 'Parts'])
 
 def df_maker(series, cols):
-    """Makes a pandas DataFrame that conforms to vis standards. Iterable1 should be the
+    """Makes a pandas DataFrame that conforms to Vizitka standards. Iterable1 should be the
     name of the indexer and iterable2 should be a list of the part combinations. Returns
     the same df with the columns renamed according to the iterables passed."""
     df = pandas.concat(series, axis=1)

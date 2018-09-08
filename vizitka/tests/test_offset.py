@@ -34,8 +34,8 @@ from unittest import mock
 import pandas
 from vizitka.indexers.offset import FilterByOffsetIndexer
 from vizitka.models.indexed_piece import Importer
-# find pathname to the 'vis' directory
-import vis
+# find pathname to the 'vizitka' directory
+import vizitka
 VIS_PATH = vis.__path__[0]
 
 

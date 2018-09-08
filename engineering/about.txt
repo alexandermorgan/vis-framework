@@ -1,4 +1,4 @@
-The files in this directory are related to the engineering aspects of the final version of our "vis" software.
+The files in this directory are related to the engineering aspects of the final version of our "vizitka" software.
 
 objectives.txt :
     High level definitions of what the software will do.

@@ -205,7 +205,7 @@ arguments. Please refer to the {} documentation to see what it requires.'
         Get the results of an Indexer run on this :class:`IndexedPiece`.
 
         :param ind_analyzer: The analyzer to run.
-        :type ind_analyzer: str or VIS Indexer.
+        :type ind_analyzer: str or VizitkaIndexer.
         :param settings: Settings to be used with the analyzer. Only use if necessary.
         :type settings: dict
         :param data: Input data for the analyzer to run. If this is provided for an indexer that

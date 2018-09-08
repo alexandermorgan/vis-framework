@@ -1,14 +1,14 @@
-The VIS Framework
+The Vizitka
 =================
 
-The VIS Framework for Music Analysis
+The Vizitka for Music Analysis
 
-[![Build Status](https://travis-ci.org/ELVIS-Project/vis-framework.svg?branch=master)](https://travis-ci.org/ELVIS-Project/vis-framework)
-[![Coverage Status](https://coveralls.io/repos/ELVIS-Project/vis-framework/badge.svg?branch=master&service=github)](https://coveralls.io/github/ELVIS-Project/vis-framework?branch=master)
-[![Latest Version](https://img.shields.io/pypi/v/vis-framework.svg)](https://pypi.python.org/pypi/vis-framework/)
+[![Build Status](https://travis-ci.org/ELVIS-Project/vizitka.svg?branch=master)](https://travis-ci.org/ELVIS-Project/vizitka)
+[![Coverage Status](https://coveralls.io/repos/ELVIS-Project/vizitka/badge.svg?branch=master&service=github)](https://coveralls.io/github/ELVIS-Project/vizitka?branch=master)
+[![Latest Version](https://img.shields.io/pypi/v/vizitka.svg)](https://pypi.python.org/pypi/vizitka/)
 [![License](https://img.shields.io/badge/license-AGPL%203.0-blue.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
 
-The VIS Framework is a Python package that uses the music21 and pandas libraries to build a flexible system for writing computational music analysis programs.
+The Vizitka is a Python package that uses the music21 and pandas libraries to build a flexible system for writing computational music analysis programs.
 
 Copyright Information:
 * All source code is subject to the GNU AGPL 3.0 Licence. A copy of this licence is included as doc/apg-3.0.txt.
@@ -18,7 +18,7 @@ Copyright Information:
 Software Dependencies
 =====================
 
-The VIS Framework uses many software libraries to help with analysis. These are required dependencies:
+The Vizitka uses many software libraries to help with analysis. These are required dependencies:
 
 - [Python 3.5](https://www.python.org)
 - [music21](http://web.mit.edu/music21/)
@@ -38,23 +38,23 @@ Documentation
 =============
 
 You can find documentation here:
-- [Major Release Documentation](http://vis-framework.readthedocs.org/en/vis-framework-2.0.0/)
-- [Stable Release Documentation](http://vis-framework.readthedocs.org/en/stable/)
-- [Latest Release Documentation](http://vis-framework.readthedocs.org/en/latest/), a.k.a. "bleeding edge"
+- [Major Release Documentation](http://vizitka.readthedocs.org/en/vizitka-2.0.0/)
+- [Stable Release Documentation](http://vizitka.readthedocs.org/en/stable/)
+- [Latest Release Documentation](http://vizitka.readthedocs.org/en/latest/), a.k.a. "bleeding edge"
 
 Citation
 ========
 
-If you wish to cite the VIS Framework, please use this ISMIR 2014 article:
+If you wish to cite the Vizitka, please use this ISMIR 2014 article:
 
-Antila, Christopher and Julie Cumming. "The VIS Framework: Analyzing Counterpoint in Large Datasets."
+Antila, Christopher and Julie Cumming. "The Vizitka: Analyzing Counterpoint in Large Datasets."
     In Proceedings of the International Society for Music Information Retrieval, 2014.
 
 A BibTeX entry for LaTeX users is
 
 ```
 @inproceedings{,
-    title = {The VIS Framework: Analyzing Counterpoint in Large Datasets},
+    title = {The Vizitka: Analyzing Counterpoint in Large Datasets},
     author = {Antila, Christopher and Cumming, Julie},
     booktitle = {Proceedings of the International Society for Music Information Retrieval},
     location = {Taipei, Taiwan},
@@ -64,15 +64,15 @@ A BibTeX entry for LaTeX users is
 
 You may also wish to cite the software itself:
 
-Antila, Christopher and Jamie Klassen. The VIS Framework for Music Analysis. Montréal: The ELVIS Project, 2014. URL https://github.com/ELVIS-Project/vis.
+Antila, Christopher and Jamie Klassen. The Vizitka for Music Analysis. Montréal: The ELVizitkaProject, 2014. URL https://github.com/ELVIS-Project/vis.
 
 A BibTeX entry for LaTeX users is
 
 ```
 @Manual{,
-    title = {The VIS Framework for Music Analysis},
+    title = {The Vizitka for Music Analysis},
     author = {Antila, Christopher and Klassen, Jamie},
-    organization = {The ELVIS Project},
+    organization = {The ELVizitkaProject},
     location = {Montréal, Québec},
     year = {2014},
     url = {https://github.com/ELVIS-Project/vis},

@@ -28,7 +28,7 @@ import os
 from unittest import TestCase, TestLoader
 import pandas
 from vizitka.indexers import over_bass
-import vis
+import vizitka
 
 
 def make_dataframe(labels, indices, name):

@@ -10,17 +10,17 @@ import pdb
 from music21 import converter, stream, expressions, note
 import array
 
-# get the path to the 'vis' directory
-import vis
+# get the path to the 'vizitka' directory
+import vizitka
 VIS_PATH = vis.__path__[0]
 
 def main():
-    piece_path = "/home/amor/Code/vis-framework/vis/tests/corpus/Kyrie.krn"
-    # piece_path = "/home/amor/Code/vis-framework/vis/tests/corpus/bach.xml"
-    # piece_path = "/home/amor/Code/vis-framework/vis/tests/corpus/bwv603.xml"
-    # piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/Reimenschnieder/1-026900B_.xml'
-    #piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/Jos2308.mei'
-    # piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/Sanctus.krn'
+    piece_path = "/home/amor/Code/vizitka/vis/tests/corpus/Kyrie.krn"
+    # piece_path = "/home/amor/Code/vizitka/vis/tests/corpus/bach.xml"
+    # piece_path = "/home/amor/Code/vizitka/vis/tests/corpus/bwv603.xml"
+    # piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/Reimenschnieder/1-026900B_.xml'
+    #piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/Jos2308.mei'
+    # piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/Sanctus.krn'
     ind_piece = IndexedPiece(piece_path)
     test_piece = ind_piece._import_score()
     test_parts = test_piece.parts

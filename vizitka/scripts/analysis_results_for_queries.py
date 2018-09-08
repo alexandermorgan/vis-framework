@@ -5,14 +5,14 @@ import pandas
 import pdb
 import time
 
-import vis
+import vizitka
 VIS_PATH = vis.__path__[0]
 
-# piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/Jos2308.mei'
-# piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/bwv2.xml'
-# piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/Kyrie.krn'
-piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/Jos0303a-Missa_De_beata_virgine-Kyrie.mei'
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Lassus_Duets/Lassus_1_Beatus_Vir.xml'
+# piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/Jos2308.mei'
+# piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/bwv2.xml'
+# piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/Kyrie.krn'
+piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/Jos0303a-Missa_De_beata_virgine-Kyrie.mei'
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Lassus_Duets/Lassus_1_Beatus_Vir.xml'
 ind_piece = IndexedPiece(piece_path)
 # parts = ind_piece._import_score().parts
 

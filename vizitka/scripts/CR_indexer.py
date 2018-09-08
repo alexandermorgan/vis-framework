@@ -8,58 +8,58 @@ import time
 
 """Prototype Intervallic-Rhythm Indexer"""
 
-# piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/Jos2308.mei'
-# piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/Josquin_De_beata_Virgine_Gloria.xml'
-# piece_path2 = '/home/amor/Code/vis-framework/vis/tests/corpus/bwv2.xml'
-# piece_path = '/home/amor/Code/vis-framework/vis/tests/corpus/Kyrie.krn'
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Lassus_Duets/Lassus_1_Beatus_Vir.xml'
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Lassus_Duets/Lassus_9_Qui_Vult.xml' # example of changing IR by acceleration
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Josquin_Duets/Crucifixus.xml' #example of IR = half note
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Morley_Duets/7 Miraculous loves wounding.xml' # example of IR = quarter note
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Morley_Duets/1 Goe yee my canzonets.xml' # example of changing IR by slowing down # currently not detected!
+# piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/Jos2308.mei'
+# piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/Josquin_De_beata_Virgine_Gloria.xml'
+# piece_path2 = '/home/amor/Code/vizitka/vis/tests/corpus/bwv2.xml'
+# piece_path = '/home/amor/Code/vizitka/vis/tests/corpus/Kyrie.krn'
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Lassus_Duets/Lassus_1_Beatus_Vir.xml'
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Lassus_Duets/Lassus_9_Qui_Vult.xml' # example of changing IR by acceleration
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Josquin_Duets/Crucifixus.xml' #example of IR = half note
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Morley_Duets/7 Miraculous loves wounding.xml' # example of IR = quarter note
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Morley_Duets/1 Goe yee my canzonets.xml' # example of changing IR by slowing down # currently not detected!
 
 # Senfl Pieces:
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Senfl_Buchner/AssumptaEst_normal.xml'
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Senfl_Buchner/DumSteteritis_normal.xml'
-# piece_path = '/home/amor/Code/vis-framework/vis/scripts/Senfl_Buchner/No01_Converte_nos Kopie.xml'
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Senfl_Buchner/AssumptaEst_normal.xml'
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Senfl_Buchner/DumSteteritis_normal.xml'
+# piece_path = '/home/amor/Code/vizitka/vis/scripts/Senfl_Buchner/No01_Converte_nos Kopie.xml'
 
-pieces = ['/home/amor/Code/vis-framework/vis/tests/corpus/Josquin_De_beata_Virgine_Gloria.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/J_corpus/Agnus Dei.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/J_corpus/Crucifixus.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/J_corpus/Et incarnatus est.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/J_corpus/Missa_Ad_fugam_Sanctus_version_2_Pleni.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/J_corpus/Missa_Ad_fugam_Sanctus_version_2_Qui_venit.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/J_corpus/Missa_Allez_regretz_I_Sanctus_Pleni.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/J_corpus/Missa_Ave_maris_stella_Sanctus_Benedictus.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/J_corpus/Missa_Ave_maris_stella_Sanctus_Qui_venit.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/J_corpus/Missa_Pange_lingua_Sanctus_Benedictus.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/J_corpus/Qui edunt me.xml',
+pieces = ['/home/amor/Code/vizitka/vis/tests/corpus/Josquin_De_beata_Virgine_Gloria.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/J_corpus/Agnus Dei.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/J_corpus/Crucifixus.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/J_corpus/Et incarnatus est.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/J_corpus/Missa_Ad_fugam_Sanctus_version_2_Pleni.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/J_corpus/Missa_Ad_fugam_Sanctus_version_2_Qui_venit.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/J_corpus/Missa_Allez_regretz_I_Sanctus_Pleni.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/J_corpus/Missa_Ave_maris_stella_Sanctus_Benedictus.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/J_corpus/Missa_Ave_maris_stella_Sanctus_Qui_venit.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/J_corpus/Missa_Pange_lingua_Sanctus_Benedictus.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/J_corpus/Qui edunt me.xml',
 
-    # '/home/amor/Code/vis-framework/vis/scripts/L_corpus/Lassus_1_Beatus_Vir.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/L_corpus/Lassus_2_Beatus_Homo.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/L_corpus/Lassus_3_Oculus.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/L_corpus/Lassus_4_justus.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/L_corpus/Lassus_5_Expectatio.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/L_corpus/Lassus_6_Qui_Sequitur_Me.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/L_corpus/Lassus_7_Justi.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/L_corpus/Lassus_8_Sancti_mei.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/L_corpus/Lassus_9_Qui_Vult.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/L_corpus/Lassus_10_Serve_bone.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/L_corpus/Lassus_11_Fulgebunt_justi.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/L_corpus/Lassus_12_Sicut_Rosa.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/L_corpus/Lassus_1_Beatus_Vir.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/L_corpus/Lassus_2_Beatus_Homo.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/L_corpus/Lassus_3_Oculus.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/L_corpus/Lassus_4_justus.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/L_corpus/Lassus_5_Expectatio.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/L_corpus/Lassus_6_Qui_Sequitur_Me.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/L_corpus/Lassus_7_Justi.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/L_corpus/Lassus_8_Sancti_mei.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/L_corpus/Lassus_9_Qui_Vult.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/L_corpus/Lassus_10_Serve_bone.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/L_corpus/Lassus_11_Fulgebunt_justi.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/L_corpus/Lassus_12_Sicut_Rosa.xml',
 
-    # '/home/amor/Code/vis-framework/vis/scripts/M_corpus/1 Goe yee my canzonets.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/M_corpus/2 When loe by break of morning.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/M_corpus/3 Sweet nymph.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/M_corpus/5 I goe before my darling.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/M_corpus/6 La Girandola.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/M_corpus/7 Miraculous loves wounding.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/M_corpus/8 Lo heere another love.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/M_corpus/11 Fyre and Lightning.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/M_corpus/13 Flora wilt thou torment mee.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/M_corpus/15 In nets of golden wyers.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/M_corpus/17 O thou that art so cruell.xml',
-    # '/home/amor/Code/vis-framework/vis/scripts/M_corpus/19 I should for griefe and anguish.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/M_corpus/1 Goe yee my canzonets.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/M_corpus/2 When loe by break of morning.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/M_corpus/3 Sweet nymph.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/M_corpus/5 I goe before my darling.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/M_corpus/6 La Girandola.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/M_corpus/7 Miraculous loves wounding.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/M_corpus/8 Lo heere another love.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/M_corpus/11 Fyre and Lightning.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/M_corpus/13 Flora wilt thou torment mee.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/M_corpus/15 In nets of golden wyers.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/M_corpus/17 O thou that art so cruell.xml',
+    # '/home/amor/Code/vizitka/vis/scripts/M_corpus/19 I should for griefe and anguish.xml',
     ]
 ccr_s, ni_s = [], []
 v_setts = {'quality': True, 'simple or compound': 'simple'}

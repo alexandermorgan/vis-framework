@@ -337,7 +337,7 @@ class IndexedPiece(object):
     object as long as the piece did not import as an opus. In this case Importer() will return an
     AggregatedPieces object. Information about an IndexedPiece object from an indexer should be
     requested via the get() method. If you want to access the full
-    music21 score object of a VIS IndexedPiece object, access the _score attribute of the
+    music21 score object of a VizitkaIndexedPiece object, access the _score attribute of the
     IndexedPiece object. See the examples below:
 
     **Examples**
@@ -848,7 +848,7 @@ strings to identify the desired Indexer: {}.'
         Get the results of an Indexer run on this :class:`IndexedPiece`.
 
         :param analyzer_cls: The analyzer to run.
-        :type analyzer_cls: str or VIS Indexer.
+        :type analyzer_cls: str or VizitkaIndexer.
         :param settings: Settings to be used with the analyzer. Only use if necessary.
         :type settings: dict
         :param data: Input data for the analyzer to run. If this is provided for an indexer that

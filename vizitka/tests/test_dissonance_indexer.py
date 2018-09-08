@@ -35,8 +35,8 @@ from vizitka.indexers import dissonance, noterest, meter, interval
 from vizitka.models.indexed_piece import Importer, IndexedPiece
 from pandas.util.testing import assert_frame_equal
 
-# find the pathname of the 'vis' directory
-import vis
+# find the pathname of the 'vizitka' directory
+import vizitka
 VIS_PATH = vis.__path__[0]
 
 

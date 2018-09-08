@@ -36,8 +36,8 @@ from vizitka.indexers import meter
 from numpy import isnan
 from vizitka.models.indexed_piece import Importer, IndexedPiece
 
-# find the pathname of the 'vis' directory
-import vis
+# find the pathname of the 'vizitka' directory
+import vizitka
 VIS_PATH = vis.__path__[0]
 
 class TestDurationIndexer(unittest.TestCase):

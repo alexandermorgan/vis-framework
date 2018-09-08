@@ -36,8 +36,8 @@ from music21 import interval, note
 from vizitka.indexers.interval import IntervalIndexer, HorizontalIntervalIndexer, real_indexer_func, indexer_funcs
 from vizitka.tests.test_note_rest_indexer import TestNoteRestIndexer
 
-# find the pathname of the 'vis' directory
-import vis
+# find the pathname of the 'vizitka' directory
+import vizitka
 VIS_PATH = vis.__path__[0]
 
 

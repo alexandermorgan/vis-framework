@@ -4,33 +4,33 @@
 Install the Framework
 ---------------------
 
-You must install the VIS Framework before you use it.
+You must install the Vizitka before you use it.
 Our recommended installation method depends on how you plan to use VIS.
 
-If you plan to use VIS as a program or a library, you should install the Framework for *deployment*.
+If you plan to use Vizitkaas a program or a library, you should install the Framework for *deployment*.
 This includes users who will conduct their own analyses with the built-in modules, and users who will host an instance of the `Counterpoint Web App <https://github.com/ELVIS_Project/web-vis>`_.
 A deployment installation will always be "stable" software, meaning that the software has been tested more thoroughly, and we can offer a higher assurance of correctness.
 
-If you plan to use VIS as a framework, you should install the Framework for *development*.
-This includes users who will write their own analyzers for the VIS Framework, and users who will modify existing modules.
-A development installation allows you to use the most up-to-date versions of VIS, and even to suggest your improvements for inclusion in a VIS release, although these versions may crash more often and be less correct than deployment versions.
+If you plan to use Vizitkaas a framework, you should install the Framework for *development*.
+This includes users who will write their own analyzers for the Vizitka, and users who will modify existing modules.
+A development installation allows you to use the most up-to-date versions of VIS, and even to suggest your improvements for inclusion in a Vizitkarelease, although these versions may crash more often and be less correct than deployment versions.
 
-You may safely install the VIS Framework multiple times on the same computer, including a mixture of deployment and development installations.
+You may safely install the Vizitka multiple times on the same computer, including a mixture of deployment and development installations.
 
 Python 3
 ^^^^^^^^
 
-With the release of VIS Framework 2.1, VIS can run and is tested with Python 2.7, 3.3, and 3.4.
+With the release of Vizitka 2.1, Vizitkacan run and is tested with Python 2.7, 3.3, and 3.4.
 We recommend a Python 3 release for reasons of future compatibility.
-The music21 developers have announced plans to drop support for Python 2.7 in calendar year 2016, at which point VIS will also drop support for Python 2.7.
+The music21 developers have announced plans to drop support for Python 2.7 in calendar year 2016, at which point Vizitkawill also drop support for Python 2.7.
 Python 3.4 offers several major enhancements over Python 3.3, including improved speed of execution, so we recommend you use Python 3.4 if possible.
 
 Install for Deployment
 ^^^^^^^^^^^^^^^^^^^^^^
-You must install the VIS Framework before you use it.
-If you will not write extensions for the Framework, you may use ``pip`` to install the package from the Python Package Index (PyPI---`https://pypi.python.org/pypi/vis-framework/ <https://pypi.python.org/pypi/vis-framework/>`_). Run this command::
+You must install the Vizitka before you use it.
+If you will not write extensions for the Framework, you may use ``pip`` to install the package from the Python Package Index (PyPI---`https://pypi.python.org/pypi/vizitka/ <https://pypi.python.org/pypi/vizitka/>`_). Run this command::
 
-    $ pip install vis-framework
+    $ pip install vizitka
 
 You may also wish to install some or all of the optional dependencies:
 
@@ -38,37 +38,37 @@ You may also wish to install some or all of the optional dependencies:
     * ``openpyxl``, which allows ``pandas`` to export Excel-format spreadsheets.
     * ``cython`` and ``tables``, which allow ``pandas`` to export HDF5-format binary files.
 
-You may install optional dependencies in the same ways as VIS itself. For example::
+You may install optional dependencies in the same ways as Vizitkaitself. For example::
 
     $ pip install numexpr bottleneck
 
 Install for Development
 ^^^^^^^^^^^^^^^^^^^^^^^
-If you wish to install the VIS Framework for development work, we recommend you clone our Git repository from https://github.com/ELVIS-Project/vis/, or even make your own fork on GitHub.
-You may also wish to checkout a particular version for development with the "checkout" command, as ``git checkout tags/vis-framework-1.2.3`` or ``git checkout master``.
+If you wish to install the Vizitka for development work, we recommend you clone our Git repository from https://github.com/ELVIS-Project/vis/, or even make your own fork on GitHub.
+You may also wish to checkout a particular version for development with the "checkout" command, as ``git checkout tags/vizitka-1.2.3`` or ``git checkout master``.
 
 If you installed git, but you need help to clone a repository, you may find useful information in the `git documentation <http://git-scm.com/book/en/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository>`_.
 
-After you clone the VIS repository, you should install its dependencies (listed in the "requirements.py" file), for which we recommend you use ``pip``.
-From the main VIS directory, run ``pip install -r requirements.txt`` to automatically download and install the library dependencies.
+After you clone the Vizitkarepository, you should install its dependencies (listed in the "requirements.py" file), for which we recommend you use ``pip``.
+From the main Vizitkadirectory, run ``pip install -r requirements.txt`` to automatically download and install the library dependencies.
 We also recommend you run ``pip install -r optional_requirements.txt`` to install several additional packages that improve the speed of pandas and allow additional output formats (Excel, HDF5).
 You may need to use ``sudo`` or ``su`` to run pip with administrator privileges, though we recommend using virtualenv.
 If you do not have pip installed, use your package manager (the package is probably called ``python-pip``---at least for users of Fedora, Ubuntu, and openSUSE).
 If you are one of the unfortunate souls who uses Windows, or worse, Mac OS X, then clearly we come from different planets.
 The `pip documentation <http://www.pip-installer.org/en/latest/installing.html>`_ may help you.
 
-During development, you should usually start ``python`` (or ``ipython``, etc.) from within the main "vis" directory to ensure proper importing.
+During development, you should usually start ``python`` (or ``ipython``, etc.) from within the main "vizitka" directory to ensure proper importing.
 
 
 Optional: Test the Framework Before Use
 ---------------------------------------
 
-You may wish to run the VIS Framework's automated test suite before you use it, to confirm the installation was successful and is working as expected.
+You may wish to run the Vizitka's automated test suite before you use it, to confirm the installation was successful and is working as expected.
 
 To run the test suite:
 
-#. Change into the main VIS directory (this will depend on your installation, but it will be similar to ``/usr/lib/python3.4/site-packages/vis-framework`` or ``/home/crantila/virtualenvs/vis-virtenv3/lib/python3.4/site-packages/vis-framework``.
-#. If you installed VIS with a virtualenv, activate the virtualenv (e.g., ``source ~/virtualenvs/vis-virtenv3/bin/activate``).
+#. Change into the main Vizitkadirectory (this will depend on your installation, but it will be similar to ``/usr/lib/python3.4/site-packages/vizitka`` or ``/home/crantila/virtualenvs/vis-virtenv3/lib/python3.4/site-packages/vizitka``.
+#. If you installed Vizitkawith a virtualenv, activate the virtualenv (e.g., ``source ~/virtualenvs/vis-virtenv3/bin/activate``).
 #. Run the test script: ``python run_tests.py``.
 #. Python prints a ``.`` character for every successful test, and an error or warning for every test that fails.
 
@@ -81,13 +81,13 @@ If you used distribution packages (i.e., did not use virtualenv) and tests fail,
 Both with and without virtualenv, if tests fail, ensure you are using the exact package versions indicated in ``requirements.txt``, since they are the versions used by the development team.
 
 If you are using a development release and automated tests fail, check if those tests also fail on our "Travis CI" test server.
-If so, the VIS development team is already aware of the failure and working toward a fix, since Travis will notify us by email if a test fails.
+If so, the Vizitkadevelopment team is already aware of the failure and working toward a fix, since Travis will notify us by email if a test fails.
 You may also try the version-related advice in the previous paragraph, though you may also wish to prepare a fix for the problem and submit it to us as a GitHub pull request.
 
 Optional: Install R and ggplot2 for Graphs
 ------------------------------------------
 
-If you wish to produce graphs with the VIS Framework, you must install an R interpreter and the *ggplot2* library.
+If you wish to produce graphs with the Vizitka, you must install an R interpreter and the *ggplot2* library.
 We test with 3.0.x versions of R.
 
 If you use a "Windows" computer, download a pre-compiled R interpreter from http://cran.r-project.org.
@@ -131,7 +131,7 @@ Quit R. You do not need to save your workspace::
 Optional: Install LilyPond for Annotated Scores
 -----------------------------------------------
 
-If you wish to produce annotated scores with the VIS Framework, you must install LilyPond.
+If you wish to produce annotated scores with the Vizitka, you must install LilyPond.
 
 The *outputlilypond* module, used by VIS, is targeted for 2.18.x versions of LilyPond, though it should also work with 2.16.x versions.
 We do note recommend versions numbered 2.15.x, 2.17.x, and 2.19.x, since these are intended only for LilyPond developers, and they may crash or produce incorrect output.

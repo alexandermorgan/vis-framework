@@ -5,7 +5,7 @@
 # Program Description:       Measures sequences of vertical intervals.
 #
 # Filename: run_tests.py
-# Purpose: Run automated tests for the VIS Framework.
+# Purpose: Run automated tests for the Vizitka.
 #
 # Copyright (C) 2012, 2013, 2014 Jamie Klassen, Christopher Antila, Ryan Bannon, Alexander Morgan
 #
@@ -23,7 +23,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #--------------------------------------------------------------------------------------------------
 """
-Run automated tests for the VIS Framework.
+Run automated tests for the Vizitka.
 """
 
 VERBOSITY = 0

@@ -36,8 +36,8 @@ from music21 import converter
 from vizitka.indexers.indexer import Indexer
 from vizitka.indexers import noterest
 from vizitka.models.indexed_piece import Importer, IndexedPiece, _find_piece_title, _find_part_names, _find_piece_range, _find_part_ranges, login_edb, auth_get
-# find pathname to the 'vis' directory
-import vis
+# find pathname to the 'vizitka' directory
+import vizitka
 VIS_PATH = vis.__path__[0]
 
 # pylint: disable=R0904
@@ -203,7 +203,7 @@ class TestIndexedPieceC(TestCase):
         ind = IndexedPiece(piece, metafile=meta)
         self.assertEqual('Sacred', ind.metadata('religiosity'))
 
-    # These two tests are turned off until we can test without having to link to the ELVIS Database.
+    # These two tests are turned off until we can test without having to link to the ELVizitkaDatabase.
     # def test_json(self):
     #     meta = 'http://database.elvisproject.ca/piece/1971/?format=json'
     #     username = 'mborsodi'

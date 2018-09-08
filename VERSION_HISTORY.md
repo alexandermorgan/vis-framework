@@ -1,6 +1,6 @@
 VERSION HISTORY
 ===============
-This file records version-to-version changes in the VIS Framework. The most recent versions are at
+This file records version-to-version changes in the Vizitka. The most recent versions are at
 the top of the file.
 
 * 3.0.3:
@@ -11,8 +11,8 @@ the top of the file.
     -Documentation updates.
 
 * 3.0.2:
-    -Update indexer documentation examples for VIS 3 syntax.
-    -Re-enable tests that check connectivity requirements but don't actually access ELVIS Database.
+    -Update indexer documentation examples for Vizitka3 syntax.
+    -Re-enable tests that check connectivity requirements but don't actually access ELVizitkaDatabase.
     -Clean up the way some error messages in indexed_piece print.
     -Small bug fix in CadenceIndexer.
 
@@ -131,7 +131,7 @@ the top of the file.
     - add LilyPond indexers
     - add support for 'LilyPond' to WorkflowManager.output()
 * 1.0.1:
-    - minor change so vis-framework will install successfully with pip
+    - minor change so vizitka will install successfully with pip
 * 1.0.0:
     - 2014/03/24 at 01h17 (commit 2ccf5f142b7f75b8fbda82bb6bb29ef071010c5b)
     - initial release on PyPI (the Python Package Index)

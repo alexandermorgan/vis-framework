@@ -71,8 +71,8 @@ Just indexers for analysis:
 
 
 Documentation Needs:
-- vis API:
+- Vizitka API:
     - IndexedPiece
     - AggregatedPieces
-- vis Extensibility API:
+- Vizitka Extensibility API:
     - Indexer

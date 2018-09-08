@@ -35,8 +35,8 @@ from music21 import note, chord, stream, clef, bar
 from vizitka.indexers import noterest
 from vizitka.models.indexed_piece import Importer, IndexedPiece, _find_part_names
 
-# find the pathname of the 'vis' directory
-import vis
+# find the pathname of the 'vizitka' directory
+import vizitka
 VIS_PATH = vis.__path__[0]
 
 class TestNoteRestIndexer(unittest.TestCase):
