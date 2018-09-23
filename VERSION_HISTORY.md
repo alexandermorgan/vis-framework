@@ -10,7 +10,6 @@ version history document.
     -Renames program Vizitka
     -Removes Windexer
     -Removes all experimenters
-    -Removes analyzers folder
     -Removes engineering folder and contained files
     -Add to_kern and to_XML methods for file conversion
     -Walks back a lots of fluff documentation commits, though many still remain
@@ -27,3 +26,5 @@ version history document.
     -Adds KeySignatureIndexer and ClefIndexer in staff.py
     -Adds TieIndexer to meter.py
     -Adds MensurationIndexer though only commented out version
+    -Remove outdated tutorial
+    -Update api
