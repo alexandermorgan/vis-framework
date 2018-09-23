@@ -4,7 +4,7 @@ indexers Package
 :mod:`indexers` Package
 -----------------------
 
-.. automodule:: vis.indexers
+.. automodule:: indexers
     :members:
     :undoc-members:
     :show-inheritance:
@@ -13,7 +13,7 @@ indexers Package
 :mod:`indexer` Module
 ---------------------
 
-.. automodule:: vis.indexers.indexer
+.. automodule:: vizitka.indexers.indexer
     :members:
     :undoc-members:
     :show-inheritance:
@@ -22,7 +22,7 @@ indexers Package
 :mod:`active_voices` Module
 ----------------------
 
-.. automodule:: vis.indexers.active_voices
+.. automodule:: vizitka.indexers.active_voices
     :members:
     :undoc-members:
     :show-inheritance:
@@ -30,7 +30,7 @@ indexers Package
 :mod:`articulation` Module
 ----------------------
 
-.. automodule:: vis.indexers.articulation
+.. automodule:: vizitka.indexers.articulation
     :members:
     :undoc-members:
     :show-inheritance:
@@ -38,7 +38,7 @@ indexers Package
 :mod:`cadence` Module
 ----------------------
 
-.. automodule:: vis.indexers.cadence
+.. automodule:: vizitka.indexers.cadence
     :members:
     :undoc-members:
     :show-inheritance:
@@ -46,7 +46,7 @@ indexers Package
 :mod:`contour` Module
 ----------------------
 
-.. automodule:: vis.indexers.contour
+.. automodule:: vizitka.indexers.contour
     :members:
     :undoc-members:
     :show-inheritance:
@@ -54,7 +54,7 @@ indexers Package
 :mod:`dissonance` Module
 ----------------------
 
-.. automodule:: vis.indexers.dissonance
+.. automodule:: vizitka.indexers.dissonance
     :members:
     :undoc-members:
     :show-inheritance:
@@ -62,7 +62,7 @@ indexers Package
 :mod:`expression` Module
 ----------------------
 
-.. automodule:: vis.indexers.expression
+.. automodule:: vizitka.indexers.expression
     :members:
     :undoc-members:
     :show-inheritance:
@@ -70,7 +70,7 @@ indexers Package
 :mod:`interval` Module
 ----------------------
 
-.. automodule:: vis.indexers.interval
+.. automodule:: vizitka.indexers.interval
     :members:
     :undoc-members:
     :show-inheritance:
@@ -78,7 +78,7 @@ indexers Package
 :mod:`meter` Module
 -------------------
 
-.. automodule:: vis.indexers.meter
+.. automodule:: vizitka.indexers.meter
     :members:
     :undoc-members:
     :show-inheritance:
@@ -86,7 +86,7 @@ indexers Package
 :mod:`ngram` Module
 -------------------
 
-.. automodule:: vis.indexers.ngram
+.. automodule:: vizitka.indexers.ngram
     :members:
     :undoc-members:
     :show-inheritance:
@@ -94,7 +94,7 @@ indexers Package
 :mod:`noterest` Module
 ----------------------
 
-.. automodule:: vis.indexers.noterest
+.. automodule:: vizitka.indexers.noterest
     :members:
     :undoc-members:
     :show-inheritance:
@@ -102,7 +102,15 @@ indexers Package
 :mod:`offset` Module
 --------------------
 
-.. automodule:: vis.indexers.offset
+.. automodule:: vizitka.indexers.offset
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`output` Module
+--------------------
+
+.. automodule:: vizitka.indexers.output
     :members:
     :undoc-members:
     :show-inheritance:
@@ -110,7 +118,7 @@ indexers Package
 :mod:`over_bass` Module
 --------------------
 
-.. automodule:: vis.indexers.over_bass
+.. automodule:: vizitka.indexers.over_bass
     :members:
     :undoc-members:
     :show-inheritance:
@@ -118,7 +126,15 @@ indexers Package
 :mod:`repeat` Module
 --------------------
 
-.. automodule:: vis.indexers.repeat
+.. automodule:: vizitka.indexers.repeat
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`staff` Module
+--------------------
+
+.. automodule:: vizitka.indexers.staff
     :members:
     :undoc-members:
     :show-inheritance:

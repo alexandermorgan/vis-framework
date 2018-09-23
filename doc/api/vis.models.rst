@@ -4,7 +4,7 @@ models Package
 :mod:`models` Package
 ---------------------
 
-.. automodule:: vis.models
+.. automodule:: vizitka.models
     :members:
     :undoc-members:
     :show-inheritance:
@@ -12,7 +12,7 @@ models Package
 :mod:`aggregated_pieces` Module
 -------------------------------
 
-.. automodule:: vis.models.aggregated_pieces
+.. automodule:: vizitka.models.aggregated_pieces
     :members:
     :undoc-members:
     :show-inheritance:
@@ -20,8 +20,7 @@ models Package
 :mod:`indexed_piece` Module
 ---------------------------
 
-.. automodule:: vis.models.indexed_piece
+.. automodule:: vizitka.models.indexed_piece
     :members:
     :undoc-members:
     :show-inheritance:
-

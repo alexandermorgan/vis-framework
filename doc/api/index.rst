@@ -4,19 +4,12 @@
    contain the root `toctree` directive.
 
 
-This is the API documentation for the Vizitka for Music Analysis.
-The Vizitka is a Python package that uses music21 and pandas to build a flexible and easy system for writing symbolic music analysis computer programs.
-By providing a free-and-open solution (AGPLv3+) we hope to lower the barrier to empirical music analysis.
-The Vizitka was developed at McGill University as part of the ELVizitkaProject (http://elvisproject.ca).
-Vizitkahas been presented at conferences, including the International Society for Music Information Retrieval and the Society for Music Theory.
+This is the API documentation for Vizitka.
 
 About This Documentation
 ------------------------
 
-The API is written for programmers interested in symbolic music information retrieval (i.e., music theory analysis performed by computers).
-Musicologists and programmers alike may access our Vizitkaclient at `vis-rodan.simssa.ca <https://vis-rodan.simssa.ca>`_, and some of our research findings from the `ELVizitkaProject's website <https://elvisproject.ca/research/>`_.
-
-The rest of the documentation discusses the Vizitka's architecture, how to install and use the framework, and how to add your own analysis tasks.
+The API is written for programmers interested in symbolic music information retrieval.
 
 One-Paragraph Introduction
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
