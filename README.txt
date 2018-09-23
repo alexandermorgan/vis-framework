@@ -1,7 +1,12 @@
 Vizitka
 =================
 
-The Vizitka is a Python package that uses the music21 and the pandas library to build a flexible system for writing computational music analysis programs.
+The Vizitka is a Python package that uses the music21 and the pandas library to
+build a flexible system for writing computational music analysis programs.
+Examples of how to use the program can be found in the different indexers in
+the indexers folder. If you need any assistance using this program, or if you
+think that automating something would make it easier to use the program, please
+just ask me about it and I'll see what I can do.
 
 Copyright Information:
 * All source code is subject to the GNU AGPL 3.0 Licence. A copy of this licence is included as doc/apg-3.0.txt.
@@ -14,8 +19,8 @@ Software Dependencies
 The Vizitka has three core software dependencies. These are required:
 
 - [Python 3.7](https://www.python.org)
-- [music21](http://web.mit.edu/music21/)
-- [pandas](http://pandas.pydata.org)
+- [music21 5.3](http://web.mit.edu/music21/)
+- [pandas 0.23.1](http://pandas.pydata.org)
 
 These are recommended dependencies:
 
@@ -56,17 +61,16 @@ A BibTeX entry for LaTeX users is
 
 You may also wish to cite the software of VIS itself:
 
-Antila, Christopher and Jamie Klassen. The Vizitka for Music Analysis. Montréal: The ELVISProject, 2014. URL https://github.com/ELVIS-Project/vis.
+Antila, Christopher, Alexander Morgan, Jamie Klassen, and Marina Cotrell. The VIS-Framework for Music Analysis. McGill University, Montreal, 2016.
 
 A BibTeX entry for LaTeX users is
 
 ```
 @Manual{,
     title = {The VIS-Framework for Music Analysis},
-    author = {Antila, Christopher and Klassen, Jamie},
-    organization = {The ELVISProject},
+    author = {Antila, Christopher and Morgan, Alexander and Klassen, Jamie and Cotrell, Marina},
+    organization = {McGill University},
     location = {Montréal, Québec},
-    year = {2014},
-    url = {https://github.com/ELVIS-Project/vis},
+    year = {2016},
 }
 ```
