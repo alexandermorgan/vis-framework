@@ -14,8 +14,8 @@ The API is written for programmers interested in symbolic music information retr
 One-Paragraph Introduction
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The Vizitka uses two data models (:class:`~vis.models.indexed_piece.IndexedPiece` and :class:`~vis.models.aggregated_pieces.AggregatedPieces`) to fetch results for one or multiple pieces, respectively.
-Call their :meth:`~vis.models.indexed_piece.IndexedPiece.get` method with a list of analyzer classes to run, and a dictionary with their settings.
+The Vizitka uses two data models (:class:`~vizitka.models.indexed_piece.IndexedPiece` and :class:`~vizitka.models.aggregated_pieces.AggregatedPieces`) to fetch results for one or multiple pieces, respectively.
+Call their :meth:`~vizitka.models.indexed_piece.IndexedPiece.get` method with a list of analyzer classes to run, and a dictionary with their settings.
 
 Table of Contents
 -----------------
@@ -28,12 +28,6 @@ Learn about and Install the Vizitka
     about
     install_and_test
 
-Programming Tutorials for VIS
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. toctree::
-    :maxdepth: 1
-
-    tutorial-melodic_ngrams
 
 
 API Specification
