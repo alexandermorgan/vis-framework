@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 #--------------------------------------------------------------------------------------------------
-# Program Name:           vis
+# Program Name:           vizitka
 # Program Description:    Helps analyze music with computers.
 #
 # Filename:               MANIFEST.in
 # Purpose:                Extra Files Distutils Should Include
 #
-# Copyright (C) 2014 Christopher Antila
+# Copyright (C) 2014, 2018 Christopher Antila and Alexander Morgan
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -22,11 +22,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #--------------------------------------------------------------------------------------------------
 
-include vis/*requirements.txt
-include vis/tests/*
+include vizitka/*requirements.txt
+include vizitka/tests/*
 include run_tests.py
 include doc/CC-BY-SA.txt
 include doc/agpl-3.0.txt
 include doc/api/*
-include outputlilypond/*
 global-exclude *.pyc

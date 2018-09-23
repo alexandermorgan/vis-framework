@@ -1,14 +1,7 @@
-The Vizitka
+Vizitka
 =================
 
-The Vizitka for Music Analysis
-
-[![Build Status](https://travis-ci.org/ELVIS-Project/vizitka.svg?branch=master)](https://travis-ci.org/ELVIS-Project/vizitka)
-[![Coverage Status](https://coveralls.io/repos/ELVIS-Project/vizitka/badge.svg?branch=master&service=github)](https://coveralls.io/github/ELVIS-Project/vizitka?branch=master)
-[![Latest Version](https://img.shields.io/pypi/v/vizitka.svg)](https://pypi.python.org/pypi/vizitka/)
-[![License](https://img.shields.io/badge/license-AGPL%203.0-blue.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
-
-The Vizitka is a Python package that uses the music21 and pandas libraries to build a flexible system for writing computational music analysis programs.
+The Vizitka is a Python package that uses the music21 and the pandas library to build a flexible system for writing computational music analysis programs.
 
 Copyright Information:
 * All source code is subject to the GNU AGPL 3.0 Licence. A copy of this licence is included as doc/apg-3.0.txt.
@@ -18,9 +11,9 @@ Copyright Information:
 Software Dependencies
 =====================
 
-The Vizitka uses many software libraries to help with analysis. These are required dependencies:
+The Vizitka has three core software dependencies. These are required:
 
-- [Python 3.5](https://www.python.org)
+- [Python 3.7](https://www.python.org)
 - [music21](http://web.mit.edu/music21/)
 - [pandas](http://pandas.pydata.org)
 
@@ -37,24 +30,23 @@ These are recommended dependencies:
 Documentation
 =============
 
-You can find documentation here:
-- [Major Release Documentation](http://vizitka.readthedocs.org/en/vizitka-2.0.0/)
-- [Stable Release Documentation](http://vizitka.readthedocs.org/en/stable/)
-- [Latest Release Documentation](http://vizitka.readthedocs.org/en/latest/), a.k.a. "bleeding edge"
+At the moment there is no guarantee that everything is documented, but most indexers are well documented and the Readme file covers the basics of how to use Vizitka.
 
 Citation
 ========
 
-If you wish to cite the Vizitka, please use this ISMIR 2014 article:
+If you want to cite Vizitka, please cite the github repository.
 
-Antila, Christopher and Julie Cumming. "The Vizitka: Analyzing Counterpoint in Large Datasets."
+If you wish to cite the VIS, which is the program that Vizitka originated from, please use this ISMIR 2014 article:
+
+Antila, Christopher and Julie Cumming. "The VIS-Framework: Analyzing Counterpoint in Large Datasets."
     In Proceedings of the International Society for Music Information Retrieval, 2014.
 
 A BibTeX entry for LaTeX users is
 
 ```
 @inproceedings{,
-    title = {The Vizitka: Analyzing Counterpoint in Large Datasets},
+    title = {The VIS-Framework: Analyzing Counterpoint in Large Datasets},
     author = {Antila, Christopher and Cumming, Julie},
     booktitle = {Proceedings of the International Society for Music Information Retrieval},
     location = {Taipei, Taiwan},
@@ -62,17 +54,17 @@ A BibTeX entry for LaTeX users is
 }
 ```
 
-You may also wish to cite the software itself:
+You may also wish to cite the software of VIS itself:
 
-Antila, Christopher and Jamie Klassen. The Vizitka for Music Analysis. Montréal: The ELVizitkaProject, 2014. URL https://github.com/ELVIS-Project/vis.
+Antila, Christopher and Jamie Klassen. The Vizitka for Music Analysis. Montréal: The ELVISProject, 2014. URL https://github.com/ELVIS-Project/vis.
 
 A BibTeX entry for LaTeX users is
 
 ```
 @Manual{,
-    title = {The Vizitka for Music Analysis},
+    title = {The VIS-Framework for Music Analysis},
     author = {Antila, Christopher and Klassen, Jamie},
-    organization = {The ELVizitkaProject},
+    organization = {The ELVISProject},
     location = {Montréal, Québec},
     year = {2014},
     url = {https://github.com/ELVIS-Project/vis},

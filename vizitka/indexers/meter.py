@@ -342,29 +342,29 @@ class TimeSignatureIndexer(indexer.Indexer):
 
 
 
-class MensurationIndexer(indexer.Indexer):
-    """
-    Make an index of the mensuration signs in a piece. This is independent of
-    time signature changes. music21 doesn't seem to support mensuration signs,
-    so development on this indexer is stalled for the moment.
-
-    **Example:**
-    from vizitka.models.indexed_piece import Importer
-    ip = Importer('pathnameToScore.xml')
-    ip.get('mensuration')
-    """
-
-    required_score_type = 'pandas.DataFrame'
-
-    def __init__(self, score):
-        """
-        :param score: :class:`pandas.DataFrame` of music21 measure objects.
-        :type score: :class:`pandas.DataFrame`
-
-        :raises: :exc:`RuntimeError` if ``score`` is the wrong type.
-        """
-        super(MensurationIndexer, self).__init__(score, None)
-        self._types = ('Mensuration',)
-        self._indexer_func = mensuration_ind_func
-
-    # NB: This indexer inherits its run() method from indexer.py
+# class MensurationIndexer(indexer.Indexer):
+#     """
+#     Make an index of the mensuration signs in a piece. This is independent of
+#     time signature changes. music21 doesn't seem to support mensuration signs,
+#     so development on this indexer is stalled for the moment.
+#
+#     **Example:**
+#     from vizitka.models.indexed_piece import Importer
+#     ip = Importer('pathnameToScore.xml')
+#     ip.get('mensuration')
+#     """
+#
+#     required_score_type = 'pandas.DataFrame'
+#
+#     def __init__(self, score):
+#         """
+#         :param score: :class:`pandas.DataFrame` of music21 measure objects.
+#         :type score: :class:`pandas.DataFrame`
+#
+#         :raises: :exc:`RuntimeError` if ``score`` is the wrong type.
+#         """
+#         super(MensurationIndexer, self).__init__(score, None)
+#         self._types = ('Mensuration',)
+#         self._indexer_func = mensuration_ind_func
+#
+#     # NB: This indexer inherits its run() method from indexer.py
