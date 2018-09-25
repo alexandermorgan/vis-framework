@@ -171,23 +171,6 @@ class Indexer(object):
         >>> the_intervals['interval.IntervalIndexer']['5,6']
         (Series with vertical intervals between first and second clarinet)
 
-        This is more useful when you have a larger :class:`DataFrame` with the results of multiple
-        indexers. Refer to :func:`Indexer.combine_results` to see how that works.
-
-        >>> some_results = Indexer.combine_results([the_notes, the_intervals])
-        >>> some_results['noterest.NoteRestIndexer']['5']
-        (the first clarinet Series)
-        >>> some_results['interval.IntervalIndexer']['5,6']
-        (Series with vertical intervals between first and second clarinet)
-        >>> some_results.to_hdf('brahms3.h5', 'table')
-
-        After the call to :meth:`~pandas.DataFrame.to_hdf`, your results are stored in the
-        'brahms3.h5' file. When you load them (very quickly!) with the :func:`~pandas.read_hdf`
-        method, the :class:`DataFrame` returns exactly as it was.
-
-        .. note:: In release 1.0.0, it was sometimes acceptable to use undocumented return values;
-            from release 1.1.0, this is no longer necessary, and you should avoid it. In a future
-            release, the :class:`IndexedPiece` class will depend on indexers following these rules.
         """
         # This if statement is necessary because of a pandas bug, see pandas issue #8222.
         if len(self._score.index) == 0: # If parts have no note, rest, or chord events in them
