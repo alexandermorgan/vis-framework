@@ -35,7 +35,6 @@ Indexers for metric concerns.
 
 import pandas
 from vizitka.indexers import indexer
-import pdb
 
 tie_types = {'start': '[', 'continue': '_', 'stop': ']'}
 nan = float('nan')
@@ -273,6 +272,7 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
 
     def run(self):
         res = self._score[0].applymap(self._indexer_func)
+        res = self.make_return(self._score[1].columns.get_level_values(0), res)
         # The following assumes there is no anacrusis, which is the best we
         # can do if the user is parsing a midi file.
         if res.empty:
@@ -288,7 +288,6 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
                     num_mea = int(diff/col.iat[jay])
                     temp = [col.index[jay] + x*col.iat[jay] for x in range(num_mea)]
                     m_indx.extend(temp)
-                    # pdb.set_trace()
                 cols.append(pandas.Series(range(1, len(m_indx)), index=m_indx[:-1]))
             res = pandas.concat(cols, axis=1)
         # Make the measure tokens conform to Humdrum syntax if requested
