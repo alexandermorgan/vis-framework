@@ -7,7 +7,7 @@
 # Filename:               controllers/indexer.py
 # Purpose:                Help with indexing data from musical scores.
 #
-# Copyright (C) 2013, 2014, 2015 Christopher Antila, Jamie Klassen, and Alexander Morgan
+# Copyright (C) 2013-15, 2018 Christopher Antila, Jamie Klassen, and Alexander Morgan
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -32,7 +32,6 @@ The controllers that deal with indexing data from music21 Score objects.
 
 import pandas
 from music21 import stream, converter
-import multiprocessing as mp
 from functools import partial
 
 
@@ -242,53 +241,6 @@ class Indexer(object):
             labels = self._score.columns.get_level_values(-1)
         return self.make_return(labels, result)
 
-
-    def _do_multiprocessing(self, combos, index_tied=False, on=True):
-        """
-        Parallelize the indexing of series. If the call to this function is for stream_indexer jobs,
-        it will execute serially because music21 streams cannot be multiprocessed.
-
-        :param combos: A list of all voice combinations to be analyzed. For example:
-            - ``[[0], [1], [2], [3]]``
-                Analyze each of four parts independently.
-
-            - ``[[0, 1], [0, 2], [0, 3]]``
-                Analyze the highest part compared with all others.
-
-            - ``[[0, 1, 2, 3]]``
-                Analyze all parts at once.
-
-            The function stored in :func:`self._indexer_func` must know how to deal with the number
-            of simultaneous events it will receive.
-        :type combos: list of list of integers
-        :param on: On/off switch allowing multiprocessing to be turned off if necessary.
-        :type on: Boolean, defaults to True meaning that multiprocessing will occur if possible.
-
-        :returns: Analysis results.
-        :rtype: list of one :class:`pandas.Series` per combo in combos.
-        """
-        post = []
-        jobs = []
-        for each_combo in combos:
-            # voices holds the music21 Part objects indicated by each_combo
-            voices = [self._score[x] for x in each_combo]
-            jobs.append(voices)
-            if not on and len(jobs) > 0:
-                post.append(series_indexer(voices, self._indexer_func))
-
-        if on and len(jobs) > 0:
-            # Determine an appropriate number of cores to use.
-            tasks = len(combos)
-            if tasks < 16:
-                cores = tasks
-            else:
-                cores = 16
-
-            pool = mp.Pool(cores)
-            post = pool.map(partial(series_indexer, indexer_func=self._indexer_func), jobs)
-            pool.close()
-
-        return post
 
     def make_return(self, labels, indices):
         """
