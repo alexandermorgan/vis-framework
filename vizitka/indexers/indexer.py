@@ -32,7 +32,7 @@ The controllers that deal with indexing data from music21 Score objects.
 
 import pandas
 from music21 import stream
-
+import pdb
 
 class Indexer(object):
     """
@@ -214,13 +214,11 @@ class Indexer(object):
             # multi_index because it ensures that even empty series will be included in the dataframe.
             ret = pandas.concat(indices, levels=labels, axis=1)
 
-        # make the indexer's name using filename and classname (but not full class name)
-        my_mod = str(self.__module__)[str(self.__module__).rfind('.') + 1:]
-        my_class = str(self.__class__)[str(self.__class__).rfind('.'):-2]
-        my_name = my_mod + my_class
+        # just use the name of the indexer without the word "Indexer"
+        name = str(self.__class__).rsplit('.', 1)[-1][0:-9]
 
         # Apply the multi_index as the column labels.
-        iterables = ((my_name,), labels)
+        iterables = ((name,), labels)
         multi_index = pandas.MultiIndex.from_product(iterables, names=('Indexer', 'Parts'))
         ret.columns = multi_index
 
