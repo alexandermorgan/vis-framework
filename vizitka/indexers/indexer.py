@@ -31,48 +31,7 @@ The controllers that deal with indexing data from music21 Score objects.
 """
 
 import pandas
-from music21 import stream, converter
-from functools import partial
-
-
-def series_indexer(parts, indexer_func):
-    """
-    Perform the indexation of a part or part combination. This is a module-level function designed
-    to ease implementation of multiprocessing.
-
-    If your :class:`Indexer` has settings, use the :func:`indexer_func` to adjust for them.
-
-    :param parts: A list of at least one :class:`Series` object. Every new event, or change of
-        simlutaneity, will appear in the outputted index. Therefore, the new index will contain at
-        least as many events as the inputted :class:`Series` with the most events. This is not a
-        :class:`DataFrame`, since each part will likely have different offsets.
-    :type parts: list of :class:`pandas.Series`
-    :param function indexer_func: This function transforms found events into some other string.
-
-    :returns: The ``pipe_index`` argument and the new index. The new index is a :class:`pandas.Series`
-        where every element is a string. The :class:`~pandas.core.index.Index` of the
-        :class:`Series` corresponds to the ``quarterLength`` offset of the event in the inputted
-        :class:`Stream`.
-    :rtype: 2-tuple of object and :class:`pandas.Series`
-
-    :raises: :exc:`ValueError` if there are multiple events at an offset in any of the inputted
-        :class:`Series`.
-    """
-
-    # find the offsets at which things happen
-    all_offsets = pandas.Index([])
-    for i in range(0, len(parts)):
-        all_offsets = all_offsets.union(parts[i].index)
-
-    # Copy each Series with index=offset values that match all_offsets, filling in non-existant
-    # offsets with the value that was at the most recent offset with a value. We put these in a
-    # dict so DataFrame.__init__() puts parts in columns.
-    in_dict = {i: part.reindex(index=all_offsets, method='ffill') for i, part in enumerate(parts)}
-    dframe = pandas.DataFrame(in_dict)
-
-    # do the indexing
-    new_series_data = dframe.apply(indexer_func, axis=1)
-    return new_series_data
+from music21 import stream
 
 
 class Indexer(object):
