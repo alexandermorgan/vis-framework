@@ -299,7 +299,7 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
             res.iloc[0, :] = res.iloc[0, :].apply(lambda x: str(x + '-'))
 
         # make the labels in the right format:
-        res = self.make_return(self._score[1].columns.get_level_values(0), res)
+        res = self.make_return(self._score[1].columns.get_level_values(1), res)
 
         return res
 
