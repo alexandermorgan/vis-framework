@@ -223,7 +223,7 @@ class Viz2HumIndexer(indexer.Indexer):
                              )).dropna() for i in reversed(col_indx)]
         header = pd.concat(header, axis=1)
 
-        dfs = [df for df in self._score[:4]]
+        dfs = [df.copy() for df in self._score[:4]]
         # Index the note, rest and chord objects
         dfs.append(self._score[4].applymap(indexer_func))
         # If there are lyrics, make sure the nrc and lyric dfs are the same shape
