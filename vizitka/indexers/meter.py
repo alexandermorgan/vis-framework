@@ -272,7 +272,6 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
 
     def run(self):
         res = self._score[0].applymap(self._indexer_func)
-        res = self.make_return(self._score[1].columns.get_level_values(0), res)
         # The following assumes there is no anacrusis, which is the best we
         # can do if the user is parsing a midi file.
         if res.empty:
@@ -290,6 +289,7 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
                     m_indx.extend(temp)
                 cols.append(pandas.Series(range(1, len(m_indx)), index=m_indx[:-1]))
             res = pandas.concat(cols, axis=1)
+
         # Make the measure tokens conform to Humdrum syntax if requested
         if (isinstance(self._settings, dict) and 'style' in self._settings
             and self._settings['style'] == 'Humdrum'):
@@ -297,6 +297,9 @@ class MeasureIndexer(indexer.Indexer): # MeasureIndexer is still experimental
             # Make the first measure in each part invisible. This could be a
             # measure 1 or a measure 0 if there is a pick-up.
             res.iloc[0, :] = res.iloc[0, :].apply(lambda x: str(x + '-'))
+
+        # make the labels in the right format:
+        res = self.make_return(self._score[1].columns.get_level_values(0), res)
 
         return res
 
@@ -337,6 +340,10 @@ class TimeSignatureIndexer(indexer.Indexer):
             return None
         post = [part.apply(self._indexer_func).dropna() for part in self._score]
         ret = pandas.concat(post, axis=1).dropna(how='all')
+        # make and apply the columnar multi-index
+        mi = pandas.MultiIndex.from_product((('TimeSignature',), ret.columns),
+                                            names=('Indexer', 'Parts'))
+        ret.columns = mi
         return ret.fillna('*')
 
 

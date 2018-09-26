@@ -32,7 +32,6 @@ The controllers that deal with indexing data from music21 Score objects.
 
 import pandas
 from music21 import stream
-import pdb
 
 class Indexer(object):
     """
