@@ -115,7 +115,7 @@ class ClefIndexer(indexer.Indexer):
         post = [part.apply(self._indexer_func).dropna() for part in self._score]
         ret = pandas.concat(post, axis=1).dropna(how='all')
         mi = pandas.MultiIndex.from_product((('Clef',), ret.columns),
-                                            names=('Indexer', 'Parts'))
+                                            names=('Indexer', 'Part'))
         ret.columns = mi
         return ret.fillna('*')
 
@@ -153,6 +153,6 @@ class KeySignatureIndexer(indexer.Indexer):
         post = [part.apply(self._indexer_func).dropna() for part in self._score]
         ret = pandas.concat(post, axis=1).dropna(how='all')
         mi = pandas.MultiIndex.from_product((('KeySignature',), ret.columns),
-                                            names=('Indexer', 'Parts'))
+                                            names=('Indexer', 'Part'))
         ret.columns = mi
         return ret.fillna('*')

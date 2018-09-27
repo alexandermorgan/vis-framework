@@ -38,7 +38,7 @@ from music21 import note, interval, pitch
 from vizitka.indexers import indexer
 from itertools import combinations
 
-_names = ('Indexer', 'Parts')
+_names = ('Indexer', 'Part')
 _memos = {}
 
 def real_indexer_func(simultaneity, analysis_type):

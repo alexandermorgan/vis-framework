@@ -55,7 +55,7 @@ diss_ind = u'dissonance.DissonanceIndexer' # equivalent to diss_types in dissona
 dur_ind = u'meter.DurationIndexer'
 h_ind = u'interval.HorizontalIntervalIndexer'
 v_ind = u'interval.IntervalIndexer'
-names = ('Indexer', 'Parts')
+names = ('Indexer', 'Part')
 
 # sample note beat strength values (assumes 4/2 time signature)
 q_b_ser = pd.Series([1, .125, .25, .125, .5, .125]) # a six-window series of beat strengths of quarter notes in 4/2

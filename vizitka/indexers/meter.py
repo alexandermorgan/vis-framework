@@ -342,7 +342,7 @@ class TimeSignatureIndexer(indexer.Indexer):
         ret = pandas.concat(post, axis=1).dropna(how='all')
         # make and apply the columnar multi-index
         mi = pandas.MultiIndex.from_product((('TimeSignature',), ret.columns),
-                                            names=('Indexer', 'Parts'))
+                                            names=('Indexer', 'Part'))
         ret.columns = mi
         return ret.fillna('*')
 

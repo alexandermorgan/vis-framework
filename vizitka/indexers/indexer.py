@@ -218,7 +218,7 @@ class Indexer(object):
 
         # Apply the multi_index as the column labels.
         iterables = ((name,), labels)
-        multi_index = pandas.MultiIndex.from_product(iterables, names=('Indexer', 'Parts'))
+        multi_index = pandas.MultiIndex.from_product(iterables, names=('Indexer', 'Part'))
         ret.columns = multi_index
 
         return ret

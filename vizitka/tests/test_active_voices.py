@@ -36,7 +36,7 @@ class TestActiveVoicesIndexer(TestCase):
         def make_dataframe(labels, indices, name):
             ret = pandas.concat(indices, levels=labels, axis=1)
             iterables = (name, labels)
-            multi_index = pandas.MultiIndex.from_product(iterables, names=('Indexer', 'Parts'))
+            multi_index = pandas.MultiIndex.from_product(iterables, names=('Indexer', 'Part'))
             ret.columns = multi_index
             return ret
 
